@@ -33,7 +33,7 @@ if(isset($_POST['send_otp'])){
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = 'alanshijo2023a@mca.ajce.in';                     //SMTP username
-        $mail->Password   = 'Alan@13336';                               //SMTP password
+        $mail->Password   = '';                               //SMTP password
         $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     

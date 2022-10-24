@@ -3,7 +3,9 @@ include 'admin-session.php';
 include '../db_conn.php';
 if (isset($_POST['change-pass'])) {
   $old = $_POST['current'];
+  $old = mysqli_escape_string($conn,$old);
   $new = $_POST['new'];
+  $new = mysqli_escape_string($conn,$new);
   $user = mysqli_real_escape_string($conn, $_SESSION['email']);
   $passCheck = "SELECT * FROM `tbl_login` WHERE `email`='$user'";
   $runQ = mysqli_query($conn, $passCheck);
@@ -23,28 +25,36 @@ if (isset($_POST['change-pass'])) {
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <!-- Required meta tags-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="au theme template">
+  <meta name="author" content="Hau Nguyen">
+  <meta name="keywords" content="au theme template">
 
-  <title>Change password</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <!-- Title Page-->
+  <title>Dashboard</title>
 
-  <link href="assets/img/icon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Fontfaces CSS-->
+  <link href="css/font-face.css" rel="stylesheet" media="all">
+  <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+  <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+  <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <!-- Bootstrap CSS-->
+  <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <!-- Vendor CSS-->
+  <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+  <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+  <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+  <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+  <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+  <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+  <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
-  <link href="assets/css/style.css" rel="stylesheet">
+  <!-- Main CSS-->
+  <link href="css/theme.css" rel="stylesheet" media="all">
   <script>
     function validateForm() {
       var pw1 = document.getElementById("newPassword").value;
@@ -58,154 +68,168 @@ if (isset($_POST['change-pass'])) {
       }
     }
   </script>
-  <style>
-    .col-md-8,
-    .col-lg-9 {
-      width: 400px;
-    }
-
-    .message {
-      color: #FF0000;
-      font-size: small;
-      font-weight: bold;
-    }
-  </style>
 </head>
 
-<body>
-
-  <header id="header" class="header fixed-top d-flex align-items-center sidebar-collapse" style="background-color: #3c8dbc;">
-
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.php" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block" style="color: white;">BookMyTickets</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn" style="color: white;"></i>
-    </div><!-- End Logo -->
-
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-
-        <li class="nav-item dropdown">
-
-
-
-
-
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span class="d-none d-md-block dropdown-toggle ps-2" style="color: white;">Hi, Admin</span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="change-pass.php">
-                <i class=" ri-lock-password-line"></i>
-                <span>Change password</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="../logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
-              </a>
-            </li>
-
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header><!-- End Header -->
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link " href="index.php">
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <!-- <i class="bi bi-menu-button-wide"></i> -->
-          <span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="view-users.php">
-              <!-- <i class="bi bi-circle"></i> -->
-              <span>View</span>
+<body class="animsition">
+  <div class="page-wrapper">
+    <!-- HEADER MOBILE-->
+    <header class="header-mobile d-block d-lg-none">
+      <div class="header-mobile__bar">
+        <div class="container-fluid">
+          <div class="header-mobile-inner">
+            <a class="logo" href="index.html">
+              <img src="images/icon/main-logo-black.png" alt="BookMyTickets" />
             </a>
-          </li>
-        </ul>
-      </li>
-
-    </ul>
-
-  </aside>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <main id="main" class="main">
-    <div class="pagetitle">
-      <h1>Change password</h1>
-    </div>
-    <div class="tab-content pt-2">
-
-      <div class="tab-pane fade pt-3 active show" id="profile-change-password" role="tabpanel">
-        <form action="" method="POST" onsubmit="return validateForm()">
-
-          <div class="row mb-3">
-            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-            <div class="col-md-8 col-lg-9">
-              <input type="password" class="form-control" name="current" id="currentPassword" placeholder="*********" required>
-            </div>
+            <button class="hamburger hamburger--slider" type="button">  
+              <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+              </span>
+            </button>
           </div>
-
-          <div class="row mb-3">
-            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-            <div class="col-md-8 col-lg-9">
-              <input type="password" class="form-control" name="new" id="newPassword" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="*********" required>
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-            <div class="col-md-8 col-lg-9">
-              <input type="password" class="form-control" name="renewPassword" id="renewPassword" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="*********" required>
-              <span class="message" id="msg1"></span>
-              <br>
-              <center><input type="submit" name="change-pass" class="btn btn-primary" value="Change Password"></center>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
+      <nav class="navbar-mobile">
+        <div class="container-fluid">
+          <ul class="navbar-mobile__list list-unstyled">
+            <li class="has-sub">
+              <a class="js-arrow" href="#">
+                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+            </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="#">
+                <i class="fas fa-user-alt"></i>Customers</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- END HEADER MOBILE-->
 
-  </main>
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+      <div class="logo">
+        <a href="index.php">
+        <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">
+        </a>
+        <!-- <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">&ensp; -->
+      </div>
+      <div class="menu-sidebar__content js-scrollbar1">
+        <nav class="navbar-sidebar">
+          <ul class="list-unstyled navbar__list">
+            <li class="active has-sub">
+              <a class="js-arrow" href="index.php">
+                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+            </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="users.php">
+                <i class="fas fa-users"></i>Users</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+    <!-- END MENU SIDEBAR-->
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+      <!-- HEADER DESKTOP-->
+      <header class="header-desktop">
+        <div class="section__content section__content--p30">
+          <div class="container-fluid">
+            <div class="header-wrap">
+              <div class="header-button">
+                <div class="account-wrap">
+                  <div class="account-item clearfix js-item-menu">
+                    <div class="content" style="margin-left: 1050px;">
+                      <a class="js-acc-btn" href="#">ADMIN</a>
+                    </div>
+                    <div class="account-dropdown js-dropdown">
+                    <div class="account-dropdown__footer">
+                        <a href="change-pass.php">
+                          <i class="fas fa-lock"></i>Change password</a>
+                      </div>
+                      <div class="account-dropdown__footer">
+                        <a href="logout.php">
+                          <i class="zmdi zmdi-power"></i>Logout</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- HEADER DESKTOP-->
+      <div class="main-content">
+        <div class="section__content section__content--p30">
+          <div class="container-fluid">
+          <div class="card">
+                <div class="card-header">
+                    <strong>Change password</strong>
+                </div>
+                <div class="card-body card-block">
+                    <form action="" method="POST" class="" onsubmit="return validateForm()">
+                        <div class="form-group">
+                            <label for="nf-password" class=" form-control-label">Old Password</label>
+                            <input type="password" id="nf-password" name="current" placeholder="Enter your current password here" class="form-control">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="nf-password" class=" form-control-label">New Password</label>
+                            <input type="password" id="newPassword" name="new" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your new password here" class="form-control">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="nf-password" class=" form-control-label">Confirm Password</label>
+                            <input type="password" id="renewPassword" name="renewPassword" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your new password here again" class="form-control">
+                            <span style="color: red;" id="msg1"></span>
+                        </div>
+                    
+                </div>
+                <div class="card-footer">
+                    <button type="submit" name="change-pass" class="btn btn-primary btn-sm">
+                        <i class="fa fa-key"></i> Submit
+                    </button>
+                </div>
+                </form> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- MAIN CONTENT-->
+    
+      <!-- END MAIN CONTENT-->
+      <!-- END PAGE CONTAINER-->
+    </div>
+
+  </div>
+
+  <!-- Jquery JS-->
+  <script src="vendor/jquery-3.2.1.min.js"></script>
+  <!-- Bootstrap JS-->
+  <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+  <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+  <!-- Vendor JS       -->
+  <script src="vendor/slick/slick.min.js">
+  </script>
+  <script src="vendor/wow/wow.min.js"></script>
+  <script src="vendor/animsition/animsition.min.js"></script>
+  <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+  </script>
+  <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+  <script src="vendor/counter-up/jquery.counterup.min.js">
+  </script>
+  <script src="vendor/circle-progress/circle-progress.min.js"></script>
+  <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+  <script src="vendor/select2/select2.min.js">
+  </script>
+
+  <!-- Main JS-->
+  <script src="js/main.js"></script>
 
 </body>
 
 </html>
+<!-- end document-->

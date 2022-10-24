@@ -91,7 +91,7 @@ if(isset($_POST['submit_reset'])){
         input[type="submit"] {
             position: absolute;
             background: #1E1E1E;
-            top: 220px;
+            top: 230px;
             height: 40px;
             width: 90px;
             border-radius: 20px;
@@ -115,10 +115,6 @@ if(isset($_POST['submit_reset'])){
     var pw1 = document.getElementById("pass").value;
     var pw2 = document.getElementById("cpass").value;
     if(pw2!="" && pw1 != pw2) {
-        //alert("Passwords doesnot match");
-        // pw2 = setCustomValidity("Passwords are not same");
-        // pw2.reportValidity();
-        //return false;
         document.getElementById('msg1').style.display = "block";
         document.getElementById('msg1').innerHTML = "Password doesnot match";
         return false;
@@ -139,6 +135,7 @@ if(isset($_POST['submit_reset'])){
         <tr><td><input type="password" name="pass" id="pass" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your new password here" required></td></tr>
         <tr><td><label for="cpass">Confirm password</label></td></tr>
         <tr><td><input type="password" name="cpass" id="cpass" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your password again here" required></td></tr>
+        <tr><td><span id="msg1" style="color: red;"></span></td></tr>
         <tr><td><input type="submit" name="submit_reset" value="Reset"></td></tr>
     </table>
     </form>

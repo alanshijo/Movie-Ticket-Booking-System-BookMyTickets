@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2022 at 04:20 PM
+-- Generation Time: Oct 24, 2022 at 08:33 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -40,10 +40,12 @@ CREATE TABLE `tbl_login` (
 --
 
 INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`) VALUES
-(1, 'admin@admin.com', 'admin123', '851548', 1),
-(2, 'alenshaju159@gmail.com', 'alenshaju', '830923', 2),
-(4, 'alanshijoatkl@gmail.com', 'alanalan', '675378', 2),
-(8, 'alexreji777@gmail.com', '1234', '184439', 2);
+(1, 'admin@admin.com', 'Admin@123', '0', 1),
+(4, 'alanshijoatkl@gmail.com', 'Alan@1234', '0', 2),
+(8, 'alexreji777@gmail.com', '1234', '0', 2),
+(16, 'georgebenny456@gmail.com', 'George@1234', '', 2),
+(18, 'niceshijo52@gmail.com', 'Nice@1234', '', 2),
+(19, 'shijoatkl@gmail.com', 'Shijo@1234', '', 2);
 
 -- --------------------------------------------------------
 
@@ -65,9 +67,12 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`user_id`, `user_fname`, `user_lname`, `user_phno`, `user_status`, `login_id`) VALUES
-(1, 'alen', 'shaju', '7559819300', 'active', 2),
+(1, 'admin', 'admin', '9999999999', 'active', 1),
 (2, 'alan', 'shijo', '8281187831', 'active', 4),
-(6, 'Alex', 'Reji', '7415236980', 'active', 8);
+(6, 'Alex', 'Reji', '7415236980', 'active', 8),
+(14, 'George', 'Benny', '6238681837', 'active', 16),
+(16, 'Nice', 'Shijo', '9446895431', 'active', 18),
+(17, 'Shijo', 'Joseph', '9946351543', 'deactive', 19);
 
 -- --------------------------------------------------------
 
@@ -118,13 +123,13 @@ ALTER TABLE `tbl_usertype`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_usertype`

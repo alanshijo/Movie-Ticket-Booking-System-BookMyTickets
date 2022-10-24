@@ -2,10 +2,15 @@
 include 'db_conn.php';
 if(isset($_POST['register'])){
     $fname = $_POST['fname'];
+    $fname = mysqli_escape_string($conn,$fname);
     $lname = $_POST['lname'];
+    $lname = mysqli_escape_string($conn,$lname);
     $mail = $_POST['mail'];
+    $mail = mysqli_escape_string($conn,$mail);
     $phone = $_POST['phone'];
+    $phone = mysqli_escape_string($conn,$phone);
     $password = $_POST['password'];
+    $password = mysqli_escape_string($conn,$password);
     // $cpass = $_POST['confirm-password'];
     // if($password != $cpass){
     //     echo '<script> alert ("Password doesnot match");</script>';

@@ -160,6 +160,26 @@ function validateForm() {
     else{
         document.getElementById('msg2').style.display = "none";
     }
+    var fn = document.getElementById("fname").value;
+    var ln = document.getElementById("lname").value;
+    var namestr = /^[A-Za-z]+$/;
+    if(fn!="" && namestr.test(fn)==false){
+        document.getElementById('fmsg').style.display = "block";
+        document.getElementById('fmsg').innerHTML = "Name must be alphabets only";
+        return false;
+    }
+    else{
+        document.getElementById('fmsg').style.display = "none";
+    }
+    if(ln!="" && namestr.test(ln)==false){
+        // alert("Invalid email id");
+        document.getElementById('lmsg').style.display = "block";
+        document.getElementById('lmsg').innerHTML = "Name must be alphabets only";
+        return false;
+    }
+    else{
+        document.getElementById('lmsg').style.display = "none";
+    }
 }
 </script>
 </head>
@@ -175,9 +195,11 @@ function validateForm() {
     <table>
         <tr><td style="font-family: 'Poppins';font-size: 36px;padding-top: 35px;font-weight: 900;">Register</td></tr>
         <tr><td><label for="Name">Name</label></td></tr>
-        <tr><td><input type="text" name="fname" placeholder="Firstname" pattern="[a-zA-Z]+" title="Name must be alphabets"  required" style="width: 195px"></td>
-            <td><input type="text" name="lname" placeholder="Lastname" pattern="[a-zA-Z]+" required" style="width: 195px;margin-left: -200px;"></td>
+        <tr><td><input type="text" name="fname" id="fname" placeholder="Firstname" onblur="return validateForm()" onKeyUp="return validateForm()" required" style="width: 195px"></td>
+            <td><input type="text" name="lname" id="lname" placeholder="Lastname" onblur="return validateForm()" onKeyUp="return validateForm()" required" style="width: 195px;margin-left: -200px;"></td>
         </tr>
+        <td><span class="message" id="fmsg"></span></td>
+        <td><span class="message" id="lmsg" style="margin-left: -200px;"></span></td>
         <tr><td><label for="email">Email</label></td></tr>
         <tr><td><input type="email" name="mail" placeholder="Enter your email address" id="ema" onblur="return validateForm()" onKeyUp="return validateForm()" required pattern="/^[\w\+\'\.-]+@[\w\'\.-]+\.[a-zA-Z]{2,}$/" title="Please enter a valid email address"></td></tr>
         <td><label class="message" id="message"></td>

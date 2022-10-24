@@ -97,11 +97,11 @@ include '../db_conn.php';
       <div class="menu-sidebar__content js-scrollbar1">
         <nav class="navbar-sidebar">
           <ul class="list-unstyled navbar__list">
-            <li class="active has-sub">
-              <a class="js-arrow" href="#">
+            <li class="has-sub">
+              <a class="js-arrow" href="index.php">
                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
             </li>
-            <li class="has-sub">
+            <li class="active has-sub">
               <a class="js-arrow" href="users.php">
                 <i class="fas fa-users"></i>Users</a>
             </li>

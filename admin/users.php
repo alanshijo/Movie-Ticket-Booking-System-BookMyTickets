@@ -105,6 +105,10 @@ include '../db_conn.php';
               <a class="js-arrow" href="users.php">
                 <i class="fas fa-users"></i>Users</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="movies.php">
+                <i class="fas fa-film"></i>Movies</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -160,9 +164,9 @@ include '../db_conn.php';
                   <h3 class="title-3 m-b-30">
                     <i class="zmdi zmdi-account-calendar"></i>user data
                   </h3>
-                  <div class="table-responsive table-data">
+                  <div class="table-responsive table-data" style="height: 80%;">
                     <table class="table">
-                      <thead>
+                      <thead style="text-align: center;">
                         <tr>
                           <th>Sl.No.</th>
                           <th>Name</th>

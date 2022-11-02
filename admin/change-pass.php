@@ -124,6 +124,10 @@ if (isset($_POST['change-pass'])) {
               <a class="js-arrow" href="users.php">
                 <i class="fas fa-users"></i>Users</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="movies.php">
+                <i class="fas fa-film"></i>Movies</a>
+            </li>
           </ul>
         </nav>
       </div>

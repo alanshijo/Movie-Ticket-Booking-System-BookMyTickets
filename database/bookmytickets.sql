@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2022 at 08:33 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Nov 02, 2022 at 06:25 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,6 +46,22 @@ INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`)
 (16, 'georgebenny456@gmail.com', 'George@1234', '', 2),
 (18, 'niceshijo52@gmail.com', 'Nice@1234', '', 2),
 (19, 'shijoatkl@gmail.com', 'Shijo@1234', '', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_movies`
+--
+
+CREATE TABLE `tbl_movies` (
+  `movie_id` int(255) NOT NULL,
+  `movie_poster` varchar(255) NOT NULL,
+  `movie_name` varchar(255) NOT NULL,
+  `movie_lang` varchar(255) NOT NULL,
+  `movie_certificate` varchar(255) NOT NULL,
+  `movie_runtime` varchar(255) NOT NULL,
+  `movie_releasedate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -104,6 +120,12 @@ ALTER TABLE `tbl_login`
   ADD PRIMARY KEY (`login_id`);
 
 --
+-- Indexes for table `tbl_movies`
+--
+ALTER TABLE `tbl_movies`
+  ADD PRIMARY KEY (`movie_id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -124,6 +146,12 @@ ALTER TABLE `tbl_usertype`
 --
 ALTER TABLE `tbl_login`
   MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `tbl_movies`
+--
+ALTER TABLE `tbl_movies`
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

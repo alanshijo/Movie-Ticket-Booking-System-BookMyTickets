@@ -24,6 +24,7 @@ include '../db_conn.php';
 
   <!-- Bootstrap CSS-->
   <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
 
 
   <!-- Vendor CSS-->
@@ -169,24 +170,29 @@ include '../db_conn.php';
 
                         $query = "SELECT * FROM tbl_movies";
                         $query_run = mysqli_query($conn, $query);
+                        $i = 1;
+                        while ($movie = mysqli_fetch_array($query_run)) {
 
-                        if (mysqli_num_rows($query_run) > 0) {
-                          foreach ($query_run as $movie) {
                         ?>
-                            <tr>
-                              <td><?= $movie['id'] ?></td>
-                              <td><?= $movie['name'] ?></td>
-                              <td><?= $movie['email'] ?></td>
-                              <td><?= $movie['phone'] ?></td>
-                              <td><?= $movie['course'] ?></td>
-                              <td>
-                                <button type="button" value="<?= $movie['movie_id']; ?>" class="viewStudentBtn btn btn-info btn-sm">View</button>
-                                <button type="button" value="<?= $movie['movie_id']; ?>" class="editStudentBtn btn btn-success btn-sm">Edit</button>
-                                <button type="button" value="<?= $movie['movie_id']; ?>" class="deleteStudentBtn btn btn-danger btn-sm">Delete</button>
-                              </td>
-                            </tr>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td style="width: 200px; height: 200px;"><img src="uploads/<?php echo $movie['movie_poster']; ?>" alt="poster"></td>
+                            <td><?= $movie['movie_name'] ?></td>
+                            <td><?= $movie['movie_lang'] ?></td>
+                            <td><?= $movie['movie_certificate'] ?></td>
+                            <td><?= $movie['movie_runtime'] ?></td>
+                            <td><?= $movie['movie_releasedate'] ?></td>
+                            <td>
+                              <a href="#">
+                                <i class="fa fa-edit"></i>
+                              </a>
+                              &ensp;
+                              <a href="#trash-o">
+                                <i class="fa fa-trash"></i></a>
+                            </td>
+                          </tr>
                         <?php
-                          }
+                          $i++;
                         }
                         ?>
 
@@ -210,10 +216,8 @@ include '../db_conn.php';
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
-            <form id="saveStudent">
+            <form id="saveStudent" method="POST" action="savemovie.php" enctype="multipart/form-data">
               <div class="modal-body">
-
-                <div id="errorMessage" class="alert alert-warning d-none"></div>
 
                 <div class="mb-3">
                   <label for="">Poster image</label>
@@ -261,81 +265,6 @@ include '../db_conn.php';
           </div>
         </div>
       </div>
-
-      <!-- Edit Student Modal -->
-      <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit movie</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="updateStudent">
-              <div class="modal-body">
-
-                <div id="errorMessageUpdate" class="alert alert-warning d-none"></div>
-
-                <input type="hidden" name="student_id" id="student_id">
-
-                <div class="mb-3">
-                  <label for="">Name</label>
-                  <input type="text" name="name" id="name" class="form-control" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Email</label>
-                  <input type="text" name="email" id="email" class="form-control" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Phone</label>
-                  <input type="text" name="phone" id="phone" class="form-control" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Course</label>
-                  <input type="text" name="course" id="course" class="form-control" />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Student</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- View Student Modal -->
-      <div class="modal fade" id="studentViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">View Student</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-              <div class="mb-3">
-                <label for="">Name</label>
-                <p id="view_name" class="form-control"></p>
-              </div>
-              <div class="mb-3">
-                <label for="">Email</label>
-                <p id="view_email" class="form-control"></p>
-              </div>
-              <div class="mb-3">
-                <label for="">Phone</label>
-                <p id="view_phone" class="form-control"></p>
-              </div>
-              <div class="mb-3">
-                <label for="">Course</label>
-                <p id="view_course" class="form-control"></p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- END MAIN CONTENT-->
       <!-- END PAGE CONTAINER-->
     </div>
@@ -368,44 +297,28 @@ include '../db_conn.php';
   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
   <!-- Main JS-->
   <script src="js/main.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
   <script>
-    $(document).on('submit', '#saveStudent', function (e) {
-            e.preventDefault();
+    $(document).on('submit', '#saveStudent', function(e) {
+      e.preventDefault();
 
-            var formData = new FormData(this);
-            formData.append("save_student", true);
+      var formData = new FormData(this);
+      formData.append("save_student", true);
 
-            $.ajax({
-                type: "POST",
-                url: "code.php",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    
-                    var res = jQuery.parseJSON(response);
-                    if(res.status == 422) {
-                        $('#errorMessage').removeClass('d-none');
-                        $('#errorMessage').text(res.message);
+      $.ajax({
+        type: "POST",
+        url: "savemovie.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          $('#studentAddModal').modal('hide');
+          $('#saveStudent')[0].reset();
+          $('#myTable').load(location.href + " #myTable");
+        }
+      });
 
-                    }else if(res.status == 200){
-
-                        $('#errorMessage').addClass('d-none');
-                        $('#studentAddModal').modal('hide');
-                        $('#saveStudent')[0].reset();
-
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success(res.message);
-
-                        $('#myTable').load(location.href + " #myTable");
-
-                    }else if(res.status == 500) {
-                        alert(res.message);
-                    }
-                }
-            });
-
-        });
+    });
   </script>
 
 </body>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 06:25 PM
+-- Generation Time: Nov 04, 2022 at 07:49 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -60,7 +60,38 @@ CREATE TABLE `tbl_movies` (
   `movie_lang` varchar(255) NOT NULL,
   `movie_certificate` varchar(255) NOT NULL,
   `movie_runtime` varchar(255) NOT NULL,
-  `movie_releasedate` date NOT NULL
+  `movie_releasedate` date NOT NULL,
+  `del_status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_movies`
+--
+
+INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`, `movie_certificate`, `movie_runtime`, `movie_releasedate`, `del_status`) VALUES
+(18, 'wallpaperflare.com_wallpaper (2).jpg', 'Spiderman', 'English', 'U/A', '2hr 30min', '2022-11-30', 1),
+(19, 'wallpaperflare.com_wallpaper (2).jpg', 'Spider 2', 'English', 'U/A', '3hr 1min', '2022-12-25', 1),
+(20, 'preview.jpg', 'NFS', 'English', 'U/A', '2hr 0min', '2022-12-01', 1),
+(21, 'preview.jpg', 'nfs 2.0', 'English', 'A', '2tgh5gfv', '2022-11-30', 1),
+(22, 'preview.jpg', 'nfs 3', 'English', 'U', '4erdfygh', '2022-11-23', 1),
+(23, 'preview.jpg', 'nfs 3', 'English', 'U/A', '3hr 1min', '2022-11-30', 1),
+(24, 'wallpaperflare.com_wallpaper (2).jpg', 'spider 4', 'English', 'A', '2h', '2022-11-22', 0),
+(25, 'wallpaperflare.com_wallpaper.jpg', 'spider 5', 'English', 'A', '4r5t', '2022-11-29', 0),
+(26, 'wallpaperflare.com_wallpaper (2).jpg', 'spider 6', 'English', 'A', '3ed', '2022-11-30', 0),
+(27, 'wallpaperflare.com_wallpaper.jpg', 'spider 4', 'English', 'U', '2ewd', '2022-12-01', 1),
+(28, 'wallpaperflare.com_wallpaper.jpg', 'werty', 'English', 'U/A', 'tergdfv', '2022-12-06', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_theatres`
+--
+
+CREATE TABLE `tbl_theatres` (
+  `thtr_id` int(11) NOT NULL,
+  `thtr_name` varchar(255) NOT NULL,
+  `thtr_place` varchar(255) NOT NULL,
+  `thtr_max_seat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -126,6 +157,12 @@ ALTER TABLE `tbl_movies`
   ADD PRIMARY KEY (`movie_id`);
 
 --
+-- Indexes for table `tbl_theatres`
+--
+ALTER TABLE `tbl_theatres`
+  ADD PRIMARY KEY (`thtr_id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -151,7 +188,13 @@ ALTER TABLE `tbl_login`
 -- AUTO_INCREMENT for table `tbl_movies`
 --
 ALTER TABLE `tbl_movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `tbl_theatres`
+--
+ALTER TABLE `tbl_theatres`
+  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`

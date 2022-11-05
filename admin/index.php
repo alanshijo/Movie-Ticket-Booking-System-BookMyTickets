@@ -203,7 +203,7 @@ include 'admin-session.php';
                   <div class="overview__inner">
                     <div class="overview-box clearfix">
                       <div class="icon">
-                        <i class="zmdi zmdi-calendar-note"></i>
+                        <i class="fas fa-video-camera"></i>
                       </div>
                       <?php 
                       $thtrs = "SELECT count(*) as count FROM tbl_theatres WHERE del_status='0'";

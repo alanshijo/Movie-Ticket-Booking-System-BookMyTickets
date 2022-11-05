@@ -162,76 +162,73 @@ include '../db_conn.php';
         <div class="main-content">
           <div class="section__content section__content--p30">
             <div class="container-fluid">
-              <div class="col">
-                <!-- USER DATA-->
-                <div class="user-data m-b-30">
-                  <h3 class="title-3 m-b-30">
-                    <i class="zmdi zmdi-account-calendar"></i>user data
-                  </h3>
-                  <div class="table-responsive table-data" style="height: 80%;">
-                    <table class="table">
-                      <thead style="text-align: center;">
-                        <tr>
-                          <th>Sl.No.</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Phone number</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <?php while ($data = mysqli_fetch_array($users_run)) { ?>
-                        <tbody>
+              <div class="alert alert-success" id="actalert" role="alert" style="display: none;">
+                <strong>Activated!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="alert alert-danger" id="deactalert" role="alert" style="display: none;">
+                <strong>Deactivated!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4>User data
+                      </h4>
+                    </div>
+                    <div class="card-body">
+
+                      <table id="myTable" class="table table-bordered table-striped">
+                        <thead>
                           <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $data['user_fname'] . " " . $data['user_lname']; ?></td>
-                            <td><?php echo $data['email']; ?></td>
-                            <td><?php echo $data['user_phno']; ?></td>
-                            <td><?php echo $data['user_status']; ?></td>
-                            <td>
-                              <a class="btn btn-outline-success btn-sm" href="?actid=<?php echo $data["user_id"]; ?>">&nbsp;Activate&emsp;</a><br><br>
-                              <a class="btn btn-outline-danger btn-sm" href="?deactid=<?php echo $data["user_id"]; ?>">Deactivate</a>
-                            </td>
+                            <th>Sl.No.</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone number</th>
+                            <th>Status</th>
+                            <th>Action</th>
                           </tr>
-                      <?php
-                        $i++;
+                        </thead>
+                        <?php while ($data = mysqli_fetch_array($users_run)) { ?>
+                          <tbody>
+                            <tr>
+                              <td><?php echo $i; ?></td>
+                              <td><?php echo $data['user_fname'] . " " . $data['user_lname']; ?></td>
+                              <td><?php echo $data['email']; ?></td>
+                              <td><?php echo $data['user_phno']; ?></td>
+                              <td><?php echo $data['user_status']; ?></td>
+                              <td>
+                                <button type="button" value="<?php echo $data["user_id"]; ?>" class="actBtn btn btn-outline-success btn-sm">Activate</button>
+                                <button type="button" value="<?php echo $data["user_id"]; ?>" class="deactBtn btn btn-outline-danger btn-sm">Deactivate</button>
+                              </td>
+                            </tr>
+                        <?php
+                          $i++;
+                        }
                       }
-                    }
-                      ?>
-                        </tbody>
-                    </table>
+                        ?>
+                          </tbody>
+                      </table>
+
+                    </div>
                   </div>
                 </div>
-                <?php
-                if (isset($_GET['actid'])) {
-                  $id = $_GET['actid'];
-                  $act = "UPDATE `tbl_users` SET `user_status`='active' WHERE `user_id`='$id'";
-                  $act_run = mysqli_query($conn, $act);
-                  if ($act_run) {
-                    echo '<script>alert("Activated");</script>';
-                    echo '<script>window.location.href="users.php"</script>';
-                  }
-                }
-                if (isset($_GET['deactid'])) {
-                  $id = $_GET['deactid'];
-                  $act = "UPDATE `tbl_users` SET `user_status`='deactive' WHERE `user_id`='$id'";
-                  $act_run = mysqli_query($conn, $act);
-                  if ($act_run) {
-                    echo '<script>alert("Deactivated");</script>';
-                    echo '<script>window.location.href="users.php"</script>';
-                  }
-                }
-                ?>
-                <!-- END USER DATA-->
               </div>
+              <!-- END USER DATA-->
             </div>
           </div>
         </div>
-        <!-- MAIN CONTENT-->
-
-        <!-- END MAIN CONTENT-->
-        <!-- END PAGE CONTAINER-->
     </div>
+    <!-- MAIN CONTENT-->
+
+    <!-- END MAIN CONTENT-->
+    <!-- END PAGE CONTAINER-->
+  </div>
 
   </div>
 
@@ -258,7 +255,37 @@ include '../db_conn.php';
 
   <!-- Main JS-->
   <script src="js/main.js"></script>
+  <script>
+    $(document).on('click', '.actBtn', function() {
 
+      var user_id = $(this).val();
+
+      $.ajax({
+        type: "GET",
+        url: "save.php?actid=" + user_id,
+        success: function(response) {
+          $('#actalert').show();
+          $('#myTable').load(location.href + " #myTable");
+        }
+      });
+
+    });
+
+    $(document).on('click', '.deactBtn', function() {
+
+      var user_id = $(this).val();
+
+      $.ajax({
+        type: "GET",
+        url: "save.php?deactid=" + user_id,
+        success: function(response) {
+          $('#deactalert').show();
+          $('#myTable').load(location.href + " #myTable");
+        }
+      });
+
+    });
+  </script>
 </body>
 
 </html>

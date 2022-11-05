@@ -142,6 +142,24 @@ include '../db_conn.php';
       <div class="main-content">
         <div class="section__content section__content--p30">
           <div class="container-fluid">
+            <div class="alert alert-success" id="addTheatre" style="display:none;">
+              Theatre added successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="alert alert-info" id="updateTheatre" role="alert" style="display:none;">
+            Theatre updated successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="alert alert-danger" id="delTheatre" role="alert" style="display:none;">
+            Theatre deleted successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
@@ -312,6 +330,7 @@ include '../db_conn.php';
         processData: false,
         contentType: false,
         success: function(response) {
+          $('#addTheatre').show();
           $('#studentAddModal').modal('hide');
           $('#saveStudent')[0].reset();
           $('#myTable').load(location.href + " #myTable");
@@ -331,7 +350,7 @@ include '../db_conn.php';
 
           // console.log(thtr_id);
           var res = jQuery.parseJSON(response);
-          
+
           // console.log(res.status);
           if (res.status == 200) {
 
@@ -363,7 +382,7 @@ include '../db_conn.php';
         success: function(response) {
           $('#studentEditModal').modal('hide');
           $('#updateStudent')[0].reset();
-
+          $('#updateTheatre').show();
           $('#myTable').load(location.href + " #myTable");
 
         }
@@ -384,7 +403,7 @@ include '../db_conn.php';
             'thtr_id': thtr_id
           },
           success: function(response) {
-
+            $('#delTheatre').show();
             $('#myTable').load(location.href + " #myTable");
           }
         });

@@ -142,6 +142,24 @@ include '../db_conn.php';
       <div class="main-content">
         <div class="section__content section__content--p30">
           <div class="container-fluid">
+            <div class="alert alert-success" id="addMovie" style="display:none;">
+              Movie added successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="alert alert-info" id="updateMovie" role="alert" style="display:none;">
+              Movie updated successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="alert alert-danger" id="delMovie" role="alert" style="display:none;">
+              Movie deleted successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
@@ -216,20 +234,20 @@ include '../db_conn.php';
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
-            <form id="saveStudent" method="POST" action="savemovie.php" enctype="multipart/form-data">
+            <form id="saveStudent" enctype="multipart/form-data">
               <div class="modal-body">
 
                 <div class="mb-3">
                   <label for="">Poster image</label>
-                  <input type="file" class="form-control" name="poster" accept=".jpg" />
+                  <input type="file" class="form-control" name="poster" accept=".jpg" required />
                 </div>
                 <div class="mb-3">
                   <label for="">Title</label>
-                  <input type="text" name="title" class="form-control" placeholder="Enter movie name here" />
+                  <input type="text" name="title" class="form-control" placeholder="Enter movie name here" required />
                 </div>
                 <div class="mb-3">
                   <label for="">Language</label>
-                  <select name="lang" class="form-control">
+                  <select name="lang" class="form-control" required>
                     <option hidden>Select language</option>
                     <option value="English">English</option>
                     <option value="Malayalam">Malayalam</option>
@@ -241,7 +259,7 @@ include '../db_conn.php';
                 </div>
                 <div class="mb-3">
                   <label for="">Certificate</label>
-                  <select name="certificate" class="form-control">
+                  <select name="certificate" class="form-control" required>
                     <option hidden>Select certificate type</option>
                     <option value="U">U certificate</option>
                     <option value="U/A">U/A certificate</option>
@@ -251,11 +269,11 @@ include '../db_conn.php';
                 </div>
                 <div class="mb-3">
                   <label for="">Total runtime</label>
-                  <input type="text" name="runtime" class="form-control" placeholder="00hr 00min" />
+                  <input type="text" name="runtime" class="form-control" placeholder="00hr 00min" required />
                 </div>
                 <div class="mb-3">
                   <label for="">Release date</label>
-                  <input type="date" name="release" class="form-control" placeholder="DD/MM/YYYY" />
+                  <input type="date" name="release" class="form-control" placeholder="DD/MM/YYYY" required />
                 </div>
               </div>
               <div class="modal-footer">
@@ -372,6 +390,7 @@ include '../db_conn.php';
         processData: false,
         contentType: false,
         success: function(response) {
+          $('#addMovie').show();
           $('#studentAddModal').modal('hide');
           $('#saveStudent')[0].reset();
           $('#myTable').load(location.href + " #myTable");
@@ -422,6 +441,7 @@ include '../db_conn.php';
         success: function(response) {
           $('#studentEditModal').modal('hide');
           $('#updateStudent')[0].reset();
+          $('#updateMovie').show();
 
           $('#myTable').load(location.href + " #myTable");
 
@@ -430,26 +450,25 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('click', '.deleteMovieBtn', function (e) {
-            e.preventDefault();
+    $(document).on('click', '.deleteMovieBtn', function(e) {
+      e.preventDefault();
 
-            if(confirm('Are you sure you want to delete this data?'))
-            {
-                var movie_id = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "save.php",
-                    data: {
-                        'delete_movie': true,
-                        'movie_id': movie_id
-                    },
-                    success: function (response) {
-
-                            $('#myTable').load(location.href + " #myTable");
-                    }
-                });
-            }
+      if (confirm('Are you sure you want to delete this data?')) {
+        var movie_id = $(this).val();
+        $.ajax({
+          type: "POST",
+          url: "save.php",
+          data: {
+            'delete_movie': true,
+            'movie_id': movie_id
+          },
+          success: function(response) {
+            $('#delMovie').show();
+            $('#myTable').load(location.href + " #myTable");
+          }
         });
+      }
+    });
   </script>
 
 </body>

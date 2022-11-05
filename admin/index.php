@@ -148,7 +148,7 @@ include 'admin-session.php';
             <div class="row">
               <div class="col-md-12">
                 <div class="overview-wrap">
-                  <h2 class="title-1">overview</h2>
+                  <h2 class="title-1">Dashboard</h2>
                 </div>
               </div>
             </div>
@@ -160,13 +160,18 @@ include 'admin-session.php';
                       <div class="icon">
                         <i class="zmdi zmdi-account-o"></i>
                       </div>
+                      <?php 
+                      include '../db_conn.php';
+                      $users = "SELECT count(*) as count FROM tbl_login WHERE type_id = '2'";
+                      $users_run = mysqli_query($conn,$users);
+                      foreach($users_run as $count)
+                      ?>
                       <div class="text">
-                        <h2>10368</h2>
-                        <span>members online</span>
+                        <h2><?php echo $count['count']; ?></h2>
+                        <span>Users</span>
                       </div>
                     </div>
                     <div class="overview-chart">
-                      <canvas id="widgetChart1"></canvas>
                     </div>
                   </div>
                 </div>
@@ -176,15 +181,19 @@ include 'admin-session.php';
                   <div class="overview__inner">
                     <div class="overview-box clearfix">
                       <div class="icon">
-                        <i class="zmdi zmdi-shopping-cart"></i>
+                        <i class="fas fa-film"></i>
                       </div>
+                      <?php 
+                      $movies = "SELECT count(*) as count FROM tbl_movies WHERE del_status='0'";
+                      $movies_run = mysqli_query($conn,$movies);
+                      foreach($movies_run as $count)
+                      ?>
                       <div class="text">
-                        <h2>388,688</h2>
-                        <span>items solid</span>
+                        <h2><?php echo $count['count']; ?></h2>
+                        <span>Movies</span>
                       </div>
                     </div>
                     <div class="overview-chart">
-                      <canvas id="widgetChart2"></canvas>
                     </div>
                   </div>
                 </div>
@@ -196,13 +205,17 @@ include 'admin-session.php';
                       <div class="icon">
                         <i class="zmdi zmdi-calendar-note"></i>
                       </div>
+                      <?php 
+                      $thtrs = "SELECT count(*) as count FROM tbl_theatres WHERE del_status='0'";
+                      $thtrs_run = mysqli_query($conn,$thtrs);
+                      foreach($thtrs_run as $count)
+                      ?>
                       <div class="text">
-                        <h2>1,086</h2>
-                        <span>this week</span>
+                        <h2><?php echo $count['count']; ?></h2>
+                        <span>Theatres</span>
                       </div>
                     </div>
                     <div class="overview-chart">
-                      <canvas id="widgetChart3"></canvas>
                     </div>
                   </div>
                 </div>
@@ -215,18 +228,17 @@ include 'admin-session.php';
                         <i class="zmdi zmdi-money"></i>
                       </div>
                       <div class="text">
-                        <h2>$1,060,386</h2>
-                        <span>total earnings</span>
+                        <h2>0</h2>
+                        <span>Total bookings</span>
                       </div>
                     </div>
                     <div class="overview-chart">
-                      <canvas id="widgetChart4"></canvas>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-lg-6">
                 <div class="au-card recent-report">
                   <div class="au-card-inner">
@@ -287,7 +299,7 @@ include 'admin-session.php';
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

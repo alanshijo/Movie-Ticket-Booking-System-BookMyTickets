@@ -14,7 +14,7 @@ include '../db_conn.php';
   <meta name="keywords" content="au theme template">
 
   <!-- Title Page-->
-  <title>Movies</title>
+  <title>Theatres</title>
 
   <!-- Fontfaces CSS-->
   <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -159,12 +159,9 @@ include '../db_conn.php';
                       <thead>
                         <tr>
                           <th>Sl.No.</th>
-                          <th>Poster image</th>
-                          <th>Title</th>
-                          <th>Language</th>
-                          <th>Certificate</th>
-                          <th>Total runtime</th>
-                          <th>Release date</th>
+                          <th>Name</th>
+                          <th>Place</th>
+                          <th>Max. seat numbers</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -172,23 +169,20 @@ include '../db_conn.php';
                         <?php
                         require '../db_conn.php';
 
-                        $query = "SELECT * FROM tbl_movies WHERE del_status='0'";
+                        $query = "SELECT * FROM tbl_theatres WHERE del_status ='0'";
                         $query_run = mysqli_query($conn, $query);
                         $i = 1;
-                        while ($movie = mysqli_fetch_array($query_run)) {
+                        while ($thtr = mysqli_fetch_array($query_run)) {
 
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
-                            <td style="width: 200px; height: 200px;"><img src="uploads/<?php echo $movie['movie_poster']; ?>" alt="poster"></td>
-                            <td><?= $movie['movie_name'] ?></td>
-                            <td><?= $movie['movie_lang'] ?></td>
-                            <td><?= $movie['movie_certificate'] ?></td>
-                            <td><?= $movie['movie_runtime'] ?></td>
-                            <td><?= $movie['movie_releasedate'] ?></td>
+                            <td><?= $thtr['thtr_name'] ?></td>
+                            <td><?= $thtr['thtr_place'] ?></td>
+                            <td><?= $thtr['thtr_max_seat'] ?></td>
                             <td>
-                              <button type="button" value="<?php echo $movie['movie_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
-                              <button type="button" value="<?php echo $movie['movie_id']; ?>" class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
+                              <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
+                              <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
                             </td>
                           </tr>
                         <?php
@@ -207,65 +201,38 @@ include '../db_conn.php';
         </div>
       </div>
       <!-- MAIN CONTENT-->
-      <!-- Add Student -->
+      <!-- Add Theatre -->
       <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Enter movie details</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Enter theatre details</h5>
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
-            <form id="saveStudent" method="POST" action="savemovie.php" enctype="multipart/form-data">
+            <form id="saveStudent">
               <div class="modal-body">
-
                 <div class="mb-3">
-                  <label for="">Poster image</label>
-                  <input type="file" class="form-control" name="poster" accept=".jpg" />
+                  <label for="">Theatre name</label>
+                  <input type="text" name="name" class="form-control" placeholder="Enter theatre name here" />
                 </div>
                 <div class="mb-3">
-                  <label for="">Title</label>
-                  <input type="text" name="title" class="form-control" placeholder="Enter movie name here" />
+                  <label for="">Place</label>
+                  <input type="text" name="location" class="form-control" placeholder="Enter location of the theatre here" />
                 </div>
                 <div class="mb-3">
-                  <label for="">Language</label>
-                  <select name="lang" class="form-control">
-                    <option hidden>Select language</option>
-                    <option value="English">English</option>
-                    <option value="Malayalam">Malayalam</option>
-                    <option value="Tamil">Tamil</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Telugu">Telugu</option>
-                    <option value="Kannada">Kannada</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="">Certificate</label>
-                  <select name="certificate" class="form-control">
-                    <option hidden>Select certificate type</option>
-                    <option value="U">U certificate</option>
-                    <option value="U/A">U/A certificate</option>
-                    <option value="A">A certificate</option>
-                    <option value="S">S certificate</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="">Total runtime</label>
-                  <input type="text" name="runtime" class="form-control" placeholder="00hr 00min" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Release date</label>
-                  <input type="date" name="release" class="form-control" placeholder="DD/MM/YYYY" />
+                  <label for="">No. of seats</label>
+                  <input type="number" name="max_seat" class="form-control" placeholder="Total no. of seats available in the theatre" />
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save movie</button>
+                <button type="submit" class="btn btn-primary">Save theatre</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <!-- Edit Student Modal -->
+      <!-- Edit Theatre Modal -->
       <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -278,45 +245,18 @@ include '../db_conn.php';
 
                 <!-- <div id="errorMessageUpdate" class="alert alert-warning d-none"></div> -->
 
-                <input type="hidden" name="movie_id" id="movie_id">
-
+                <input type="hidden" name="thtr_id" id="thtr_id">
                 <div class="mb-3">
-                  <label for="">Poster image</label>
-                  <input type="file" class="form-control" name="poster" id="poster" accept=".jpg" />
+                  <label for="">Theatre name</label>
+                  <input type="text" name="name" id="name" class="form-control" placeholder="Enter theatre name here" />
                 </div>
                 <div class="mb-3">
-                  <label for="">Title</label>
-                  <input type="text" name="title" id="title" class="form-control" placeholder="Enter movie name here" />
+                  <label for="">Place</label>
+                  <input type="text" name="location" id="location" class="form-control" placeholder="Enter location of the theatre here" />
                 </div>
                 <div class="mb-3">
-                  <label for="">Language</label>
-                  <select name="lang" id="lang" class="form-control">
-                    <option hidden>Select language</option>
-                    <option value="English">English</option>
-                    <option value="Malayalam">Malayalam</option>
-                    <option value="Tamil">Tamil</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Telugu">Telugu</option>
-                    <option value="Kannada">Kannada</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="">Certificate</label>
-                  <select name="certificate" id="certificate" class="form-control">
-                    <option hidden>Select certificate type</option>
-                    <option value="U">U certificate</option>
-                    <option value="U/A">U/A certificate</option>
-                    <option value="A">A certificate</option>
-                    <option value="S">S certificate</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="">Total runtime</label>
-                  <input type="text" name="runtime" id="runtime" class="form-control" placeholder="00hr 00min" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Release date</label>
-                  <input type="date" name="release" id="release" class="form-control" placeholder="DD/MM/YYYY" />
+                  <label for="">No. of seats</label>
+                  <input type="number" name="max_seat" id="max_seat" class="form-control" placeholder="Total no. of seats available in the theatre" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -363,7 +303,7 @@ include '../db_conn.php';
       e.preventDefault();
 
       var formData = new FormData(this);
-      formData.append("save_student", true);
+      formData.append("save_thtr", true);
 
       $.ajax({
         type: "POST",
@@ -382,23 +322,24 @@ include '../db_conn.php';
 
     $(document).on('click', '.editMovieBtn', function() {
 
-      var movie_id = $(this).val();
+      var thtr_id = $(this).val();
 
       $.ajax({
         type: "GET",
-        url: "save.php?movie_id=" + movie_id,
+        url: "save.php?thtr_id=" + thtr_id,
         success: function(response) {
 
+          // console.log(thtr_id);
           var res = jQuery.parseJSON(response);
+          
+          // console.log(res.status);
           if (res.status == 200) {
 
-            $('#movie_id').val(res.data.movie_id);
+            $('#thtr_id').val(res.data.thtr_id);
             // $('#poster').val(res.data.movie_poster);
-            $('#title').val(res.data.movie_name);
-            $('#lang').val(res.data.movie_lang);
-            $('#certificate').val(res.data.movie_certificate);
-            $('#runtime').val(res.data.movie_runtime);
-            $('#release').val(res.data.movie_releasedate);
+            $('#name').val(res.data.thtr_name);
+            $('#location').val(res.data.thtr_place);
+            $('#max_seat').val(res.data.thtr_max_seat);
 
             $('#studentEditModal').modal('show');
           }
@@ -411,7 +352,7 @@ include '../db_conn.php';
       e.preventDefault();
 
       var formData = new FormData(this);
-      formData.append("update_movie", true);
+      formData.append("update_thtr", true);
 
       $.ajax({
         type: "POST",
@@ -430,26 +371,25 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('click', '.deleteMovieBtn', function (e) {
-            e.preventDefault();
+    $(document).on('click', '.deleteMovieBtn', function(e) {
+      e.preventDefault();
 
-            if(confirm('Are you sure you want to delete this data?'))
-            {
-                var movie_id = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "save.php",
-                    data: {
-                        'delete_movie': true,
-                        'movie_id': movie_id
-                    },
-                    success: function (response) {
+      if (confirm('Are you sure you want to delete this data?')) {
+        var thtr_id = $(this).val();
+        $.ajax({
+          type: "POST",
+          url: "save.php",
+          data: {
+            'delete_thtr': true,
+            'thtr_id': thtr_id
+          },
+          success: function(response) {
 
-                            $('#myTable').load(location.href + " #myTable");
-                    }
-                });
-            }
+            $('#myTable').load(location.href + " #myTable");
+          }
         });
+      }
+    });
   </script>
 
 </body>

@@ -57,4 +57,53 @@ if(isset($_POST['delete_movie']))
     $query = "UPDATE `tbl_movies` SET `del_status`='1' WHERE `movie_id`='$movie_id'";
     $query_run = mysqli_query($conn, $query);
 }
-?>
+
+if(isset($_POST['save_thtr']))
+{
+    $name = mysqli_escape_string($conn,$_POST['name']);
+    $loc = mysqli_escape_string($conn,$_POST['location']);
+    $max_seat = mysqli_escape_string($conn,$_POST['max_seat']);
+    $add_query = "INSERT INTO `tbl_theatres`(`thtr_name`, `thtr_place`, `thtr_max_seat`) VALUES ('$name','$loc','$max_seat')";
+    $add_query_run = mysqli_query($conn,$add_query);
+}
+
+if(isset($_GET['thtr_id']))
+{
+    $thtr_id = mysqli_real_escape_string($conn, $_GET['thtr_id']);
+
+    $query = "SELECT * FROM `tbl_theatres` WHERE `thtr_id` = '$thtr_id'";
+    $query_run = mysqli_query($conn, $query);
+
+
+    if(mysqli_num_rows($query_run) == 1)
+    {
+        $thtr = mysqli_fetch_array($query_run);
+
+        $res = [
+            'status' => 200,
+            'data' => $thtr
+        ];
+        echo json_encode($res);
+        return;
+    }
+}
+
+if(isset($_POST['update_thtr']))
+{
+    $thtr_id = mysqli_real_escape_string($conn, $_POST['thtr_id']);
+
+    $name = mysqli_escape_string($conn,$_POST['name']);
+    $loc = mysqli_escape_string($conn,$_POST['location']);
+    $max_seat = mysqli_escape_string($conn,$_POST['max_seat']);
+
+    $query = "UPDATE `tbl_theatres` SET `thtr_name`='$name',`thtr_place`='$loc',`thtr_max_seat`='$max_seat' WHERE `thtr_id` = '$thtr_id'";
+    $query_run = mysqli_query($conn, $query);
+}
+
+if(isset($_POST['delete_thtr']))
+{
+    $thtr_id = mysqli_real_escape_string($conn, $_POST['thtr_id']);
+
+    $query = "UPDATE `tbl_theatres` SET `del_status`='1' WHERE `thtr_id` = '$thtr_id'";
+    $query_run = mysqli_query($conn, $query);
+}

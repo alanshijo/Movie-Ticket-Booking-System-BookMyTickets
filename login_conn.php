@@ -13,7 +13,7 @@ if(isset($_POST['submit_login'])){
             $_SESSION['email'] = $row['email'];
             $_SESSION['password'] = $row['password'];
             $_SESSION['type_title'] = $row['type_title'];
-            header("location: user.php");
+            header("location: user/");
         }
         else if($row['email'] == $user && $row['password'] == $password && $row['type_title'] == "admin" && $row['user_status'] == "active"){
             $_SESSION['email'] = $row['email'];

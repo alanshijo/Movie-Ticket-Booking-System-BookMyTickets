@@ -1,6 +1,6 @@
 <!-- <?php
-include 'admin-session.php';
-?> -->
+      include 'admin-session.php';
+      ?> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +48,7 @@ include 'admin-session.php';
             <a class="logo" href="index.html">
               <img src="images/icon/main-logo-black.png" alt="BookMyTickets" />
             </a>
-            <button class="hamburger hamburger--slider" type="button">  
+            <button class="hamburger hamburger--slider" type="button">
               <span class="hamburger-box">
                 <span class="hamburger-inner"></span>
               </span>
@@ -107,6 +107,10 @@ include 'admin-session.php';
               <a class="js-arrow" href="shows.php">
                 <i class="fa fa-clock"></i>Shows</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="assignmovies.php">
+                <i class="fa fa-check-circle"></i>Assign movies</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -127,7 +131,7 @@ include 'admin-session.php';
                       <a class="js-acc-btn" href="#">ADMIN</a>
                     </div>
                     <div class="account-dropdown js-dropdown">
-                    <div class="account-dropdown__footer">
+                      <div class="account-dropdown__footer">
                         <a href="change-pass.php">
                           <i class="fas fa-lock"></i>Change password</a>
                       </div>
@@ -164,11 +168,11 @@ include 'admin-session.php';
                       <div class="icon">
                         <i class="zmdi zmdi-account-o"></i>
                       </div>
-                      <?php 
+                      <?php
                       include '../db_conn.php';
                       $users = "SELECT count(*) as count FROM tbl_login WHERE type_id = '2'";
-                      $users_run = mysqli_query($conn,$users);
-                      foreach($users_run as $count)
+                      $users_run = mysqli_query($conn, $users);
+                      foreach ($users_run as $count)
                       ?>
                       <div class="text">
                         <h2><?php echo $count['count']; ?></h2>
@@ -187,10 +191,10 @@ include 'admin-session.php';
                       <div class="icon">
                         <i class="fas fa-film"></i>
                       </div>
-                      <?php 
+                      <?php
                       $movies = "SELECT count(*) as count FROM tbl_movies WHERE del_status='0'";
-                      $movies_run = mysqli_query($conn,$movies);
-                      foreach($movies_run as $count)
+                      $movies_run = mysqli_query($conn, $movies);
+                      foreach ($movies_run as $count)
                       ?>
                       <div class="text">
                         <h2><?php echo $count['count']; ?></h2>
@@ -209,10 +213,10 @@ include 'admin-session.php';
                       <div class="icon">
                         <i class="fas fa-video-camera"></i>
                       </div>
-                      <?php 
+                      <?php
                       $thtrs = "SELECT count(*) as count FROM tbl_theatres WHERE del_status='0'";
-                      $thtrs_run = mysqli_query($conn,$thtrs);
-                      foreach($thtrs_run as $count)
+                      $thtrs_run = mysqli_query($conn, $thtrs);
+                      foreach ($thtrs_run as $count)
                       ?>
                       <div class="text">
                         <h2><?php echo $count['count']; ?></h2>

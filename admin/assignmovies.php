@@ -15,18 +15,14 @@ include '../db_conn.php';
 
     <!-- Title Page-->
     <title>Shows</title>
-
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
     <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-
     <!-- Bootstrap CSS-->
     <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Vendor CSS-->
     <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
     <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
@@ -102,11 +98,11 @@ include '../db_conn.php';
                             <a class="js-arrow" href="theatres.php">
                                 <i class="fa fa-building"></i>Theatres</a>
                         </li>
-                        <li class="active has-sub">
+                        <li class="has-sub">
                             <a class="js-arrow" href="shows.php">
                                 <i class="fa fa-clock"></i>Shows</a>
                         </li>
-                        <li class="has-sub">
+                        <li class="active has-sub">
                             <a class="js-arrow" href="assignmovies.php">
                                 <i class="fa fa-check-circle"></i>Assign movies</a>
                         </li>
@@ -148,75 +144,69 @@ include '../db_conn.php';
             </header>
             <!-- HEADER DESKTOP-->
             <div class="main-content">
-                <div class="section__content section__content--p30">
+                <div class="section">
                     <div class="container-fluid">
-                        <div class="alert alert-success" id="addShow" style="display:none;">
-                            Show added successfully
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="alert alert-info" id="updateShow" role="alert" style="display:none;">
-                            Show updated successfully
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="alert alert-danger" id="delShow" role="alert" style="display:none;">
-                            Show deleted successfully
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Shows
-
-                                            <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal" data-bs-target="#studentAddModal">
-                                                <i class="fa fa-plus"></i>&nbsp; Add show
-                                            </button>
-                                        </h4>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Assign movies & shows to theatre</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Assign</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div class="card-body">
-
-                                        <table id="myTable" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Sl.No.</th>
-                                                    <th>Show name</th>
-                                                    <th>Show time</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                require '../db_conn.php';
-
-                                                $query = "SELECT * FROM tbl_shows WHERE del_status ='0'";
-                                                $query_run = mysqli_query($conn, $query);
-                                                $i = 1;
-                                                while ($show = mysqli_fetch_array($query_run)) {
-                                                    $ftime = date('g:i A', strtotime($show['show_time']));
-                                                ?>
-                                                    <tr>
-                                                        <td><?php echo $i; ?></td>
-                                                        <td><?= $show['show_name'] ?></td>
-                                                        <td><?= $ftime ?></td>
-                                                        <td>
-                                                            <button type="button" value="<?php echo $show['show_id']; ?>" class="editShowBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
-                                                            <button type="button" value="<?php echo $show['show_id']; ?>" class="deleteShowBtn fa fa-trash" style="color: #0056b3;"></button>
-                                                        </td>
-                                                    </tr>
-                                                <?php
-                                                    $i++;
-                                                }
-                                                ?>
-
-                                            </tbody>
-                                        </table>
-
+                                    <div class="modal-body">
+                                        <form id="assignForm">
+                                            <?php
+                                            $select_thtr = "SELECT * FROM `tbl_theatres` WHERE `del_status` = '0'";
+                                            $select_thtr_run = mysqli_query($conn, $select_thtr);
+                                            $select_movies = "SELECT * FROM `tbl_movies` WHERE `del_status` = '0'";
+                                            $select_movies_run = mysqli_query($conn, $select_movies);
+                                            $select_shows = "SELECT * FROM `tbl_shows` WHERE `del_status` = '0'";
+                                            $select_shows_run = mysqli_query($conn, $select_shows);
+                                            ?>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Theatre:</label>
+                                                <select name="thtr" id="thtr" class="form-control">
+                                                    <option hidden>-Select theatre-</option>
+                                                    <?php
+                                                    foreach ($select_thtr_run as $sel_thtr) {
+                                                    ?>
+                                                        <option value="<?php echo $sel_thtr['thtr_id'] ?>"><?php echo $sel_thtr['thtr_name'] ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Movies:</label>
+                                                <select name="movies[]" id="movie" class="multi-select form-control" multiple>
+                                                    <?php
+                                                    foreach ($select_movies_run as $sel_movie) {
+                                                    ?>
+                                                        <option value="<?php echo $sel_movie['movie_id'] ?>"><?php echo $sel_movie['movie_name'] ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Shows:</label>
+                                                <select name="shows[]" id="show" class="multi-select-show form-control" multiple>
+                                                    <?php
+                                                    foreach ($select_shows_run as $sel_show) {
+                                                    ?>
+                                                        <option value="<?php echo $sel_show['show_id'] ?>"><?php echo $sel_show['show_name'] ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary">Assign</button>
                                     </div>
                                 </div>
                             </div>
@@ -225,63 +215,6 @@ include '../db_conn.php';
                 </div>
             </div>
             <!-- MAIN CONTENT-->
-            <!-- Add Theatre -->
-            <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Enter show details</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                        </div>
-                        <form id="saveStudent">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="">Show name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter show name here" required/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="">Time</label>
-                                    <input type="time" name="time" class="form-control" placeholder="Enter time" required/>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save show</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Edit Theatre Modal -->
-            <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit Student</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form id="updateStudent">
-                            <div class="modal-body">
-
-                                <!-- <div id="errorMessageUpdate" class="alert alert-warning d-none"></div> -->
-
-                                <input type="hidden" name="show_id" id="show_id">
-                                <div class="mb-3">
-                                    <label for="">Show name</label>
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter the show name here" required/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="">Time</label>
-                                    <input type="time" name="time" id="time" class="form-control" placeholder="Enter the time" required/>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Update show</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <!-- END MAIN CONTENT-->
             <!-- END PAGE CONTAINER-->
         </div>
@@ -310,11 +243,14 @@ include '../db_conn.php';
     <script src="vendor/select2/select2.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script>
+        $(".multi-select").select2({});
+        $(".multi-select-show").select2({
+            placeholder: 'Select show'
+        });
         $(document).on('submit', '#saveStudent', function(e) {
             e.preventDefault();
 

@@ -106,6 +106,10 @@ include '../db_conn.php';
               <a class="js-arrow" href="shows.php">
                 <i class="fa fa-clock"></i>Shows</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="assignmovies.php">
+                <i class="fa fa-check-circle"></i>Assign movies</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -153,13 +157,13 @@ include '../db_conn.php';
               </button>
             </div>
             <div class="alert alert-info" id="updateTheatre" role="alert" style="display:none;">
-            Theatre updated successfully
+              Theatre updated successfully
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="alert alert-danger" id="delTheatre" role="alert" style="display:none;">
-            Theatre deleted successfully
+              Theatre deleted successfully
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

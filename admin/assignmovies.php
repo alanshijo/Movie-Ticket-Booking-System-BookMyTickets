@@ -146,29 +146,28 @@ include '../db_conn.php';
             <div class="main-content">
                 <div class="section">
                     <div class="container-fluid">
-                        <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Assign movies & shows to theatre</button>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#studentAddModal">Assign movies & shows to theatre</button>
+                        <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Assign</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <h5 class="modal-title" id="exampleModalLabel">Enter show details</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
                                     </div>
-                                    <div class="modal-body">
-                                        <form id="assignForm">
-                                            <?php
-                                            $select_thtr = "SELECT * FROM `tbl_theatres` WHERE `del_status` = '0'";
-                                            $select_thtr_run = mysqli_query($conn, $select_thtr);
-                                            $select_movies = "SELECT * FROM `tbl_movies` WHERE `del_status` = '0'";
-                                            $select_movies_run = mysqli_query($conn, $select_movies);
-                                            $select_shows = "SELECT * FROM `tbl_shows` WHERE `del_status` = '0'";
-                                            $select_shows_run = mysqli_query($conn, $select_shows);
-                                            ?>
-                                            <div class="form-group">
+                                    <?php
+                                    $select_thtr = "SELECT * FROM `tbl_theatres` WHERE `del_status` = '0'";
+                                    $select_thtr_run = mysqli_query($conn, $select_thtr);
+                                    $select_movies = "SELECT * FROM `tbl_movies` WHERE `del_status` = '0'";
+                                    $select_movies_run = mysqli_query($conn, $select_movies);
+                                    $select_shows = "SELECT * FROM `tbl_shows` WHERE `del_status` = '0'";
+                                    $select_shows_run = mysqli_query($conn, $select_shows);
+                                    ?>
+                                    <form id="saveStudent">
+                                        <div class="modal-body">
+                                            <div class="mb-3">
                                                 <label for="recipient-name" class="col-form-label">Theatre:</label>
-                                                <select name="thtr" id="thtr" class="form-control">
+                                                <select name="thtr" id="multi" class="form-control">
                                                     <option hidden>-Select theatre-</option>
                                                     <?php
                                                     foreach ($select_thtr_run as $sel_thtr) {
@@ -179,35 +178,35 @@ include '../db_conn.php';
                                                     ?>
                                                 </select>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label for="">Movies:</label>
-                                                <select name="movies[]" id="movie" class="multi-select form-control" multiple>
+                                                <select name="movies[]" id="multi" class="multi-select form-control" multiple>
                                                     <?php
                                                     foreach ($select_movies_run as $sel_movie) {
                                                     ?>
-                                                        <option value="<?php echo $sel_movie['movie_id'] ?>"><?php echo $sel_movie['movie_name'] ?></option>
+                                                        <option value="<?php echo $sel_movie['movie_id'] ?>">&emsp;<?php echo $sel_movie['movie_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label for="">Shows:</label>
-                                                <select name="shows[]" id="show" class="multi-select-show form-control" multiple>
+                                                <select name="shows[]" class="multi-select-show form-control" multiple>
                                                     <?php
                                                     foreach ($select_shows_run as $sel_show) {
                                                     ?>
-                                                        <option value="<?php echo $sel_show['show_id'] ?>"><?php echo $sel_show['show_name'] ?></option>
+                                                        <option value="<?php echo $sel_show['show_id'] ?>">&emsp;<?php echo $sel_show['show_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary">Assign</button>
-                                    </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" id="assign" class="btn btn-primary">Assign</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -251,11 +250,12 @@ include '../db_conn.php';
         $(".multi-select-show").select2({
             placeholder: 'Select show'
         });
+
         $(document).on('submit', '#saveStudent', function(e) {
             e.preventDefault();
 
             var formData = new FormData(this);
-            formData.append("save_show", true);
+            formData.append("assign_movie", true);
 
             $.ajax({
                 type: "POST",
@@ -264,10 +264,9 @@ include '../db_conn.php';
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    $('#addShow').show();
-                    $('#studentAddModal').modal('hide');
+                    // $('.modal').modal('hide');
                     $('#saveStudent')[0].reset();
-                    $('#myTable').load(location.href + " #myTable");
+                    window.location.replace('assignmovies.php');
                 }
             });
 

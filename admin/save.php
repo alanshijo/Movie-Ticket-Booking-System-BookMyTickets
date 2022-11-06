@@ -153,3 +153,22 @@ if (isset($_POST['delete_show'])) {
     $query = "UPDATE `tbl_shows` SET `del_status`='1' WHERE `show_id` = '$show_id'";
     $query_run = mysqli_query($conn, $query);
 }
+
+if (isset($_POST['assign_movie'])) {
+    $thtr_id = mysqli_escape_string($conn, $_POST['thtr']);
+    $movies_id = $_POST['movies'];
+    $shows_id = $_POST['shows'];
+
+    foreach($movies_id as $movie_id){
+        $query = "INSERT INTO `tbl_theatremovies`(`thtr_id`, `movie_id`) VALUES ('$thtr_id','$movie_id')";
+        $query_run = mysqli_query($conn,$query);
+
+        if($query_run){
+            $last_id = mysqli_insert_id($conn);
+            foreach($shows_id as $show_id){
+                $query = "INSERT INTO `tbl_theatreshows`(`show_id`, `tm_id`) VALUES ('$show_id','$last_id')";
+                $query_run = mysqli_query($conn,$query);
+            }
+        }
+    }
+}

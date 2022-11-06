@@ -102,6 +102,10 @@ include '../db_conn.php';
               <a class="js-arrow" href="theatres.php">
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="shows.php">
+                <i class="fa fa-clock"></i>Shows</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -179,7 +183,7 @@ include '../db_conn.php';
                           <th>Sl.No.</th>
                           <th>Name</th>
                           <th>Place</th>
-                          <th>Max. seat numbers</th>
+                          <th>Price per ticket</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -197,7 +201,7 @@ include '../db_conn.php';
                             <td><?php echo $i; ?></td>
                             <td><?= $thtr['thtr_name'] ?></td>
                             <td><?= $thtr['thtr_place'] ?></td>
-                            <td><?= $thtr['thtr_max_seat'] ?></td>
+                            <td><?= $thtr['ticket_price'] ?></td>
                             <td>
                               <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
                               <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
@@ -232,15 +236,15 @@ include '../db_conn.php';
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
-                  <input type="text" name="name" class="form-control" placeholder="Enter theatre name here" />
+                  <input type="text" name="name" class="form-control" placeholder="Enter the theatre name here" />
                 </div>
                 <div class="mb-3">
                   <label for="">Place</label>
-                  <input type="text" name="location" class="form-control" placeholder="Enter location of the theatre here" />
+                  <input type="text" name="location" class="form-control" placeholder="Enter the location of the theatre here" />
                 </div>
                 <div class="mb-3">
-                  <label for="">No. of seats</label>
-                  <input type="number" name="max_seat" class="form-control" placeholder="Total no. of seats available in the theatre" />
+                  <label for="">Ticket price</label>
+                  <input type="number" name="price" class="form-control" placeholder="Enter the cost per ticket here" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -266,15 +270,15 @@ include '../db_conn.php';
                 <input type="hidden" name="thtr_id" id="thtr_id">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
-                  <input type="text" name="name" id="name" class="form-control" placeholder="Enter theatre name here" />
+                  <input type="text" name="name" id="name" class="form-control" placeholder="Enter the theatre name here" />
                 </div>
                 <div class="mb-3">
                   <label for="">Place</label>
-                  <input type="text" name="location" id="location" class="form-control" placeholder="Enter location of the theatre here" />
+                  <input type="text" name="location" id="location" class="form-control" placeholder="Enter the location of the theatre here" />
                 </div>
                 <div class="mb-3">
-                  <label for="">No. of seats</label>
-                  <input type="number" name="max_seat" id="max_seat" class="form-control" placeholder="Total no. of seats available in the theatre" />
+                  <label for="">Ticket price</label>
+                  <input type="number" name="price" id="price" class="form-control" placeholder="Enter the cost per ticket here" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -358,7 +362,7 @@ include '../db_conn.php';
             // $('#poster').val(res.data.movie_poster);
             $('#name').val(res.data.thtr_name);
             $('#location').val(res.data.thtr_place);
-            $('#max_seat').val(res.data.thtr_max_seat);
+            $('#price').val(res.data.ticket_price);
 
             $('#studentEditModal').modal('show');
           }

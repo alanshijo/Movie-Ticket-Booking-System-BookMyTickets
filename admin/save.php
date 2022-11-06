@@ -69,8 +69,8 @@ if (isset($_POST['delete_movie'])) {
 if (isset($_POST['save_thtr'])) {
     $name = mysqli_escape_string($conn, $_POST['name']);
     $loc = mysqli_escape_string($conn, $_POST['location']);
-    $max_seat = mysqli_escape_string($conn, $_POST['max_seat']);
-    $add_query = "INSERT INTO `tbl_theatres`(`thtr_name`, `thtr_place`, `thtr_max_seat`) VALUES ('$name','$loc','$max_seat')";
+    $price = mysqli_escape_string($conn, $_POST['price']);
+    $add_query = "INSERT INTO `tbl_theatres`(`thtr_name`, `thtr_place`, `ticket_price`) VALUES ('$name','$loc','$price')";
     $add_query_run = mysqli_query($conn, $add_query);
 }
 
@@ -98,9 +98,9 @@ if (isset($_POST['update_thtr'])) {
 
     $name = mysqli_escape_string($conn, $_POST['name']);
     $loc = mysqli_escape_string($conn, $_POST['location']);
-    $max_seat = mysqli_escape_string($conn, $_POST['max_seat']);
+    $price = mysqli_escape_string($conn, $_POST['price']);
 
-    $query = "UPDATE `tbl_theatres` SET `thtr_name`='$name',`thtr_place`='$loc',`thtr_max_seat`='$max_seat' WHERE `thtr_id` = '$thtr_id'";
+    $query = "UPDATE `tbl_theatres` SET `thtr_name`='$name',`thtr_place`='$loc',`ticket_price`='$price' WHERE `thtr_id` = '$thtr_id'";
     $query_run = mysqli_query($conn, $query);
 }
 
@@ -108,5 +108,48 @@ if (isset($_POST['delete_thtr'])) {
     $thtr_id = mysqli_real_escape_string($conn, $_POST['thtr_id']);
 
     $query = "UPDATE `tbl_theatres` SET `del_status`='1' WHERE `thtr_id` = '$thtr_id'";
+    $query_run = mysqli_query($conn, $query);
+}
+
+if (isset($_POST['save_show'])) {
+    $name = mysqli_escape_string($conn, $_POST['name']);
+    $time = mysqli_escape_string($conn, $_POST['time']);
+    $add_query = "INSERT INTO `tbl_shows`(`show_name`, `show_time`) VALUES ('$name','$time')";
+    $add_query_run = mysqli_query($conn, $add_query);
+}
+
+if (isset($_GET['show_id'])) {
+    $show_id = mysqli_real_escape_string($conn, $_GET['show_id']);
+
+    $query = "SELECT * FROM `tbl_shows` WHERE `show_id` = '$show_id'";
+    $query_run = mysqli_query($conn, $query);
+
+
+    if (mysqli_num_rows($query_run) == 1) {
+        $show = mysqli_fetch_array($query_run);
+
+        $res = [
+            'status' => 200,
+            'data' => $show
+        ];
+        echo json_encode($res);
+        return;
+    }
+}
+
+if (isset($_POST['update_show'])) {
+    $show_id = mysqli_real_escape_string($conn, $_POST['show_id']);
+
+    $name = mysqli_escape_string($conn, $_POST['name']);
+    $time = mysqli_escape_string($conn, $_POST['time']);
+
+    $query = "UPDATE `tbl_shows` SET `show_name`='$name',`show_time`='$time' WHERE `show_id` = '$show_id'";
+    $query_run = mysqli_query($conn, $query);
+}
+
+if (isset($_POST['delete_show'])) {
+    $show_id = mysqli_real_escape_string($conn, $_POST['show_id']);
+
+    $query = "UPDATE `tbl_shows` SET `del_status`='1' WHERE `show_id` = '$show_id'";
     $query_run = mysqli_query($conn, $query);
 }

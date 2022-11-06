@@ -113,6 +113,10 @@ include '../db_conn.php';
               <a class="js-arrow" href="theatres.php">
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="shows.php">
+                <i class="fa fa-clock"></i>Shows</a>
+            </li>
           </ul>
         </nav>
       </div>

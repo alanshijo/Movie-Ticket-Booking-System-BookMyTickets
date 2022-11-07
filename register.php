@@ -151,7 +151,7 @@ function validateForm() {
     }
 
     var ph = document.getElementById("phn").value;
-    var expr = /^[6-9]\d{9}$/;
+    var expr = /^(?!(\d)\1{9})(?!0123456789|1234567890|0987654321)\d{10}$/;
     if(ph!="" && expr.test(ph)==false){
         document.getElementById('msg2').style.display = "block";
         document.getElementById('msg2').innerHTML = "Invalid Phone number";

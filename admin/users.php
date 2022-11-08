@@ -211,8 +211,18 @@ include '../db_conn.php';
                               <td><?php echo $data['user_phno']; ?></td>
                               <td><?php echo $data['user_status']; ?></td>
                               <td>
+                                <?php
+                                if($data['user_status']=='deactive'){
+                                ?>
                                 <button type="button" value="<?php echo $data["user_id"]; ?>" class="actBtn btn btn-outline-success btn-sm">Activate</button>
+                                <?php
+                                }
+                                else{
+                                ?>
                                 <button type="button" value="<?php echo $data["user_id"]; ?>" class="deactBtn btn btn-outline-danger btn-sm">Deactivate</button>
+                                <?php
+                                }
+                                ?>
                               </td>
                             </tr>
                         <?php

@@ -173,8 +173,8 @@ include '../db_conn.php';
                 <div class="card">
                   <div class="card-header">
                     <h4>Movie data
-
-                      <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal" data-bs-target="#studentAddModal">
+                      <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal"
+                        data-bs-target="#studentAddModal">
                         <i class="fa fa-plus"></i>&nbsp; Add movie
                       </button>
                     </h4>
@@ -204,19 +204,34 @@ include '../db_conn.php';
                         while ($movie = mysqli_fetch_array($query_run)) {
 
                         ?>
-                          <tr>
-                            <td><?php echo $i; ?></td>
-                            <td style="width: 200px; height: 200px;"><img src="uploads/<?php echo $movie['movie_poster']; ?>" alt="poster"></td>
-                            <td><?= $movie['movie_name'] ?></td>
-                            <td><?= $movie['movie_lang'] ?></td>
-                            <td><?= $movie['movie_certificate'] ?></td>
-                            <td><?= $movie['movie_runtime'] ?></td>
-                            <td><?= $movie['movie_releasedate'] ?></td>
-                            <td>
-                              <button type="button" value="<?php echo $movie['movie_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
-                              <button type="button" value="<?php echo $movie['movie_id']; ?>" class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
-                            </td>
-                          </tr>
+                        <tr>
+                          <td>
+                            <?php echo $i; ?>
+                          </td>
+                          <td style="width: 200px; height: 200px;"><img
+                              src="uploads/<?php echo $movie['movie_poster']; ?>" alt="poster"></td>
+                          <td>
+                            <?= $movie['movie_name'] ?>
+                          </td>
+                          <td>
+                            <?= $movie['movie_lang'] ?>
+                          </td>
+                          <td>
+                            <?= $movie['movie_certificate'] ?>
+                          </td>
+                          <td>
+                            <?= $movie['movie_runtime'] ?>
+                          </td>
+                          <td>
+                            <?= $movie['movie_releasedate'] ?>
+                          </td>
+                          <td>
+                            <button type="button" value="<?php echo $movie['movie_id']; ?>"
+                              class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
+                            <button type="button" value="<?php echo $movie['movie_id']; ?>"
+                              class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
+                          </td>
+                        </tr>
                         <?php
                           $i++;
                         }
@@ -239,7 +254,8 @@ include '../db_conn.php';
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Enter movie details</h5>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
 
             </div>
             <form id="saveStudent" enctype="multipart/form-data">
@@ -292,11 +308,12 @@ include '../db_conn.php';
         </div>
       </div>
       <!-- Edit Student Modal -->
-      <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Student</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Edit movie data</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="updateStudent">
@@ -385,7 +402,7 @@ include '../db_conn.php';
   <!-- Main JS-->
   <script src="js/main.js"></script>
   <script>
-    $(document).on('submit', '#saveStudent', function(e) {
+    $(document).on('submit', '#saveStudent', function (e) {
       e.preventDefault();
 
       var formData = new FormData(this);
@@ -397,7 +414,7 @@ include '../db_conn.php';
         data: formData,
         processData: false,
         contentType: false,
-        success: function(response) {
+        success: function (response) {
           $('#addMovie').show();
           $('#studentAddModal').modal('hide');
           $('#saveStudent')[0].reset();
@@ -407,14 +424,14 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('click', '.editMovieBtn', function() {
+    $(document).on('click', '.editMovieBtn', function () {
 
       var movie_id = $(this).val();
 
       $.ajax({
         type: "GET",
         url: "save.php?movie_id=" + movie_id,
-        success: function(response) {
+        success: function (response) {
 
           var res = jQuery.parseJSON(response);
           if (res.status == 200) {
@@ -434,7 +451,7 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('submit', '#updateStudent', function(e) {
+    $(document).on('submit', '#updateStudent', function (e) {
       e.preventDefault();
 
       var formData = new FormData(this);
@@ -446,7 +463,7 @@ include '../db_conn.php';
         data: formData,
         processData: false,
         contentType: false,
-        success: function(response) {
+        success: function (response) {
           $('#studentEditModal').modal('hide');
           $('#updateStudent')[0].reset();
           $('#updateMovie').show();
@@ -458,7 +475,7 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('click', '.deleteMovieBtn', function(e) {
+    $(document).on('click', '.deleteMovieBtn', function (e) {
       e.preventDefault();
 
       if (confirm('Are you sure you want to delete this data?')) {
@@ -470,7 +487,7 @@ include '../db_conn.php';
             'delete_movie': true,
             'movie_id': movie_id
           },
-          success: function(response) {
+          success: function (response) {
             $('#delMovie').show();
             $('#myTable').load(location.href + " #myTable");
           }

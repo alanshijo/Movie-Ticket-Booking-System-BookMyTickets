@@ -38,6 +38,13 @@ include '../db_conn.php';
 
   <!-- Main CSS-->
   <link href="css/theme.css" rel="stylesheet" media="all">
+  <style>
+    #custom-text {
+      margin-left: 10px;
+      font-family: sans-serif;
+      color: #aaa;
+    }
+  </style>
 </head>
 
 <body class="animsition">
@@ -177,6 +184,9 @@ include '../db_conn.php';
                       <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal" data-bs-target="#studentAddModal">
                         <i class="fa fa-plus"></i>&nbsp; Add theatre
                       </button>
+                      <button type="button" class="btn btn-success" style="float: right; margin-right: 1%;" data-toggle="modal" data-target="#csvModal">
+                        <i class="fa fa-file-text"></i>&nbsp; Upload CSV
+                      </button>
                     </h4>
                   </div>
                   <div class="card-body">
@@ -202,10 +212,18 @@ include '../db_conn.php';
 
                         ?>
                           <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?= $thtr['thtr_name'] ?></td>
-                            <td><?= $thtr['thtr_place'] ?></td>
-                            <td><?= $thtr['ticket_price'] ?></td>
+                            <td>
+                              <?php echo $i; ?>
+                            </td>
+                            <td>
+                              <?= $thtr['thtr_name'] ?>
+                            </td>
+                            <td>
+                              <?= $thtr['thtr_place'] ?>
+                            </td>
+                            <td>
+                              <?= $thtr['ticket_price'] ?>
+                            </td>
                             <td>
                               <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
                               <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
@@ -227,6 +245,32 @@ include '../db_conn.php';
         </div>
       </div>
       <!-- MAIN CONTENT-->
+
+      <!-- Upload CSV -->
+      <div class="modal fade" id="csvModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="mediumModalLabel">Upload CSV movie data </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="csv_movie">
+                <input type="file" name="csv" id="real-file" hidden="hidden" />
+                <button type="button" class="btn btn-secondary" id="custom-button">Choose a file</button>
+                <span id="custom-text">No file chosen, yet.</span>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-upload"></i>
+                Upload</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Add Theatre -->
       <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -325,6 +369,47 @@ include '../db_conn.php';
   <!-- Main JS-->
   <script src="js/main.js"></script>
   <script>
+    const realFileBtn = document.getElementById("real-file");
+    const customBtn = document.getElementById("custom-button");
+    const customTxt = document.getElementById("custom-text");
+
+    customBtn.addEventListener("click", function() {
+      realFileBtn.click();
+    });
+
+    realFileBtn.addEventListener("change", function() {
+      if (realFileBtn.value) {
+        customTxt.innerHTML = realFileBtn.value.match(
+          /[\/\\]([\w\d\s\.\-\(\)]+)$/
+        )[1];
+      } else {
+        customTxt.innerHTML = "No file chosen, yet.";
+      }
+    });
+  </script>
+  <script>
+    $(document).on('submit', '#csv_movie', function(e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+      formData.append("save_csv", true);
+
+      $.ajax({
+        type: "POST",
+        url: "save.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          // $('#addTheatre').show();
+          $('#csvModal').modal('hide');
+          $('#csv_movie')[0].reset();
+          $('#myTable').load(location.href + " #myTable");
+        }
+      });
+
+    });
+
     $(document).on('submit', '#saveStudent', function(e) {
       e.preventDefault();
 

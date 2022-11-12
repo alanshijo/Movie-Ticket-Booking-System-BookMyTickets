@@ -322,8 +322,6 @@ include '../db_conn.php';
             <form id="updateStudent">
               <div class="modal-body">
 
-                <!-- <div id="errorMessageUpdate" class="alert alert-warning d-none"></div> -->
-
                 <input type="hidden" name="thtr_id" id="thtr_id">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
@@ -460,7 +458,6 @@ include '../db_conn.php';
           if (res.status == 200) {
 
             $('#thtr_id').val(res.data.thtr_id);
-            // $('#poster').val(res.data.movie_poster);
             $('#name').val(res.data.thtr_name);
             $('#email').val(res.data.email);
             $('#location').val(res.data.thtr_place);

@@ -126,7 +126,6 @@ if (isset($_POST['savethtr'])) {
 if (isset($_GET['thtr_id'])) {
     $thtr_id = mysqli_real_escape_string($conn, $_GET['thtr_id']);
     $query = "SELECT a.*,b.* FROM tbl_theatres as a INNER JOIN tbl_login as b ON a.login_id = b.login_id and `thtr_id` = '$thtr_id'";
-    // $query = "SELECT * FROM `tbl_theatres` WHERE `thtr_id` = '$thtr_id'";
     $query_run = mysqli_query($conn, $query);
 
 
@@ -289,6 +288,5 @@ if (isset($_POST['save_csv'])) {
             }
         }
         fclose($csvFile);
-        // header("Location: theatres.php");
     }
 }

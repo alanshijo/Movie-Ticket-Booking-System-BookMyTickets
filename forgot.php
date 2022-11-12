@@ -18,16 +18,6 @@ if(isset($_POST['send_otp'])){
         $insert_otp = "UPDATE `tbl_login` SET `otp_code`='$code' WHERE `email`='$email'";
         $data_check = mysqli_query($conn, $insert_otp);
         if($data_check){
-        //     $subject = "Password Reset Verification Code";
-        //     $message = "Your verification code is $code";
-        //     $sender = "From:alanshijo@ymail.com";
-        //     if(mail($email, $subject, $message, $sender)){
-        //         echo '<script> alert ("OTP sent successfully");</script>';
-        //         echo'<script>window.location.href="enter-otp.php";</script>';
-        //     }else{
-        //         echo '<script> alert ("OTP sent failed");</script>';
-        //         echo'<script>window.location.href="forgot.php";</script>';
-        // }
         $mail = new PHPMailer(true);
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
@@ -46,8 +36,6 @@ if(isset($_POST['send_otp'])){
         $body = "Need to reset your password? <br><br> Use your secret code! <br><br> <strong>$code</strong>";
         $mail->Body    = $body;
         $mail->AltBody = strip_tags($body);
-    
-        //$mail->send();
         if($mail->send()){
             echo '<script> alert ("OTP sent successfully");</script>';
             echo'<script>window.location.href="enter-otp.php";</script>';

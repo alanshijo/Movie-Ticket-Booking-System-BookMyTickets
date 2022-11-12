@@ -5,6 +5,7 @@ include '../db_conn.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 require '../vendor/autoload.php';
 if (isset($_GET['actid'])) {
     $id = $_GET['actid'];
@@ -96,7 +97,7 @@ if (isset($_POST['savethtr'])) {
                     $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
                     $mail->SMTPAuth = true; //Enable SMTP authentication
                     $mail->Username = 'alanshijo2023a@mca.ajce.in'; //SMTP username
-                    $mail->Password = 'Alan@ajce'; //SMTP password
+                    $mail->Password = ''; //SMTP password
                     $mail->SMTPSecure = 'ssl'; //Enable implicit TLS encryption
                     $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -143,7 +144,7 @@ if (isset($_GET['thtr_id'])) {
 
 if (isset($_POST['update_thtr'])) {
     $thtr_id = mysqli_real_escape_string($conn, $_POST['thtr_id']);
-    
+
     $thtr_email = mysqli_escape_string($conn, $_POST['email']);
     $name = mysqli_escape_string($conn, $_POST['name']);
     $loc = mysqli_escape_string($conn, $_POST['location']);
@@ -217,5 +218,77 @@ if (isset($_POST['assign_movie'])) {
                 $query_run = mysqli_query($conn, $query);
             }
         }
+    }
+}
+
+if (isset($_POST['save_csv'])) {
+    $fileMimes = array(
+        'text/x-comma-separated-values',
+        'text/comma-separated-values',
+        'application/octet-stream',
+        'application/vnd.ms-excel',
+        'application/x-csv',
+        'text/x-csv',
+        'text/csv',
+        'application/csv',
+        'application/excel',
+        'application/vnd.msexcel',
+        'text/plain'
+    );
+    if (!empty($_FILES['csv']['name']) && in_array($_FILES['csv']['type'], $fileMimes)) {
+        $csvFile = fopen($_FILES['csv']['tmp_name'], 'r');
+        fgetcsv($csvFile);
+        while (($getData = fgetcsv($csvFile, 10000, ",")) !== FALSE) {
+            $name = $getData[0];
+            $thtr_email = $getData[1];
+            $loc = $getData[2];
+            $check_user = "SELECT * FROM `tbl_login` WHERE `email` = '$thtr_email'";
+            $check_user_run = mysqli_query($conn, $check_user);
+            $check_user_rslt = mysqli_num_rows($check_user_run);
+            if ($check_user_rslt == 0) {
+                $pass = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
+                $gen_pass = substr(str_shuffle($pass), 0, 8);
+                $type_check = "SELECT `type_id` FROM `tbl_usertype` WHERE `type_title` = 'theatre'";
+                $type_check_rslt = mysqli_query($conn, $type_check);
+                while ($type = mysqli_fetch_array($type_check_rslt)) {
+                    $thtrid = $type['type_id'];
+                    $insertlogin = "INSERT INTO `tbl_login`(`email`, `password`,`type_id`) VALUES ('$thtr_email','$gen_pass','$thtrid')";
+                    $insertlogin_run = mysqli_query($conn, $insertlogin);
+                    $last_id = mysqli_insert_id($conn);
+                    if ($insertlogin_run) {
+                        $inserttheatre = "INSERT INTO `tbl_theatres`(`login_id`, `thtr_name`, `thtr_place`) VALUES ('$last_id','$name','$loc')";
+                        $inserttheatre_run = mysqli_query($conn, $inserttheatre);
+                        if ($inserttheatre_run) {
+                            $mail = new PHPMailer(true);
+                            $mail->isSMTP(); //Send using SMTP
+                            $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
+                            $mail->SMTPAuth = true; //Enable SMTP authentication
+                            $mail->Username = 'alanshijo2023a@mca.ajce.in'; //SMTP username
+                            $mail->Password = ''; //SMTP password
+                            $mail->SMTPSecure = 'ssl'; //Enable implicit TLS encryption
+                            $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                            //Recipients
+                            $mail->setFrom('alanshijo2023a@mca.ajce.in', 'BookMyTickets');
+                            $mail->addAddress($thtr_email); //Add a recipient
+                            //Content
+                            $mail->isHTML(true); //Set email format to HTML
+                            $mail->Subject = 'BookMyTickets - Theatre account';
+                            $body = "<strong><u>Login details</u></strong><br><br>
+                            Username/email: $thtr_email<br>
+                            Password: $gen_pass";
+                            $mail->Body = $body;
+                            $mail->AltBody = strip_tags($body);
+                            $mail->send();
+                        }
+                    }
+                }
+
+            } else {
+
+            }
+        }
+        fclose($csvFile);
+        // header("Location: theatres.php");
     }
 }

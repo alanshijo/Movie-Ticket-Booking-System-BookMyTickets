@@ -181,10 +181,12 @@ include '../db_conn.php';
                   <div class="card-header">
                     <h4>Theatres
 
-                      <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal" data-bs-target="#studentAddModal">
+                      <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal"
+                        data-bs-target="#studentAddModal">
                         <i class="fa fa-plus"></i>&nbsp; Add theatre
                       </button>
-                      <button type="button" class="btn btn-success" style="float: right; margin-right: 1%;" data-toggle="modal" data-target="#csvModal">
+                      <button type="button" class="btn btn-success" style="float: right; margin-right: 1%;"
+                        data-toggle="modal" data-target="#csvmodal">
                         <i class="fa fa-file-text"></i>&nbsp; Upload CSV
                       </button>
                     </h4>
@@ -210,24 +212,26 @@ include '../db_conn.php';
                         while ($thtr = mysqli_fetch_array($query_run)) {
 
                         ?>
-                          <tr>
-                            <td>
-                              <?php echo $i; ?>
-                            </td>
-                            <td>
-                              <?= $thtr['thtr_name'] ?>
-                            </td>
-                            <td>
+                        <tr>
+                          <td>
+                            <?php echo $i; ?>
+                          </td>
+                          <td>
+                            <?= $thtr['thtr_name'] ?>
+                          </td>
+                          <td>
                             <?= $thtr['email'] ?>
-                            </td>
-                            <td>
-                              <?= $thtr['thtr_place'] ?>
-                            </td>
-                            <td>
-                              <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
-                              <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
-                            </td>
-                          </tr>
+                          </td>
+                          <td>
+                            <?= $thtr['thtr_place'] ?>
+                          </td>
+                          <td>
+                            <button type="button" value="<?php echo $thtr['thtr_id']; ?>"
+                              class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
+                            <button type="button" value="<?php echo $thtr['thtr_id']; ?>"
+                              class="deleteMovieBtn fa fa-trash" style="color: #0056b3;"></button>
+                          </td>
+                        </tr>
                         <?php
                           $i++;
                         }
@@ -246,7 +250,8 @@ include '../db_conn.php';
       <!-- MAIN CONTENT-->
 
       <!-- Upload CSV -->
-      <div class="modal fade" id="csvModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal fade" id="csvmodal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-md" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -260,13 +265,13 @@ include '../db_conn.php';
                 <input type="file" name="csv" id="real-file" hidden="hidden" />
                 <button type="button" class="btn btn-secondary" id="custom-button">Choose a file</button>
                 <span id="custom-text">No file chosen, yet.</span>
-              </form>
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-danger">
                 <i class="fas fa-upload"></i>
                 Upload</button>
             </div>
+            </form>
           </div>
         </div>
       </div>
@@ -276,22 +281,26 @@ include '../db_conn.php';
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Enter theatre details</h5>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
 
             </div>
             <form id="save_theatre">
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
-                  <input type="text" name="name" class="form-control" placeholder="Enter the theatre name here" required/>
+                  <input type="text" name="name" class="form-control" placeholder="Enter the theatre name here"
+                    required />
                 </div>
                 <div class="mb-3">
                   <label for="">Email</label>
-                  <input type="text" name="email" class="form-control" placeholder="Enter the email address of the theatre here" required/>
+                  <input type="text" name="email" class="form-control"
+                    placeholder="Enter the email address of the theatre here" required />
                 </div>
                 <div class="mb-3">
                   <label for="">Place</label>
-                  <input type="text" name="location" class="form-control" placeholder="Enter the location of the theatre here" required/>
+                  <input type="text" name="location" class="form-control"
+                    placeholder="Enter the location of the theatre here" required />
                 </div>
               </div>
               <div class="modal-footer">
@@ -302,7 +311,8 @@ include '../db_conn.php';
         </div>
       </div>
       <!-- Edit Theatre Modal -->
-      <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -317,15 +327,18 @@ include '../db_conn.php';
                 <input type="hidden" name="thtr_id" id="thtr_id">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
-                  <input type="text" name="name" id="name" class="form-control" placeholder="Enter the theatre name here" />
+                  <input type="text" name="name" id="name" class="form-control"
+                    placeholder="Enter the theatre name here" />
                 </div>
                 <div class="mb-3">
-                <div class="mb-3">
-                  <label for="">Email</label>
-                  <input type="text" name="email" id="email" class="form-control" placeholder="Enter the email address of the theatre here" required/>
-                </div>
+                  <div class="mb-3">
+                    <label for="">Email</label>
+                    <input type="text" name="email" id="email" class="form-control"
+                      placeholder="Enter the email address of the theatre here" required />
+                  </div>
                   <label for="">Place</label>
-                  <input type="text" name="location" id="location" class="form-control" placeholder="Enter the location of the theatre here" />
+                  <input type="text" name="location" id="location" class="form-control"
+                    placeholder="Enter the location of the theatre here" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -372,11 +385,11 @@ include '../db_conn.php';
     const customBtn = document.getElementById("custom-button");
     const customTxt = document.getElementById("custom-text");
 
-    customBtn.addEventListener("click", function() {
+    customBtn.addEventListener("click", function () {
       realFileBtn.click();
     });
 
-    realFileBtn.addEventListener("change", function() {
+    realFileBtn.addEventListener("change", function () {
       if (realFileBtn.value) {
         customTxt.innerHTML = realFileBtn.value.match(
           /[\/\\]([\w\d\s\.\-\(\)]+)$/
@@ -387,7 +400,7 @@ include '../db_conn.php';
     });
   </script>
   <script>
-    $(document).on('submit', '#csv_movie', function(e) {
+    $(document).on('submit', '#csv_movie', function (e) {
       e.preventDefault();
 
       var formData = new FormData(this);
@@ -399,17 +412,17 @@ include '../db_conn.php';
         data: formData,
         processData: false,
         contentType: false,
-        success: function(response) {
+        success: function (response) {
           // $('#addTheatre').show();
-          $('#csvModal').modal('hide');
-          $('#csv_movie')[0].reset();
+          window.location.replace('theatres.php');
+          // $('#csv_movie')[0].reset();
           $('#myTable').load(location.href + " #myTable");
         }
       });
 
     });
 
-    $(document).on('submit', '#save_theatre', function(e) {
+    $(document).on('submit', '#save_theatre', function (e) {
       e.preventDefault();
 
       var formData = new FormData(this);
@@ -421,7 +434,7 @@ include '../db_conn.php';
         data: formData,
         processData: false,
         contentType: false,
-        success: function(response) {
+        success: function (response) {
           $('#addTheatre').show();
           $('#studentAddModal').modal('hide');
           $('#saveStudent')[0].reset();
@@ -431,14 +444,14 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('click', '.editMovieBtn', function() {
+    $(document).on('click', '.editMovieBtn', function () {
 
       var thtr_id = $(this).val();
 
       $.ajax({
         type: "GET",
         url: "save.php?thtr_id=" + thtr_id,
-        success: function(response) {
+        success: function (response) {
 
           // console.log(thtr_id);
           var res = jQuery.parseJSON(response);
@@ -459,7 +472,7 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('submit', '#updateStudent', function(e) {
+    $(document).on('submit', '#updateStudent', function (e) {
       e.preventDefault();
 
       var formData = new FormData(this);
@@ -471,7 +484,7 @@ include '../db_conn.php';
         data: formData,
         processData: false,
         contentType: false,
-        success: function(response) {
+        success: function (response) {
           $('#studentEditModal').modal('hide');
           $('#updateStudent')[0].reset();
           $('#updateTheatre').show();
@@ -482,7 +495,7 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('click', '.deleteMovieBtn', function(e) {
+    $(document).on('click', '.deleteMovieBtn', function (e) {
       e.preventDefault();
 
       if (confirm('Are you sure you want to delete this data?')) {
@@ -494,7 +507,7 @@ include '../db_conn.php';
             'delete_thtr': true,
             'thtr_id': thtr_id
           },
-          success: function(response) {
+          success: function (response) {
             $('#delTheatre').show();
             $('#myTable').load(location.href + " #myTable");
           }

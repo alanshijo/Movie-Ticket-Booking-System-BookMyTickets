@@ -196,16 +196,15 @@ include '../db_conn.php';
                         <tr>
                           <th>Sl.No.</th>
                           <th>Name</th>
+                          <th>Email</th>
                           <th>Place</th>
-                          <th>Price per ticket</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
                         require '../db_conn.php';
-
-                        $query = "SELECT * FROM tbl_theatres WHERE del_status ='0'";
+                        $query = "SELECT a.*,b.* FROM tbl_theatres as a INNER JOIN tbl_login as b ON a.login_id = b.login_id and del_status='0'";
                         $query_run = mysqli_query($conn, $query);
                         $i = 1;
                         while ($thtr = mysqli_fetch_array($query_run)) {
@@ -219,10 +218,10 @@ include '../db_conn.php';
                               <?= $thtr['thtr_name'] ?>
                             </td>
                             <td>
-                              <?= $thtr['thtr_place'] ?>
+                            <?= $thtr['email'] ?>
                             </td>
                             <td>
-                              <?= $thtr['ticket_price'] ?>
+                              <?= $thtr['thtr_place'] ?>
                             </td>
                             <td>
                               <button type="button" value="<?php echo $thtr['thtr_id']; ?>" class="editMovieBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
@@ -280,19 +279,19 @@ include '../db_conn.php';
               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
-            <form id="saveStudent">
+            <form id="save_theatre">
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
-                  <input type="text" name="name" class="form-control" placeholder="Enter the theatre name here" />
+                  <input type="text" name="name" class="form-control" placeholder="Enter the theatre name here" required/>
+                </div>
+                <div class="mb-3">
+                  <label for="">Email</label>
+                  <input type="text" name="email" class="form-control" placeholder="Enter the email address of the theatre here" required/>
                 </div>
                 <div class="mb-3">
                   <label for="">Place</label>
-                  <input type="text" name="location" class="form-control" placeholder="Enter the location of the theatre here" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Ticket price</label>
-                  <input type="number" name="price" class="form-control" placeholder="Enter the cost per ticket here" />
+                  <input type="text" name="location" class="form-control" placeholder="Enter the location of the theatre here" required/>
                 </div>
               </div>
               <div class="modal-footer">
@@ -321,12 +320,12 @@ include '../db_conn.php';
                   <input type="text" name="name" id="name" class="form-control" placeholder="Enter the theatre name here" />
                 </div>
                 <div class="mb-3">
+                <div class="mb-3">
+                  <label for="">Email</label>
+                  <input type="text" name="email" id="email" class="form-control" placeholder="Enter the email address of the theatre here" required/>
+                </div>
                   <label for="">Place</label>
                   <input type="text" name="location" id="location" class="form-control" placeholder="Enter the location of the theatre here" />
-                </div>
-                <div class="mb-3">
-                  <label for="">Ticket price</label>
-                  <input type="number" name="price" id="price" class="form-control" placeholder="Enter the cost per ticket here" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -410,11 +409,11 @@ include '../db_conn.php';
 
     });
 
-    $(document).on('submit', '#saveStudent', function(e) {
+    $(document).on('submit', '#save_theatre', function(e) {
       e.preventDefault();
 
       var formData = new FormData(this);
-      formData.append("save_thtr", true);
+      formData.append("savethtr", true);
 
       $.ajax({
         type: "POST",
@@ -450,8 +449,8 @@ include '../db_conn.php';
             $('#thtr_id').val(res.data.thtr_id);
             // $('#poster').val(res.data.movie_poster);
             $('#name').val(res.data.thtr_name);
+            $('#email').val(res.data.email);
             $('#location').val(res.data.thtr_place);
-            $('#price').val(res.data.ticket_price);
 
             $('#studentEditModal').modal('show');
           }

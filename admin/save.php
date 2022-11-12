@@ -2,6 +2,10 @@
 session_start();
 include '../db_conn.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require '../vendor/autoload.php';
 if (isset($_GET['actid'])) {
     $id = $_GET['actid'];
     $act = "UPDATE `tbl_users` SET `user_status`='active' WHERE `user_id`='$id'";
@@ -66,18 +70,62 @@ if (isset($_POST['delete_movie'])) {
     $query_run = mysqli_query($conn, $query);
 }
 
-if (isset($_POST['save_thtr'])) {
+if (isset($_POST['savethtr'])) {
     $name = mysqli_escape_string($conn, $_POST['name']);
     $loc = mysqli_escape_string($conn, $_POST['location']);
-    $price = mysqli_escape_string($conn, $_POST['price']);
-    $add_query = "INSERT INTO `tbl_theatres`(`thtr_name`, `thtr_place`, `ticket_price`) VALUES ('$name','$loc','$price')";
-    $add_query_run = mysqli_query($conn, $add_query);
+    $thtr_email = mysqli_escape_string($conn, $_POST['email']);
+    $check_user = "SELECT * FROM `tbl_login` WHERE `email` = '$thtr_email'";
+    $check_user_run = mysqli_query($conn, $check_user);
+    $check_user_rslt = mysqli_num_rows($check_user_run);
+    if ($check_user_rslt == 0) {
+        $pass = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
+        $gen_pass = substr(str_shuffle($pass), 0, 8);
+        $type_check = "SELECT `type_id` FROM `tbl_usertype` WHERE `type_title` = 'theatre'";
+        $type_check_rslt = mysqli_query($conn, $type_check);
+        while ($type = mysqli_fetch_array($type_check_rslt)) {
+            $thtrid = $type['type_id'];
+            $insertlogin = "INSERT INTO `tbl_login`(`email`, `password`,`type_id`) VALUES ('$thtr_email','$gen_pass','$thtrid')";
+            $insertlogin_run = mysqli_query($conn, $insertlogin);
+            $last_id = mysqli_insert_id($conn);
+            if ($insertlogin_run) {
+                $inserttheatre = "INSERT INTO `tbl_theatres`(`login_id`, `thtr_name`, `thtr_place`) VALUES ('$last_id','$name','$loc')";
+                $inserttheatre_run = mysqli_query($conn, $inserttheatre);
+                if ($inserttheatre_run) {
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP(); //Send using SMTP
+                    $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
+                    $mail->SMTPAuth = true; //Enable SMTP authentication
+                    $mail->Username = 'alanshijo2023a@mca.ajce.in'; //SMTP username
+                    $mail->Password = 'Alan@ajce'; //SMTP password
+                    $mail->SMTPSecure = 'ssl'; //Enable implicit TLS encryption
+                    $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                    //Recipients
+                    $mail->setFrom('alanshijo2023a@mca.ajce.in', 'BookMyTickets');
+                    $mail->addAddress($thtr_email); //Add a recipient
+                    //Content
+                    $mail->isHTML(true); //Set email format to HTML
+                    $mail->Subject = 'BookMyTickets - Theatre account';
+                    $body = "<strong><u>Login details</u></strong><br><br>
+                            Username/email: $thtr_email<br>
+                            Password: $gen_pass";
+                    $mail->Body = $body;
+                    $mail->AltBody = strip_tags($body);
+                    $mail->send();
+                }
+            }
+        }
+
+    } else {
+
+    }
+
 }
 
 if (isset($_GET['thtr_id'])) {
     $thtr_id = mysqli_real_escape_string($conn, $_GET['thtr_id']);
-
-    $query = "SELECT * FROM `tbl_theatres` WHERE `thtr_id` = '$thtr_id'";
+    $query = "SELECT a.*,b.* FROM tbl_theatres as a INNER JOIN tbl_login as b ON a.login_id = b.login_id and `thtr_id` = '$thtr_id'";
+    // $query = "SELECT * FROM `tbl_theatres` WHERE `thtr_id` = '$thtr_id'";
     $query_run = mysqli_query($conn, $query);
 
 
@@ -95,12 +143,11 @@ if (isset($_GET['thtr_id'])) {
 
 if (isset($_POST['update_thtr'])) {
     $thtr_id = mysqli_real_escape_string($conn, $_POST['thtr_id']);
-
+    
+    $thtr_email = mysqli_escape_string($conn, $_POST['email']);
     $name = mysqli_escape_string($conn, $_POST['name']);
     $loc = mysqli_escape_string($conn, $_POST['location']);
-    $price = mysqli_escape_string($conn, $_POST['price']);
-
-    $query = "UPDATE `tbl_theatres` SET `thtr_name`='$name',`thtr_place`='$loc',`ticket_price`='$price' WHERE `thtr_id` = '$thtr_id'";
+    $query = "UPDATE tbl_theatres a JOIN tbl_login b ON a.login_id = b.login_id and a.thtr_id = '$thtr_id' SET a.thtr_name = '$name', a.thtr_place = '$loc', b.email = '$thtr_email'";
     $query_run = mysqli_query($conn, $query);
 }
 
@@ -159,15 +206,15 @@ if (isset($_POST['assign_movie'])) {
     $movies_id = $_POST['movies'];
     $shows_id = $_POST['shows'];
 
-    foreach($movies_id as $movie_id){
+    foreach ($movies_id as $movie_id) {
         $query = "INSERT INTO `tbl_theatremovies`(`thtr_id`, `movie_id`) VALUES ('$thtr_id','$movie_id')";
-        $query_run = mysqli_query($conn,$query);
+        $query_run = mysqli_query($conn, $query);
 
-        if($query_run){
+        if ($query_run) {
             $last_id = mysqli_insert_id($conn);
-            foreach($shows_id as $show_id){
+            foreach ($shows_id as $show_id) {
                 $query = "INSERT INTO `tbl_theatreshows`(`show_id`, `tm_id`) VALUES ('$show_id','$last_id')";
-                $query_run = mysqli_query($conn,$query);
+                $query_run = mysqli_query($conn, $query);
             }
         }
     }

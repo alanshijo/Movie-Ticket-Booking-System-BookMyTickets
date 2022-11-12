@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2022 at 07:44 AM
+-- Generation Time: Nov 12, 2022 at 05:40 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -40,12 +40,16 @@ CREATE TABLE `tbl_login` (
 --
 
 INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`) VALUES
-(1, 'admin@admin.com', 'qwerty', '0', 1),
-(4, 'alanshijoatkl@gmail.com', 'Alan@1234', '0', 2),
-(8, 'alexreji777@gmail.com', '1234', '0', 2),
+(1, 'admin@admin.com', 'qwerty', '', 1),
+(4, 'alanshijoatkl@gmail.com', 'Alan@1234', '', 2),
+(8, 'alexreji777@gmail.com', '1234', '', 2),
 (16, 'georgebenny456@gmail.com', 'George@1234', '', 2),
 (18, 'niceshijo52@gmail.com', 'Nice@1234', '', 2),
-(19, 'shijoatkl@gmail.com', 'Shijo@1234', '', 2);
+(19, 'shijoatkl@gmail.com', 'Shijo@1234', '', 2),
+(21, 'puthettu@gmail.in', 'Djxq6aiZ', '', 4),
+(22, 'mhrni@gmail.com', 'EgfaINnv', '', 4),
+(23, 'universal@gmail.com', 'fUkpxeoN', '', 4),
+(24, 'surya@gmail.com', 'tyPmDlMq', '', 4);
 
 -- --------------------------------------------------------
 
@@ -125,9 +129,9 @@ INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`) VALUES
 
 CREATE TABLE `tbl_theatres` (
   `thtr_id` int(11) NOT NULL,
+  `login_id` int(11) NOT NULL,
   `thtr_name` varchar(255) NOT NULL,
   `thtr_place` varchar(255) NOT NULL,
-  `ticket_price` int(11) NOT NULL,
   `del_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -135,12 +139,11 @@ CREATE TABLE `tbl_theatres` (
 -- Dumping data for table `tbl_theatres`
 --
 
-INSERT INTO `tbl_theatres` (`thtr_id`, `thtr_name`, `thtr_place`, `ticket_price`, `del_status`) VALUES
-(11, 'Maharani', 'Palai', 100, 0),
-(12, 'Universal', 'Palai', 130, 0),
-(13, 'Surya', 'Erattupetta', 150, 0),
-(14, '', '', 0, 1),
-(15, 'ashirvd', 'thodupuzha', 200, 0);
+INSERT INTO `tbl_theatres` (`thtr_id`, `login_id`, `thtr_name`, `thtr_place`, `del_status`) VALUES
+(18, 21, 'puthet', 'Pala', 0),
+(19, 22, 'Maharani', 'Palai', 0),
+(20, 23, 'Universal', 'Palai', 0),
+(21, 24, 'surya', 'eratupeta', 1);
 
 -- --------------------------------------------------------
 
@@ -185,8 +188,8 @@ CREATE TABLE `tbl_users` (
 INSERT INTO `tbl_users` (`user_id`, `pro_pic`, `user_fname`, `user_lname`, `user_phno`, `user_status`, `login_id`) VALUES
 (1, '0', 'admin', 'admin', '9999999999', 'active', 1),
 (2, 'project-3.jpg', 'alan', 'shijo', '8281187831', 'active', 4),
-(6, '0', 'Alex', 'Reji', '7415236980', 'deactive', 8),
-(14, '0', 'George', 'Benny', '6238681837', 'deactive', 16),
+(6, '0', 'Alex', 'Reji', '7415236980', 'active', 8),
+(14, '0', 'George', 'Benny', '6238681837', 'active', 16),
 (16, '0', 'Nice', 'Shijo', '9446895431', 'active', 18),
 (17, '0', 'Shijo', 'Joseph', '9946351543', 'active', 19);
 
@@ -207,7 +210,8 @@ CREATE TABLE `tbl_usertype` (
 
 INSERT INTO `tbl_usertype` (`type_id`, `type_title`) VALUES
 (1, 'admin'),
-(2, 'user');
+(2, 'user'),
+(4, 'theatre');
 
 --
 -- Indexes for dumped tables
@@ -269,7 +273,7 @@ ALTER TABLE `tbl_usertype`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_movies`
@@ -293,7 +297,7 @@ ALTER TABLE `tbl_theatremovies`
 -- AUTO_INCREMENT for table `tbl_theatres`
 --
 ALTER TABLE `tbl_theatres`
-  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatreshows`
@@ -311,7 +315,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_usertype`
 --
 ALTER TABLE `tbl_usertype`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

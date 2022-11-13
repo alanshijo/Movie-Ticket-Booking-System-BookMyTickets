@@ -281,6 +281,20 @@ include '../db_conn.php';
                     <option value="Kannada">Kannada</option>
                   </select>
                 </div>
+                <!-- <div class="mb-3">
+                  <label for="">Genres</label>
+                  <select name="genre[]" class="genre-select form-control" required multiple>
+                  <?php
+                  $genres = "SELECT * FROM `tbl_genres` ORDER BY `genre_title`";
+                  $genres_run = mysqli_query($conn, $genres);
+                  foreach ($genres_run as $genre){
+                  ?>
+                        <option value="<?php echo $genre['genre_id']; ?>"><?php echo $genre['genre_title']; ?></option>
+                        <?php
+                  }
+                  ?>
+                  </select>
+                </div> -->
                 <div class="mb-3">
                   <label for="">Certificate</label>
                   <select name="certificate" class="form-control" required>
@@ -402,6 +416,9 @@ include '../db_conn.php';
   <!-- Main JS-->
   <script src="js/main.js"></script>
   <script>
+        $(".genre-select").select2({
+            placeholder: 'Select genres'
+        });
     $(document).on('submit', '#saveStudent', function (e) {
       e.preventDefault();
 

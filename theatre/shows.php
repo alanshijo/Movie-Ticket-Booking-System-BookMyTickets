@@ -1,5 +1,5 @@
 <?php
-include 'admin-session.php';
+include 'thtr-session.php';
 include '../db_conn.php';
 ?>
 <!DOCTYPE html>
@@ -90,25 +90,9 @@ include '../db_conn.php';
                             <a class="js-arrow" href="index.php">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="users.php">
-                                <i class="fas fa-users"></i>Users</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="movies.php">
-                                <i class="fas fa-film"></i>Movies</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="theatres.php">
-                                <i class="fa fa-building"></i>Theatres</a>
-                        </li>
                         <li class="active has-sub">
                             <a class="js-arrow" href="shows.php">
                                 <i class="fa fa-clock"></i>Shows</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="assignmovies.php">
-                                <i class="fa fa-check-circle"></i>Assign movies</a>
                         </li>
                     </ul>
                 </nav>
@@ -127,7 +111,14 @@ include '../db_conn.php';
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="content" style="margin-left: 1050px;">
-                                            <a class="js-acc-btn" href="#">ADMIN</a>
+                                            <?php
+                                                $thtrname = "SELECT a.*, b.* FROM `tbl_login` a INNER JOIN `tbl_theatres` b ON a.login_id=b.login_id and a.email='$username'";
+                                                $thtrname_run = mysqli_query($conn, $thtrname);
+                                                foreach ($thtrname_run as $name)
+                                                ?>
+                                            <a class="js-acc-btn" href="#">
+                                                <?php echo $name['thtr_name']; ?>
+                                            </a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="account-dropdown__footer">
@@ -174,7 +165,8 @@ include '../db_conn.php';
                                     <div class="card-header">
                                         <h4>Shows
 
-                                            <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal" data-bs-target="#studentAddModal">
+                                            <button type="button" class="btn btn-success" style="float: right;"
+                                                data-bs-toggle="modal" data-bs-target="#studentAddModal">
                                                 <i class="fa fa-plus"></i>&nbsp; Add show
                                             </button>
                                         </h4>
@@ -185,7 +177,6 @@ include '../db_conn.php';
                                             <thead>
                                                 <tr>
                                                     <th>Sl.No.</th>
-                                                    <th>Show name</th>
                                                     <th>Show time</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -200,15 +191,22 @@ include '../db_conn.php';
                                                 while ($show = mysqli_fetch_array($query_run)) {
                                                     $ftime = date('g:i A', strtotime($show['show_time']));
                                                 ?>
-                                                    <tr>
-                                                        <td><?php echo $i; ?></td>
-                                                        <td><?= $show['show_name'] ?></td>
-                                                        <td><?= $ftime ?></td>
-                                                        <td>
-                                                            <button type="button" value="<?php echo $show['show_id']; ?>" class="editShowBtn fa fa-edit" style="color: #0056b3;"></button> &nbsp;
-                                                            <button type="button" value="<?php echo $show['show_id']; ?>" class="deleteShowBtn fa fa-trash" style="color: #0056b3;"></button>
-                                                        </td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $i; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $ftime ?>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" value="<?php echo $show['show_id']; ?>"
+                                                            class="editShowBtn fa fa-edit"
+                                                            style="color: #0056b3;"></button> &nbsp;
+                                                        <button type="button" value="<?php echo $show['show_id']; ?>"
+                                                            class="deleteShowBtn fa fa-trash"
+                                                            style="color: #0056b3;"></button>
+                                                    </td>
+                                                </tr>
                                                 <?php
                                                     $i++;
                                                 }
@@ -226,23 +224,22 @@ include '../db_conn.php';
             </div>
             <!-- MAIN CONTENT-->
             <!-- Add Theatre -->
-            <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Enter show details</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
 
                         </div>
                         <form id="saveStudent">
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="">Show name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter show name here" required/>
-                                </div>
-                                <div class="mb-3">
                                     <label for="">Time</label>
-                                    <input type="time" name="time" class="form-control" placeholder="Enter time" required/>
+                                    <input type="time" name="time" class="form-control" placeholder="Enter time"
+                                        required />
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -253,7 +250,8 @@ include '../db_conn.php';
                 </div>
             </div>
             <!-- Edit Theatre Modal -->
-            <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="studentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -267,12 +265,9 @@ include '../db_conn.php';
 
                                 <input type="hidden" name="show_id" id="show_id">
                                 <div class="mb-3">
-                                    <label for="">Show name</label>
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter the show name here" required/>
-                                </div>
-                                <div class="mb-3">
                                     <label for="">Time</label>
-                                    <input type="time" name="time" id="time" class="form-control" placeholder="Enter the time" required/>
+                                    <input type="time" name="time" id="time" class="form-control"
+                                        placeholder="Enter the time" required />
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -315,7 +310,7 @@ include '../db_conn.php';
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script>
-        $(document).on('submit', '#saveStudent', function(e) {
+        $(document).on('submit', '#saveStudent', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
@@ -327,7 +322,7 @@ include '../db_conn.php';
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                     $('#addShow').show();
                     $('#studentAddModal').modal('hide');
                     $('#saveStudent')[0].reset();
@@ -337,19 +332,18 @@ include '../db_conn.php';
 
         });
 
-        $(document).on('click', '.editShowBtn', function() {
+        $(document).on('click', '.editShowBtn', function () {
 
             var show_id = $(this).val();
 
             $.ajax({
                 type: "GET",
                 url: "save.php?show_id=" + show_id,
-                success: function(response) {
+                success: function (response) {
                     var res = jQuery.parseJSON(response);
                     if (res.status == 200) {
 
                         $('#show_id').val(res.data.show_id);
-                        $('#name').val(res.data.show_name);
                         $('#time').val(res.data.show_time);
 
                         $('#studentEditModal').modal('show');
@@ -359,7 +353,7 @@ include '../db_conn.php';
 
         });
 
-        $(document).on('submit', '#updateStudent', function(e) {
+        $(document).on('submit', '#updateStudent', function (e) {
             e.preventDefault();
 
             var formData = new FormData(this);
@@ -371,7 +365,7 @@ include '../db_conn.php';
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                     $('#studentEditModal').modal('hide');
                     $('#updateStudent')[0].reset();
                     $('#updateShow').show();
@@ -382,7 +376,7 @@ include '../db_conn.php';
 
         });
 
-        $(document).on('click', '.deleteShowBtn', function(e) {
+        $(document).on('click', '.deleteShowBtn', function (e) {
             e.preventDefault();
 
             if (confirm('Are you sure you want to delete this data?')) {
@@ -394,7 +388,7 @@ include '../db_conn.php';
                         'delete_show': true,
                         'show_id': show_id
                     },
-                    success: function(response) {
+                    success: function (response) {
                         $('#delShow').show();
                         $('#myTable').load(location.href + " #myTable");
                     }

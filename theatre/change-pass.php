@@ -80,7 +80,7 @@ if (isset($_POST['change-pass'])) {
             <a class="logo" href="index.html">
               <img src="images/icon/main-logo-black.png" alt="BookMyTickets" />
             </a>
-            <button class="hamburger hamburger--slider" type="button">  
+            <button class="hamburger hamburger--slider" type="button">
               <span class="hamburger-box">
                 <span class="hamburger-inner"></span>
               </span>
@@ -109,7 +109,7 @@ if (isset($_POST['change-pass'])) {
     <aside class="menu-sidebar d-none d-lg-block">
       <div class="logo">
         <a href="index.php">
-        <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">
+          <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">
         </a>
         <!-- <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">&ensp; -->
       </div>
@@ -119,6 +119,10 @@ if (isset($_POST['change-pass'])) {
             <li class="has-sub">
               <a class="js-arrow" href="index.php">
                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+            </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="shows.php">
+                <i class="fa fa-clock"></i>Shows</a>
             </li>
           </ul>
         </nav>
@@ -136,7 +140,7 @@ if (isset($_POST['change-pass'])) {
               <div class="header-button">
                 <div class="account-wrap">
                   <div class="account-item clearfix js-item-menu">
-                  <div class="content" style="margin-left: 1050px;">
+                    <div class="content" style="margin-left: 1050px;">
                       <?php
                     $thtrname = "SELECT a.*, b.* FROM `tbl_login` a INNER JOIN `tbl_theatres` b ON a.login_id=b.login_id and a.email='$username'";
                     $thtrname_run = mysqli_query($conn, $thtrname);
@@ -147,7 +151,7 @@ if (isset($_POST['change-pass'])) {
                       </a>
                     </div>
                     <div class="account-dropdown js-dropdown">
-                    <div class="account-dropdown__footer">
+                      <div class="account-dropdown__footer">
                         <a href="change-pass.php">
                           <i class="fas fa-lock"></i>Change password</a>
                       </div>
@@ -167,41 +171,45 @@ if (isset($_POST['change-pass'])) {
       <div class="main-content">
         <div class="section__content section__content--p30">
           <div class="container-fluid">
-          <div class="card">
-                <div class="card-header">
-                    <strong>Change password</strong>
-                </div>
-                <div class="card-body card-block">
-                    <form action="" method="POST" class="" onsubmit="return validateForm()">
-                        <div class="form-group">
-                            <label for="nf-password" class=" form-control-label">Old Password</label>
-                            <input type="password" id="nf-password" name="current" placeholder="Enter your current password here" class="form-control">
-                            <span class="help-block"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="nf-password" class=" form-control-label">New Password</label>
-                            <input type="password" id="newPassword" name="new" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your new password here" class="form-control">
-                            <span class="help-block"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="nf-password" class=" form-control-label">Confirm Password</label>
-                            <input type="password" id="renewPassword" name="renewPassword" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your new password here again" class="form-control">
-                            <span style="color: red;" id="msg1"></span>
-                        </div>
-                    
-                </div>
-                <div class="card-footer">
-                    <button type="submit" name="change-pass" class="btn btn-primary btn-sm">
-                        <i class="fa fa-key"></i> Submit
-                    </button>
-                </div>
-                </form> 
+            <div class="card">
+              <div class="card-header">
+                <strong>Change password</strong>
+              </div>
+              <div class="card-body card-block">
+                <form action="" method="POST" class="" onsubmit="return validateForm()">
+                  <div class="form-group">
+                    <label for="nf-password" class=" form-control-label">Old Password</label>
+                    <input type="password" id="nf-password" name="current"
+                      placeholder="Enter your current password here" class="form-control">
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="nf-password" class=" form-control-label">New Password</label>
+                    <input type="password" id="newPassword" name="new" onblur="return validateForm()"
+                      onKeyUp="return validateForm()" placeholder="Enter your new password here" class="form-control">
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="nf-password" class=" form-control-label">Confirm Password</label>
+                    <input type="password" id="renewPassword" name="renewPassword" onblur="return validateForm()"
+                      onKeyUp="return validateForm()" placeholder="Enter your new password here again"
+                      class="form-control">
+                    <span style="color: red;" id="msg1"></span>
+                  </div>
+
+              </div>
+              <div class="card-footer">
+                <button type="submit" name="change-pass" class="btn btn-primary btn-sm">
+                  <i class="fa fa-key"></i> Submit
+                </button>
+              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
       <!-- MAIN CONTENT-->
-    
+
       <!-- END MAIN CONTENT-->
       <!-- END PAGE CONTAINER-->
     </div>

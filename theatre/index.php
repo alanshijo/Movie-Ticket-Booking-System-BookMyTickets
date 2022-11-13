@@ -151,30 +151,6 @@ include 'thtr-session.php';
             </div>
             <div class="row m-t-25">
               <div class="col-sm-6 col-lg-3">
-                <div class="overview-item overview-item--c1">
-                  <div class="overview__inner">
-                    <div class="overview-box clearfix">
-                      <div class="icon">
-                        <i class="zmdi zmdi-account-o"></i>
-                      </div>
-                      <?php
-                      $users = "SELECT count(*) as count FROM tbl_login WHERE type_id = '2'";
-                      $users_run = mysqli_query($conn, $users);
-                      foreach ($users_run as $count)
-                      ?>
-                      <div class="text">
-                        <h2>
-                          <?php echo $count['count']; ?>
-                        </h2>
-                        <span>Users</span>
-                      </div>
-                    </div>
-                    <div class="overview-chart">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
                 <div class="overview-item overview-item--c2">
                   <div class="overview__inner">
                     <div class="overview-box clearfix">
@@ -191,30 +167,6 @@ include 'thtr-session.php';
                           <?php echo $count['count']; ?>
                         </h2>
                         <span>Movies</span>
-                      </div>
-                    </div>
-                    <div class="overview-chart">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="overview-item overview-item--c3">
-                  <div class="overview__inner">
-                    <div class="overview-box clearfix">
-                      <div class="icon">
-                        <i class="fas fa-video-camera"></i>
-                      </div>
-                      <?php
-                      $thtrs = "SELECT count(*) as count FROM tbl_theatres WHERE del_status='0'";
-                      $thtrs_run = mysqli_query($conn, $thtrs);
-                      foreach ($thtrs_run as $count)
-                      ?>
-                      <div class="text">
-                        <h2>
-                          <?php echo $count['count']; ?>
-                        </h2>
-                        <span>Theatres</span>
                       </div>
                     </div>
                     <div class="overview-chart">

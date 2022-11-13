@@ -156,8 +156,6 @@ include '../db_conn.php';
                                     $select_thtr_run = mysqli_query($conn, $select_thtr);
                                     $select_movies = "SELECT * FROM `tbl_movies` WHERE `del_status` = '0'";
                                     $select_movies_run = mysqli_query($conn, $select_movies);
-                                    $select_shows = "SELECT * FROM `tbl_shows` WHERE `del_status` = '0'";
-                                    $select_shows_run = mysqli_query($conn, $select_shows);
                                     ?>
                                     <form id="saveStudent">
                                         <div class="modal-body">
@@ -181,18 +179,6 @@ include '../db_conn.php';
                                                     foreach ($select_movies_run as $sel_movie) {
                                                     ?>
                                                         <option value="<?php echo $sel_movie['movie_id'] ?>">&emsp;<?php echo $sel_movie['movie_name'] ?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="">Shows:</label>
-                                                <select name="shows[]" class="multi-select-show form-control" multiple>
-                                                    <?php
-                                                    foreach ($select_shows_run as $sel_show) {
-                                                    ?>
-                                                        <option value="<?php echo $sel_show['show_id'] ?>">&emsp;<?php echo $sel_show['show_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>

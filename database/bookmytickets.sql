@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2022 at 04:28 PM
+-- Generation Time: Nov 13, 2022 at 07:05 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Database: `bookmytickets`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_genres`
+--
+
+CREATE TABLE `tbl_genres` (
+  `genre_id` int(11) NOT NULL,
+  `genre_title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_genres`
+--
+
+INSERT INTO `tbl_genres` (`genre_id`, `genre_title`) VALUES
+(1, 'Adventure'),
+(2, 'Animation'),
+(3, 'Drama'),
+(4, 'Thriller'),
+(5, 'Documentary '),
+(6, 'History'),
+(7, 'Comedy'),
+(8, 'Action'),
+(9, 'Fantasy'),
+(10, 'Sci-Fi'),
+(11, 'Romance'),
+(12, 'Horror'),
+(13, 'Western'),
+(14, 'Mystery');
 
 -- --------------------------------------------------------
 
@@ -49,8 +80,19 @@ INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`)
 (21, 'puthettu@gmail.in', 'Djxq6aiZ', '', 4),
 (22, 'mhrni@gmail.com', 'EgfaINnv', '', 4),
 (23, 'universal@gmail.com', 'fUkpxeoN', '', 4),
-(48, 'as@gm.com', 'NQ8Wtacr', '', 4),
+(48, 'as@gm.com', 'Aashirvad@1', '', 4),
 (51, 'jose@mail.com', 'v8ofI7SL', '', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_moviegenres`
+--
+
+CREATE TABLE `tbl_moviegenres` (
+  `genre_id` int(11) NOT NULL,
+  `movie_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -74,11 +116,7 @@ CREATE TABLE `tbl_movies` (
 --
 
 INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`, `movie_certificate`, `movie_runtime`, `movie_releasedate`, `del_status`) VALUES
-(32, 'cover.jpg', 'Transformer', 'English', 'U/A', '2hr 10min', '2022-11-30', 0),
-(33, 'cover2.jpg', 'Renevant', 'English', 'U/A', '3hr 1min', '2022-11-21', 0),
-(34, 'cover4.jpg', 'Inception', 'English', 'U', '2hr 30min', '2022-11-15', 0),
-(35, 'cover6.jpg', 'Orphan', 'English', 'A', '1hr 22min', '2022-11-25', 0),
-(36, 'project-1.jpg', 'avatar', 'English', 'U', '2hr 5min', '2022-11-22', 0);
+(37, 'godfthr.jpg', 'Godfather', 'English', 'A', '1hr 40min', '2022-11-02', 0);
 
 -- --------------------------------------------------------
 
@@ -88,7 +126,7 @@ INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`
 
 CREATE TABLE `tbl_shows` (
   `show_id` int(11) NOT NULL,
-  `show_name` varchar(255) NOT NULL,
+  `thtr_id` int(11) NOT NULL,
   `show_time` time NOT NULL,
   `del_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -97,10 +135,8 @@ CREATE TABLE `tbl_shows` (
 -- Dumping data for table `tbl_shows`
 --
 
-INSERT INTO `tbl_shows` (`show_id`, `show_name`, `show_time`, `del_status`) VALUES
-(1, 'noon', '13:00:00', 1),
-(2, 'morning', '11:00:00', 0),
-(3, 'noon', '14:00:00', 0);
+INSERT INTO `tbl_shows` (`show_id`, `thtr_id`, `show_time`, `del_status`) VALUES
+(6, 45, '11:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -113,14 +149,6 @@ CREATE TABLE `tbl_theatremovies` (
   `thtr_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_theatremovies`
---
-
-INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`) VALUES
-(43, 11, 32),
-(44, 11, 34);
 
 -- --------------------------------------------------------
 
@@ -220,6 +248,12 @@ INSERT INTO `tbl_usertype` (`type_id`, `type_title`) VALUES
 --
 
 --
+-- Indexes for table `tbl_genres`
+--
+ALTER TABLE `tbl_genres`
+  ADD PRIMARY KEY (`genre_id`);
+
+--
 -- Indexes for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -272,6 +306,12 @@ ALTER TABLE `tbl_usertype`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_genres`
+--
+ALTER TABLE `tbl_genres`
+  MODIFY `genre_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
@@ -281,13 +321,13 @@ ALTER TABLE `tbl_login`
 -- AUTO_INCREMENT for table `tbl_movies`
 --
 ALTER TABLE `tbl_movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tbl_shows`
 --
 ALTER TABLE `tbl_shows`
-  MODIFY `show_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `show_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatremovies`

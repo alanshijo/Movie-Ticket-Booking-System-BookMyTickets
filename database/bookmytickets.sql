@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2022 at 05:40 PM
+-- Generation Time: Nov 13, 2022 at 04:28 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -49,7 +49,8 @@ INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`)
 (21, 'puthettu@gmail.in', 'Djxq6aiZ', '', 4),
 (22, 'mhrni@gmail.com', 'EgfaINnv', '', 4),
 (23, 'universal@gmail.com', 'fUkpxeoN', '', 4),
-(24, 'surya@gmail.com', 'tyPmDlMq', '', 4);
+(48, 'as@gm.com', 'NQ8Wtacr', '', 4),
+(51, 'jose@mail.com', 'v8ofI7SL', '', 4);
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,8 @@ INSERT INTO `tbl_theatres` (`thtr_id`, `login_id`, `thtr_name`, `thtr_place`, `d
 (18, 21, 'puthet', 'Pala', 0),
 (19, 22, 'Maharani', 'Palai', 0),
 (20, 23, 'Universal', 'Palai', 0),
-(21, 24, 'surya', 'eratupeta', 1);
+(45, 48, 'ashirvd', 'thdpzha', 0),
+(48, 51, 'jose', 'palai', 0);
 
 -- --------------------------------------------------------
 
@@ -186,12 +188,12 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`user_id`, `pro_pic`, `user_fname`, `user_lname`, `user_phno`, `user_status`, `login_id`) VALUES
-(1, '0', 'admin', 'admin', '9999999999', 'active', 1),
 (2, 'project-3.jpg', 'alan', 'shijo', '8281187831', 'active', 4),
 (6, '0', 'Alex', 'Reji', '7415236980', 'active', 8),
 (14, '0', 'George', 'Benny', '6238681837', 'active', 16),
 (16, '0', 'Nice', 'Shijo', '9446895431', 'active', 18),
-(17, '0', 'Shijo', 'Joseph', '9946351543', 'active', 19);
+(17, '0', 'Shijo', 'Joseph', '9946351543', 'active', 19),
+(19, '', 'admin', 'admin', '', 'active', 1);
 
 -- --------------------------------------------------------
 
@@ -273,7 +275,7 @@ ALTER TABLE `tbl_usertype`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `tbl_movies`
@@ -297,7 +299,7 @@ ALTER TABLE `tbl_theatremovies`
 -- AUTO_INCREMENT for table `tbl_theatres`
 --
 ALTER TABLE `tbl_theatres`
-  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatreshows`
@@ -309,7 +311,7 @@ ALTER TABLE `tbl_theatreshows`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_usertype`

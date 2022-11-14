@@ -166,23 +166,16 @@ if (isset($_POST['delete_thtr'])) {
     $query_run = mysqli_query($conn, $query);
 }
 
-if (isset($_POST['assign_movie'])) {
-    $thtr_id = mysqli_escape_string($conn, $_POST['thtr']);
-    $movies_id = $_POST['movies'];
-    $shows_id = $_POST['shows'];
+if (isset($_GET['app_id'])) {
+    $req_id = mysqli_escape_string($conn, $_GET['app_id']);
+    $query = "UPDATE `tbl_theatremovies` SET `req_status`='approved' WHERE `tm_id` = $req_id";
+    $query_run = mysqli_query($conn, $query);
+}
 
-    foreach ($movies_id as $movie_id) {
-        $query = "INSERT INTO `tbl_theatremovies`(`thtr_id`, `movie_id`) VALUES ('$thtr_id','$movie_id')";
-        $query_run = mysqli_query($conn, $query);
-
-        if ($query_run) {
-            $last_id = mysqli_insert_id($conn);
-            foreach ($shows_id as $show_id) {
-                $query = "INSERT INTO `tbl_theatreshows`(`show_id`, `tm_id`) VALUES ('$show_id','$last_id')";
-                $query_run = mysqli_query($conn, $query);
-            }
-        }
-    }
+if (isset($_GET['rejct_id'])) {
+    $req_id = mysqli_escape_string($conn, $_GET['rejct_id']);
+    $query = "UPDATE `tbl_theatremovies` SET `req_status`='rejected' WHERE `tm_id` = $req_id";
+    $query_run = mysqli_query($conn, $query);
 }
 
 if (isset($_POST['save_csv'])) {

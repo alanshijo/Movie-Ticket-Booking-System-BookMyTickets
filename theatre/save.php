@@ -5,10 +5,10 @@ if (isset($_POST['save_show'])) {
     $time = mysqli_escape_string($conn, $_POST['time']);
     $thtr_id = "SELECT a.*, b.* FROM `tbl_login` a INNER JOIN `tbl_theatres` b ON a.login_id=b.login_id and a.email = '$username'";
     $thtr_id_run = mysqli_query($conn, $thtr_id);
-    while($thtr = mysqli_fetch_array($thtr_id_run)){
-    $thtrid = $thtr['thtr_id'];
-    $add_query = "INSERT INTO `tbl_shows`(`thtr_id`, `show_time`) VALUES ('$thtrid','$time')";
-    $add_query_run = mysqli_query($conn, $add_query);
+    while ($thtr = mysqli_fetch_array($thtr_id_run)) {
+        $thtrid = $thtr['thtr_id'];
+        $add_query = "INSERT INTO `tbl_shows`(`thtr_id`, `show_time`) VALUES ('$thtrid','$time')";
+        $add_query_run = mysqli_query($conn, $add_query);
     }
 }
 if (isset($_GET['show_id'])) {
@@ -44,5 +44,18 @@ if (isset($_POST['delete_show'])) {
 
     $query = "UPDATE `tbl_shows` SET `del_status`='1' WHERE `show_id` = '$show_id'";
     $query_run = mysqli_query($conn, $query);
+}
+
+if (isset($_POST['submit_request'])) {
+    $movies_id = $_POST['movies'];
+    $thtr_id = "SELECT a.*, b.* FROM `tbl_login` a INNER JOIN `tbl_theatres` b ON a.login_id=b.login_id and a.email = '$username'";
+    $thtr_id_run = mysqli_query($conn, $thtr_id);
+    while ($thtr = mysqli_fetch_array($thtr_id_run)) {
+        $thtrid = $thtr['thtr_id'];
+        foreach($movies_id as $movie_id){
+            $query = "INSERT INTO `tbl_theatremovies`(`thtr_id`, `movie_id`) VALUES ('$thtrid','$movie_id')";
+            $query_run = mysqli_query($conn, $query);
+        }
+    }
 }
 ?>

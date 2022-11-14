@@ -103,8 +103,8 @@ include '../db_conn.php';
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
             <li class="has-sub">
-              <a class="js-arrow" href="assignmovies.php">
-                <i class="fa fa-check-circle"></i>Assign movies</a>
+                <a class="js-arrow" href="movierequests.php">
+                    <i class="fa fa-check-circle"></i>Movie requests</a>
             </li>
           </ul>
         </nav>
@@ -259,7 +259,7 @@ include '../db_conn.php';
 
                 <div class="mb-3">
                   <label for="">Poster image</label>
-                  <input type="file" class="form-control" name="poster" accept=".jpg" required />
+                  <input type="file" class="form-control" name="poster" accept=".jpg,.png" required />
                 </div>
                 <div class="mb-3">
                   <label for="">Title</label>

@@ -94,6 +94,10 @@ include '../db_conn.php';
                             <a class="js-arrow" href="shows.php">
                                 <i class="fa fa-clock"></i>Shows</a>
                         </li>
+                        <li class="has-sub">
+                        <a class="js-arrow" href="movies.php">
+                            <i class="fas fa-film"></i>Movies</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

@@ -114,8 +114,8 @@ include '../db_conn.php';
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
             <li class="has-sub">
-              <a class="js-arrow" href="assignmovies.php">
-                <i class="fa fa-check-circle"></i>Assign movies</a>
+                <a class="js-arrow" href="movierequests.php">
+                    <i class="fa fa-check-circle"></i>Movie requests</a>
             </li>
           </ul>
         </nav>

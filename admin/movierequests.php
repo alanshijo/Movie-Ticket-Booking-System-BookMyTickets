@@ -99,8 +99,8 @@ include '../db_conn.php';
                                 <i class="fa fa-building"></i>Theatres</a>
                         </li>
                         <li class="active has-sub">
-                            <a class="js-arrow" href="assignmovies.php">
-                                <i class="fa fa-check-circle"></i>Assign movies</a>
+                            <a class="js-arrow" href="movierequests.php">
+                                <i class="fa fa-check-circle"></i>Movie requests</a>
                         </li>
                     </ul>
                 </nav>
@@ -142,53 +142,60 @@ include '../db_conn.php';
             <div class="main-content">
                 <div class="section">
                     <div class="container-fluid">
-                        <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#studentAddModal">Assign movies & shows to theatre</button>
-                        <div class="modal fade" id="studentAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Enter show details</h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Movie requests from theatres
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <table id="myTable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sl.No.</th>
+                                                    <th>Movie title</th>
+                                                    <th>Theatre name</th>
+                                                    <th>Release date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <?php
+                                            $i = 1;
+                                            $query = "SELECT a.*, b.*, c.tm_id FROM tbl_movies a INNER JOIN tbl_theatres b INNER JOIN tbl_theatremovies c ON a.movie_id = c.movie_id and b.thtr_id = c.thtr_id and c.req_status = 'pending'";
+                                            $query_run = mysqli_query($conn, $query);
+                                            while($row = mysqli_fetch_array($query_run)){
+                                            ?>
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $row['movie_name']; ?></td>
+                                                    <td><?php echo $row['thtr_name']; ?></td>
+                                                    <td><?php echo $row['movie_releasedate']; ?></td>
+                                                    <td>
+                                                        <!-- <button>Approve</button>&emsp;
+                                                        <button>Reject</button> -->
+                                                        <div class="input-group-btn">
+                                                            <div class="btn-group">
+                                                                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-outline-primary">Action</button>
+                                                                <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(0px, -2px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                                    <button type="button" value="<?php echo $row['tm_id']; ?>" tabindex="0" class="approve dropdown-item">Approve</button>
+                                                                    <button type="button" value="<?php echo $row['tm_id']; ?>" tabindex="0" class="reject dropdown-item">Reject</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
 
                                     </div>
-                                    <?php
-                                    $select_thtr = "SELECT * FROM `tbl_theatres` WHERE `del_status` = '0'";
-                                    $select_thtr_run = mysqli_query($conn, $select_thtr);
-                                    $select_movies = "SELECT * FROM `tbl_movies` WHERE `del_status` = '0'";
-                                    $select_movies_run = mysqli_query($conn, $select_movies);
-                                    ?>
-                                    <form id="saveStudent">
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="recipient-name" class="col-form-label">Theatre:</label>
-                                                <select name="thtr" id="multi" class="form-control">
-                                                    <option hidden>-Select theatre-</option>
-                                                    <?php
-                                                    foreach ($select_thtr_run as $sel_thtr) {
-                                                    ?>
-                                                        <option value="<?php echo $sel_thtr['thtr_id'] ?>"><?php echo $sel_thtr['thtr_name'] ?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="">Movies:</label>
-                                                <select name="movies[]" id="multi" class="multi-select form-control" multiple>
-                                                    <?php
-                                                    foreach ($select_movies_run as $sel_movie) {
-                                                    ?>
-                                                        <option value="<?php echo $sel_movie['movie_id'] ?>">&emsp;<?php echo $sel_movie['movie_name'] ?></option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" id="assign" class="btn btn-primary">Assign</button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -228,96 +235,33 @@ include '../db_conn.php';
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script>
-        $(".multi-select").select2({});
-        $(".multi-select-show").select2({
-            placeholder: 'Select show'
-        });
+    $(document).on('click', '.approve', function () {
 
-        $(document).on('submit', '#saveStudent', function(e) {
-            e.preventDefault();
+    var app_id = $(this).val();
 
-            var formData = new FormData(this);
-            formData.append("assign_movie", true);
+    $.ajax({
+    type: "GET",
+    url: "save.php?app_id=" + app_id,
+    success: function (response) {
+        $('#myTable').load(location.href + " #myTable");
+    }
+    });
 
-            $.ajax({
-                type: "POST",
-                url: "save.php",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // $('.modal').modal('hide');
-                    $('#saveStudent')[0].reset();
-                    window.location.replace('assignmovies.php');
-                }
-            });
+    });
 
-        });
+    $(document).on('click', '.reject', function () {
 
-        $(document).on('click', '.editShowBtn', function() {
+    var rejct_id = $(this).val();
 
-            var show_id = $(this).val();
+    $.ajax({
+    type: "GET",
+    url: "save.php?rejct_id=" + rejct_id,
+    success: function (response) {
+        $('#myTable').load(location.href + " #myTable");
+    }
+    });
 
-            $.ajax({
-                type: "GET",
-                url: "save.php?show_id=" + show_id,
-                success: function(response) {
-                    var res = jQuery.parseJSON(response);
-                    if (res.status == 200) {
-
-                        $('#show_id').val(res.data.show_id);
-                        $('#name').val(res.data.show_name);
-                        $('#time').val(res.data.show_time);
-
-                        $('#studentEditModal').modal('show');
-                    }
-                }
-            });
-
-        });
-
-        $(document).on('submit', '#updateStudent', function(e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-            formData.append("update_show", true);
-
-            $.ajax({
-                type: "POST",
-                url: "save.php",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    $('#studentEditModal').modal('hide');
-                    $('#updateStudent')[0].reset();
-                    $('#updateShow').show();
-                    $('#myTable').load(location.href + " #myTable");
-
-                }
-            });
-
-        });
-
-        $(document).on('click', '.deleteShowBtn', function(e) {
-            e.preventDefault();
-
-            if (confirm('Are you sure you want to delete this data?')) {
-                var show_id = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "save.php",
-                    data: {
-                        'delete_show': true,
-                        'show_id': show_id
-                    },
-                    success: function(response) {
-                        $('#delShow').show();
-                        $('#myTable').load(location.href + " #myTable");
-                    }
-                });
-            }
-        });
+    });
     </script>
 
 </body>

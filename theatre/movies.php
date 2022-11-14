@@ -1,6 +1,6 @@
 <?php
-include '../db_conn.php';
 include 'thtr-session.php';
+include '../db_conn.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,7 @@ include 'thtr-session.php';
   <meta name="keywords" content="au theme template">
 
   <!-- Title Page-->
-  <title>Dashboard</title>
+  <title>Movies</title>
 
   <!-- Fontfaces CSS-->
   <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -24,6 +24,8 @@ include 'thtr-session.php';
 
   <!-- Bootstrap CSS-->
   <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+
 
   <!-- Vendor CSS-->
   <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
@@ -36,7 +38,6 @@ include 'thtr-session.php';
 
   <!-- Main CSS-->
   <link href="css/theme.css" rel="stylesheet" media="all">
-
 </head>
 
 <body class="animsition">
@@ -61,12 +62,12 @@ include 'thtr-session.php';
         <div class="container-fluid">
           <ul class="navbar-mobile__list list-unstyled">
             <li class="has-sub">
-              <a class="js-arrow" href="#">
+              <a class="js-arrow" href="index.php">
                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
             </li>
             <li class="has-sub">
-              <a class="js-arrow" href="#">
-                <i class="fas fa-user-alt"></i>Customers</a>
+              <a class="js-arrow" href="users.php">
+                <i class="fas fa-user-alt"></i>Users</a>
             </li>
           </ul>
         </div>
@@ -77,26 +78,23 @@ include 'thtr-session.php';
     <!-- MENU SIDEBAR-->
     <aside class="menu-sidebar d-none d-lg-block">
       <div class="logo">
-        <!-- <a href="#">
-          <img src="images/icon/logo.png" alt="Cool Admin" />
-        </a> -->
-        <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">&ensp;
-        <!-- <h1>
-        FUELMAN
-        </h1> -->
+        <a href="index.php">
+          <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">
+        </a>
+        <!-- <img src="images/icon/main-logo-black.png" alt="" width="300px" height="80px">&ensp; -->
       </div>
       <div class="menu-sidebar__content js-scrollbar1">
         <nav class="navbar-sidebar">
           <ul class="list-unstyled navbar__list">
-            <li class="active has-sub">
-              <a class="js-arrow" href="#">
+            <li class="has-sub">
+              <a class="js-arrow" href="index.php">
                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
             </li>
             <li class="has-sub">
               <a class="js-arrow" href="shows.php">
                 <i class="fa fa-clock"></i>Shows</a>
             </li>
-            <li class="has-sub">
+            <li class="active has-sub">
               <a class="js-arrow" href="movies.php">
                 <i class="fas fa-film"></i>Movies</a>
             </li>
@@ -145,61 +143,106 @@ include 'thtr-session.php';
         </div>
       </header>
       <!-- HEADER DESKTOP-->
-
-      <!-- MAIN CONTENT-->
       <div class="main-content">
         <div class="section__content section__content--p30">
           <div class="container-fluid">
+            <div class="alert alert-success" id="addMovie" style="display:none;">
+              Movie added successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <!-- <div class="alert alert-info" id="updateMovie" role="alert" style="display:none;">
+              Movie updated successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div> -->
+            <div class="alert alert-danger" id="delMovie" role="alert" style="display:none;">
+              Movie deleted successfully
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <div class="row">
               <div class="col-md-12">
-                <div class="overview-wrap">
-                  <h2 class="title-1">Dashboard</h2>
-                </div>
-              </div>
-            </div>
-            <div class="row m-t-25">
-              <div class="col-sm-6 col-lg-3">
-                <div class="overview-item overview-item--c2">
-                  <div class="overview__inner">
-                    <div class="overview-box clearfix">
-                      <div class="icon">
-                        <i class="fas fa-film"></i>
-                      </div>
-                      <?php
-                      $movies = "SELECT count(*) as count FROM tbl_movies WHERE del_status='0'";
-                      $movies_run = mysqli_query($conn, $movies);
-                      foreach ($movies_run as $count)
-                      ?>
-                      <div class="text">
-                        <h2>
-                          <?php echo $count['count']; ?>
-                        </h2>
-                        <span>Movies</span>
-                      </div>
-                    </div>
-                    <div class="overview-chart">
-                    </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Movie data
+                      <button type="button" class="btn btn-success" style="float: right;" data-bs-toggle="modal"
+                        data-bs-target="#requestMovieModal">
+                        <i class="fa fa-plus"></i>&nbsp; Request movie
+                      </button>
+                    </h4>
                   </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="overview-item overview-item--c4">
-                  <div class="overview__inner">
-                    <div class="overview-box clearfix">
-                      <div class="icon">
-                        <i class="zmdi zmdi-money"></i>
-                      </div>
-                      <div class="text">
-                        <h2>0</h2>
-                        <span>Total bookings</span>
-                      </div>
-                    </div>
-                    <div class="overview-chart">
-                    </div>
+                  <div class="card-body">
+
+                    <table id="myTable" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sl.No.</th>
+                          <th>Title</th>
+                          <th>Release date</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                        <?php
+                        $query = "SELECT a.*, b.* FROM tbl_movies a INNER JOIN tbl_theatremovies b ON a.movie_id = b.movie_id";
+                        $query_run = mysqli_query($conn, $query);
+                        $i=1;
+                        while($row = mysqli_fetch_array($query_run)){
+                        ?>
+                      <tbody>
+                        <tr>
+                          <td><?php echo $i; ?></td>
+                          <td><?php echo $row['movie_name']; ?></td>
+                          <td><?php echo $row['movie_releasedate']; ?></td>
+                          <td><?php echo $row['req_status']; ?></td>
+                        </tr>
+                        <?php
+                        $i++;
+                        }
+                        ?>
+                      </tbody>
+                    </table>
+
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <!-- MAIN CONTENT-->
+      <!-- Add Student -->
+      <div class="modal fade" id="requestMovieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Request for movies</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+            </div>
+            <form id="request_movie" enctype="multipart/form-data">
+              <div class="modal-body">
+                <div class="mb-3">
+                  <select name="movies[]" class="sel-movies form-control" multiple>
+                  <?php  
+                  $movies = "SELECT * FROM `tbl_movies` WHERE `del_status` = '0'";
+                  $movies_run = mysqli_query($conn, $movies);
+                  foreach ($movies_run as $movie){
+                  ?>
+                  <option value="<?php echo $movie['movie_id']; ?>"><?php echo $movie['movie_name']; ?></option>
+                  <?php
+                  }
+                  ?>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Send request</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -211,6 +254,7 @@ include 'thtr-session.php';
 
   <!-- Jquery JS-->
   <script src="vendor/jquery-3.2.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Bootstrap JS-->
   <script src="vendor/bootstrap-4.1/popper.min.js"></script>
   <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -229,9 +273,37 @@ include 'thtr-session.php';
   <script src="vendor/chartjs/Chart.bundle.min.js"></script>
   <script src="vendor/select2/select2.min.js">
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
   <!-- Main JS-->
   <script src="js/main.js"></script>
+  <script>
+    $(".sel-movies").select2({
+      placeholder: 'Select movies'
+    });
+    $(document).on('submit', '#request_movie', function (e) {
+      e.preventDefault();
+
+      var formData = new FormData(this);
+      formData.append("submit_request", true);
+
+      $.ajax({
+        type: "POST",
+        url: "save.php",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          $('#requestMovieModal').modal('hide');
+          $('#request_movie')[0].reset();
+          $('#myTable').load(location.href + " #myTable");
+        }
+      });
+
+    });
+
+  </script>
 
 </body>
 

@@ -142,7 +142,22 @@ include '../db_conn.php';
             <div class="main-content">
                 <div class="section">
                     <div class="container-fluid">
-
+                        <div id="successalert"
+                            class="sufee-alert alert with-close alert-success alert-dismissible fade show" style="display: none;">
+                            <span class="badge badge-pill badge-success"><i class="fas fa-check"></i></span>
+                            Successfully approved the request.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div id="rejectalert"
+                            class="sufee-alert alert with-close alert-danger alert-dismissible fade show" style="display: none;">
+                            <span class="badge badge-pill badge-danger"><i class="fas fa-ban"></i></span>
+                            Request rejected.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
@@ -166,23 +181,41 @@ include '../db_conn.php';
                                             $i = 1;
                                             $query = "SELECT a.*, b.*, c.tm_id FROM tbl_movies a INNER JOIN tbl_theatres b INNER JOIN tbl_theatremovies c ON a.movie_id = c.movie_id and b.thtr_id = c.thtr_id and c.req_status = 'pending'";
                                             $query_run = mysqli_query($conn, $query);
-                                            while($row = mysqli_fetch_array($query_run)){
+                                            while ($row = mysqli_fetch_array($query_run)) {
                                             ?>
                                             <tbody>
                                                 <tr>
-                                                    <td><?php echo $i; ?></td>
-                                                    <td><?php echo $row['movie_name']; ?></td>
-                                                    <td><?php echo $row['thtr_name']; ?></td>
-                                                    <td><?php echo $row['movie_releasedate']; ?></td>
+                                                    <td>
+                                                        <?php echo $i; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['movie_name']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['thtr_name']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['movie_releasedate']; ?>
+                                                    </td>
                                                     <td>
                                                         <!-- <button>Approve</button>&emsp;
                                                         <button>Reject</button> -->
                                                         <div class="input-group-btn">
                                                             <div class="btn-group">
-                                                                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-outline-primary">Action</button>
-                                                                <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(0px, -2px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                                    <button type="button" value="<?php echo $row['tm_id']; ?>" tabindex="0" class="approve dropdown-item">Approve</button>
-                                                                    <button type="button" value="<?php echo $row['tm_id']; ?>" tabindex="0" class="reject dropdown-item">Reject</button>
+                                                                <button type="button" data-toggle="dropdown"
+                                                                    aria-haspopup="true" aria-expanded="false"
+                                                                    class="dropdown-toggle btn btn-outline-primary">Action</button>
+                                                                <div tabindex="-1" aria-hidden="true" role="menu"
+                                                                    class="dropdown-menu" x-placement="top-start"
+                                                                    style="position: absolute; transform: translate3d(0px, -2px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                                    <button type="button"
+                                                                        value="<?php echo $row['tm_id']; ?>"
+                                                                        tabindex="0"
+                                                                        class="approve dropdown-item">Approve</button>
+                                                                    <button type="button"
+                                                                        value="<?php echo $row['tm_id']; ?>"
+                                                                        tabindex="0"
+                                                                        class="reject dropdown-item">Reject</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -190,7 +223,7 @@ include '../db_conn.php';
                                                 </tr>
                                                 <?php
                                                 $i++;
-                                                }
+                                            }
                                                 ?>
                                             </tbody>
                                         </table>
@@ -235,33 +268,41 @@ include '../db_conn.php';
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script>
-    $(document).on('click', '.approve', function () {
+        $(document).on('click', '.approve', function () {
 
-    var app_id = $(this).val();
+            var app_id = $(this).val();
 
-    $.ajax({
-    type: "GET",
-    url: "save.php?app_id=" + app_id,
-    success: function (response) {
-        $('#myTable').load(location.href + " #myTable");
-    }
-    });
+            $.ajax({
+                type: "GET",
+                url: "save.php?app_id=" + app_id,
+                success: function (response) {
+                    var res = jQuery.parseJSON(response);
+                    if (res.status == 200) {
+                        $('#successalert').show();
+                        $('#myTable').load(location.href + " #myTable");
+                    }
+                }
+            });
 
-    });
+        });
 
-    $(document).on('click', '.reject', function () {
+        $(document).on('click', '.reject', function () {
 
-    var rejct_id = $(this).val();
+            var rejct_id = $(this).val();
 
-    $.ajax({
-    type: "GET",
-    url: "save.php?rejct_id=" + rejct_id,
-    success: function (response) {
-        $('#myTable').load(location.href + " #myTable");
-    }
-    });
+            $.ajax({
+                type: "GET",
+                url: "save.php?rejct_id=" + rejct_id,
+                success: function (response) {
+                    var res = jQuery.parseJSON(response);
+                    if (res.status == 200) {
+                        $('#rejectalert').show();
+                        $('#myTable').load(location.href + " #myTable");
+                    }
+                }
+            });
 
-    });
+        });
     </script>
 
 </body>

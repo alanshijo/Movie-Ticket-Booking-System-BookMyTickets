@@ -170,12 +170,26 @@ if (isset($_GET['app_id'])) {
     $req_id = mysqli_escape_string($conn, $_GET['app_id']);
     $query = "UPDATE `tbl_theatremovies` SET `req_status`='approved' WHERE `tm_id` = $req_id";
     $query_run = mysqli_query($conn, $query);
+    if($query_run){
+        $res = [
+            'status' => 200
+        ];
+        echo json_encode($res);
+        return;
+    }
 }
 
 if (isset($_GET['rejct_id'])) {
     $req_id = mysqli_escape_string($conn, $_GET['rejct_id']);
     $query = "UPDATE `tbl_theatremovies` SET `req_status`='rejected' WHERE `tm_id` = $req_id";
     $query_run = mysqli_query($conn, $query);
+    if($query_run){
+        $res = [
+            'status' => 200
+        ];
+        echo json_encode($res);
+        return;
+    }
 }
 
 if (isset($_POST['save_csv'])) {

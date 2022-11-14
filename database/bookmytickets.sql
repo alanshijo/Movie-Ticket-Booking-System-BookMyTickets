@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2022 at 07:05 PM
+-- Generation Time: Nov 14, 2022 at 06:48 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -116,7 +116,9 @@ CREATE TABLE `tbl_movies` (
 --
 
 INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`, `movie_certificate`, `movie_runtime`, `movie_releasedate`, `del_status`) VALUES
-(37, 'godfthr.jpg', 'Godfather', 'English', 'A', '1hr 40min', '2022-11-02', 0);
+(37, 'godfthr.jpg', 'Godfather', 'English', 'A', '1hr 40min', '2022-11-02', 0),
+(38, 'joker.png', 'Joker', 'English', 'A', '1hr 45min', '2022-11-28', 0),
+(39, 'black adam.png', 'Black Adam', 'English', 'U/A', '3hr 1min', '2022-11-15', 0);
 
 -- --------------------------------------------------------
 
@@ -147,8 +149,17 @@ INSERT INTO `tbl_shows` (`show_id`, `thtr_id`, `show_time`, `del_status`) VALUES
 CREATE TABLE `tbl_theatremovies` (
   `tm_id` int(11) NOT NULL,
   `thtr_id` int(11) NOT NULL,
-  `movie_id` int(11) NOT NULL
+  `movie_id` int(11) NOT NULL,
+  `req_status` varchar(255) NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_theatremovies`
+--
+
+INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`, `req_status`) VALUES
+(47, 48, 37, 'approved'),
+(48, 48, 38, 'rejected');
 
 -- --------------------------------------------------------
 
@@ -220,7 +231,7 @@ INSERT INTO `tbl_users` (`user_id`, `pro_pic`, `user_fname`, `user_lname`, `user
 (6, '0', 'Alex', 'Reji', '7415236980', 'active', 8),
 (14, '0', 'George', 'Benny', '6238681837', 'active', 16),
 (16, '0', 'Nice', 'Shijo', '9446895431', 'active', 18),
-(17, '0', 'Shijo', 'Joseph', '9946351543', 'active', 19),
+(17, '0', 'Shijo', 'Joseph', '9946351543', 'deactive', 19),
 (19, '', 'admin', 'admin', '', 'active', 1);
 
 -- --------------------------------------------------------
@@ -321,7 +332,7 @@ ALTER TABLE `tbl_login`
 -- AUTO_INCREMENT for table `tbl_movies`
 --
 ALTER TABLE `tbl_movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `tbl_shows`
@@ -333,7 +344,7 @@ ALTER TABLE `tbl_shows`
 -- AUTO_INCREMENT for table `tbl_theatremovies`
 --
 ALTER TABLE `tbl_theatremovies`
-  MODIFY `tm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `tm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatres`

@@ -126,6 +126,15 @@ function passValid(){
 function validateForm() {
     var pw1 = document.getElementById("pass").value;
     var pw2 = document.getElementById("cpass").value;
+    var strongpass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+    if(pw1!="" && strongpass.test(pw1) == false){
+        document.getElementById('msg9').style.display = "block";
+        document.getElementById('msg9').innerHTML = "Password must contain: <br> At least 8 characters <br>At least 1 number<br> At least 1 lowercase character (a-z)<br> At least 1 uppercase character (A-Z)<br> At least 1 special character (! @ # $)";
+        return false;
+    }
+    else{
+        document.getElementById('msg9').style.display = "none";
+    }
     if(pw2!="" && pw1 != pw2) {
         //alert("Passwords doesnot match");
         // pw2 = setCustomValidity("Passwords are not same");
@@ -208,6 +217,7 @@ function validateForm() {
         <tr><td><label class="message" id="msg2"></td></tr>
         <tr><td><label for="password">Password</label></td></tr>
         <tr><td><input type="password" name="password" id="pass" onblur="return validateForm()" onKeyUp="return validateForm()" placeholder="Enter your new password here" required></td></tr>
+        <tr><td><label class="message" id="msg9"></td></tr>
         <tr><td><label for="confirm-password">Confirm Password</label></td></tr>
         <tr><td><input type="password" name="confirm-password" id="cpass" placeholder="Re-enter your password here" onblur="return validateForm()" onKeyUp="return validateForm()" required></td></tr>
         <td><label class="message" id="msg1"></td>

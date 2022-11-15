@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2022 at 06:48 PM
+-- Generation Time: Nov 15, 2022 at 03:50 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -81,7 +81,10 @@ INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`)
 (22, 'mhrni@gmail.com', 'EgfaINnv', '', 4),
 (23, 'universal@gmail.com', 'fUkpxeoN', '', 4),
 (48, 'as@gm.com', 'Aashirvad@1', '', 4),
-(51, 'jose@mail.com', 'v8ofI7SL', '', 4);
+(51, 'jose@mail.com', 'v8ofI7SL', '', 4),
+(52, 'deepu@gmail.com', 'eGNO1BwT', '', 4),
+(53, 'abhish@gmail.com', '1F3xV7mT', '', 4),
+(54, 'rdcinema@gmail.com', 'GMWitFJ1', '', 4);
 
 -- --------------------------------------------------------
 
@@ -118,7 +121,11 @@ CREATE TABLE `tbl_movies` (
 INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`, `movie_certificate`, `movie_runtime`, `movie_releasedate`, `del_status`) VALUES
 (37, 'godfthr.jpg', 'Godfather', 'English', 'A', '1hr 40min', '2022-11-02', 0),
 (38, 'joker.png', 'Joker', 'English', 'A', '1hr 45min', '2022-11-28', 0),
-(39, 'black adam.png', 'Black Adam', 'English', 'U/A', '3hr 1min', '2022-11-15', 0);
+(39, 'black adam.png', 'Black Adam', 'English', 'U/A', '3hr 1min', '2022-11-15', 0),
+(40, 'bullettrain.png', 'Bullet Train', 'English', 'U/A', '1hr 40min', '2022-12-05', 0),
+(41, 'aquaman.png', 'Aquaman', 'English', 'U/A', '2hr 36min', '2022-10-31', 0),
+(42, 'justiceleag.png', 'Justice League', 'English', 'U/A', '4hr 1min', '2022-10-18', 0),
+(43, 'endgame.png', 'Endgame', 'English', 'U/A', '3hr 13min', '2022-09-21', 0);
 
 -- --------------------------------------------------------
 
@@ -138,7 +145,9 @@ CREATE TABLE `tbl_shows` (
 --
 
 INSERT INTO `tbl_shows` (`show_id`, `thtr_id`, `show_time`, `del_status`) VALUES
-(6, 45, '11:00:00', 0);
+(7, 51, '09:00:00', 0),
+(8, 51, '11:30:00', 0),
+(9, 51, '14:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -158,8 +167,8 @@ CREATE TABLE `tbl_theatremovies` (
 --
 
 INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`, `req_status`) VALUES
-(47, 48, 37, 'approved'),
-(48, 48, 38, 'rejected');
+(47, 48, 37, 'pending'),
+(48, 48, 38, 'pending');
 
 -- --------------------------------------------------------
 
@@ -184,7 +193,10 @@ INSERT INTO `tbl_theatres` (`thtr_id`, `login_id`, `thtr_name`, `thtr_place`, `d
 (19, 22, 'Maharani', 'Palai', 0),
 (20, 23, 'Universal', 'Palai', 0),
 (45, 48, 'ashirvd', 'thdpzha', 0),
-(48, 51, 'jose', 'palai', 0);
+(48, 51, 'jose', 'palai', 0),
+(49, 52, 'deepu', 'kotym', 0),
+(50, 53, 'abhilsh', 'kotym', 0),
+(51, 54, 'rd', 'mundkym', 0);
 
 -- --------------------------------------------------------
 
@@ -197,14 +209,6 @@ CREATE TABLE `tbl_theatreshows` (
   `show_id` int(11) NOT NULL,
   `tm_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_theatreshows`
---
-
-INSERT INTO `tbl_theatreshows` (`ts_id`, `show_id`, `tm_id`) VALUES
-(41, 3, 43),
-(42, 3, 44);
 
 -- --------------------------------------------------------
 
@@ -326,19 +330,19 @@ ALTER TABLE `tbl_genres`
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `tbl_movies`
 --
 ALTER TABLE `tbl_movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tbl_shows`
 --
 ALTER TABLE `tbl_shows`
-  MODIFY `show_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `show_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatremovies`
@@ -350,7 +354,7 @@ ALTER TABLE `tbl_theatremovies`
 -- AUTO_INCREMENT for table `tbl_theatres`
 --
 ALTER TABLE `tbl_theatres`
-  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatreshows`

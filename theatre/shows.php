@@ -187,9 +187,8 @@ include '../db_conn.php';
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require '../db_conn.php';
-
-                                                $query = "SELECT * FROM tbl_shows WHERE del_status ='0'";
+                                                $thtr = $name['thtr_id'];
+                                                $query = "SELECT a.*, b.* FROM tbl_shows a INNER JOIN tbl_theatres b ON a.thtr_id = b.thtr_id and a.del_status='0' and b.thtr_id='$thtr'";
                                                 $query_run = mysqli_query($conn, $query);
                                                 $i = 1;
                                                 while ($show = mysqli_fetch_array($query_run)) {

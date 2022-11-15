@@ -174,7 +174,7 @@ include '../db_conn.php';
                                                     <th>Movie title</th>
                                                     <th>Theatre name</th>
                                                     <th>Release date</th>
-                                                    <th>Action</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <?php

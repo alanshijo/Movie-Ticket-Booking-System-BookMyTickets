@@ -110,8 +110,8 @@ include '../db_conn.php';
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
             <li class="has-sub">
-                <a class="js-arrow" href="movierequests.php">
-                    <i class="fa fa-check-circle"></i>Movie requests</a>
+              <a class="js-arrow" href="movierequests.php">
+                <i class="fa fa-check-circle"></i>Movie requests</a>
             </li>
           </ul>
         </nav>
@@ -257,12 +257,6 @@ include '../db_conn.php';
               </button>
             </div>
             <div class="modal-body">
-            <div class="alert alert-danger" id="invalidfile" role="alert" style="display:none;">
-              Data already exists
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
               <form id="csv_movie">
                 <input type="file" name="csv" id="real-file" hidden="hidden" />
                 <button type="button" class="btn btn-secondary" id="custom-button">Choose a file</button>
@@ -413,14 +407,10 @@ include '../db_conn.php';
         processData: false,
         contentType: false,
         success: function (response) {
-          // var res = jQuery.parseJSON(response);
-          // if(res.status=500){
-          //   $('#invalidfile').show();
-          // }
-          // $('#addTheatre').show();
-          window.location.replace('theatres.php');
-          // $('#csv_movie')[0].reset();
-          $('#myTable').load(location.href + " #myTable");
+            window.location.replace('theatres.php');
+            // $('#csv_movie')[0].reset();
+            $('#myTable').load(location.href + " #myTable");
+
         }
       });
 
@@ -439,10 +429,10 @@ include '../db_conn.php';
         processData: false,
         contentType: false,
         success: function (response) {
-          $('#addTheatre').show();
-          $('#studentAddModal').modal('hide');
-          $('#saveStudent')[0].reset();
-          $('#myTable').load(location.href + " #myTable");
+            $('#addTheatre').show();
+            $('#studentAddModal').modal('hide');
+            $('#save_theatre')[0].reset();
+            $('#myTable').load(location.href + " #myTable");
         }
       });
 

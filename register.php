@@ -101,27 +101,6 @@
             font-weight: bold;
             }
         </style>
-<!-- <script type="text/javascript">
-function phone()
-{
-var m=document.getElementById("phn").value;
-var str=/^[0-9]{10}$/;
- if(str.test(m)==false)
-   alert("Invalid mobile number");
-}
-function email()
-{
-var a=document.getElementById("ema").value;
-var st=/^[\w\+\'\.-]+@[\w\'\.-]+\.[a-zA-Z]{2,}$/;
-if(st.test(a)==false)
-alert("Invalid email id");
-}
-function passValid(){
-    if(document.getElementById('pass').value != document.getElementById('cpass').value){
-        input.setCustomValidity("Password doesnot match");
-    }
-}
-</script> -->
 <script>
 function validateForm() {
     var pw1 = document.getElementById("pass").value;
@@ -136,10 +115,6 @@ function validateForm() {
         document.getElementById('msg9').style.display = "none";
     }
     if(pw2!="" && pw1 != pw2) {
-        //alert("Passwords doesnot match");
-        // pw2 = setCustomValidity("Passwords are not same");
-        // pw2.reportValidity();
-        //return false;
         document.getElementById('msg1').style.display = "block";
         document.getElementById('msg1').innerHTML = "Password doesnot match";
         return false;

@@ -114,8 +114,8 @@ include '../db_conn.php';
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
             <li class="has-sub">
-                <a class="js-arrow" href="movierequests.php">
-                    <i class="fa fa-check-circle"></i>Movie requests</a>
+              <a class="js-arrow" href="movierequests.php">
+                <i class="fa fa-check-circle"></i>Movie requests</a>
             </li>
           </ul>
         </nav>
@@ -162,81 +162,92 @@ include '../db_conn.php';
         $users_run = mysqli_query($conn, $users);
         $i = 1;
       ?>
-        <!-- HEADER DESKTOP-->
-        <div class="main-content">
-          <div class="section__content section__content--p30">
-            <div class="container-fluid">
-              <div class="alert alert-success" id="actalert" role="alert" style="display: none;">
-                <strong>Activated!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="alert alert-danger" id="deactalert" role="alert" style="display: none;">
-                <strong>Deactivated!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4>User data
-                      </h4>
-                    </div>
-                    <div class="card-body">
+      <!-- HEADER DESKTOP-->
+      <div class="main-content">
+        <div class="section__content section__content--p30">
+          <div class="container-fluid">
+            <div class="alert alert-success" id="actalert" role="alert" style="display: none;">
+              <strong>Activated!</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="alert alert-danger" id="deactalert" role="alert" style="display: none;">
+              <strong>Deactivated!</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>User data
+                    </h4>
+                  </div>
+                  <div class="card-body">
 
-                      <table id="myTable" class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>Sl.No.</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone number</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <?php while ($data = mysqli_fetch_array($users_run)) { ?>
-                          <tbody>
-                            <tr>
-                              <td><?php echo $i; ?></td>
-                              <td><?php echo $data['user_fname'] . " " . $data['user_lname']; ?></td>
-                              <td><?php echo $data['email']; ?></td>
-                              <td><?php echo $data['user_phno']; ?></td>
-                              <td><?php echo $data['user_status']; ?></td>
-                              <td>
-                                <?php
-                                if($data['user_status']=='deactive'){
-                                ?>
-                                <button type="button" value="<?php echo $data["user_id"]; ?>" class="actBtn btn btn-outline-success btn-sm">Activate</button>
-                                <?php
-                                }
-                                else{
-                                ?>
-                                <button type="button" value="<?php echo $data["user_id"]; ?>" class="deactBtn btn btn-outline-danger btn-sm">Deactivate</button>
-                                <?php
-                                }
-                                ?>
-                              </td>
-                            </tr>
+                    <table id="myTable" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sl.No.</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Phone number</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <?php while ($data = mysqli_fetch_array($users_run)) { ?>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <?php echo $i; ?>
+                          </td>
+                          <td>
+                            <?php echo $data['user_fname'] . " " . $data['user_lname']; ?>
+                          </td>
+                          <td>
+                            <?php echo $data['email']; ?>
+                          </td>
+                          <td>
+                            <?php echo $data['user_phno']; ?>
+                          </td>
+                          <td>
+                            <?php echo $data['user_status']; ?>
+                          </td>
+                          <td>
+                            <?php
+          if ($data['user_status'] == 'deactive') {
+                            ?>
+                            <button type="button" value="<?php echo $data["user_id"]; ?>"
+                              class="actBtn btn btn-outline-success btn-sm">Activate</button>
+                            <?php
+          } else {
+                            ?>
+                            <button type="button" value="<?php echo $data["user_id"]; ?>"
+                              class="deactBtn btn btn-outline-danger btn-sm">Deactivate</button>
+                            <?php
+          }
+                            ?>
+                          </td>
+                        </tr>
                         <?php
-                          $i++;
-                        }
-                      }
+          $i++;
+        }
+      }
                         ?>
-                          </tbody>
-                      </table>
+                      </tbody>
+                    </table>
 
-                    </div>
                   </div>
                 </div>
               </div>
-              <!-- END USER DATA-->
             </div>
+            <!-- END USER DATA-->
           </div>
         </div>
+      </div>
     </div>
     <!-- MAIN CONTENT-->
 
@@ -270,31 +281,37 @@ include '../db_conn.php';
   <!-- Main JS-->
   <script src="js/main.js"></script>
   <script>
-    $(document).on('click', '.actBtn', function() {
+    $(document).on('click', '.actBtn', function () {
 
       var user_id = $(this).val();
 
       $.ajax({
         type: "GET",
         url: "save.php?actid=" + user_id,
-        success: function(response) {
-          $('#actalert').show();
-          $('#myTable').load(location.href + " #myTable");
+        success: function (response) {
+          var res = jQuery.parseJSON(response);
+          if (res.status == 200) {
+            $('#actalert').show();
+            $('#myTable').load(location.href + " #myTable");
+          }
         }
       });
 
     });
 
-    $(document).on('click', '.deactBtn', function() {
+    $(document).on('click', '.deactBtn', function () {
 
       var user_id = $(this).val();
 
       $.ajax({
         type: "GET",
         url: "save.php?deactid=" + user_id,
-        success: function(response) {
-          $('#deactalert').show();
-          $('#myTable').load(location.href + " #myTable");
+        success: function (response) {
+          var res = jQuery.parseJSON(response);
+          if (res.status == 200) {
+            $('#deactalert').show();
+            $('#myTable').load(location.href + " #myTable");
+          }
         }
       });
 

@@ -11,12 +11,26 @@ if (isset($_GET['actid'])) {
     $id = $_GET['actid'];
     $act = "UPDATE `tbl_users` SET `user_status`='active' WHERE `user_id`='$id'";
     $act_run = mysqli_query($conn, $act);
+    if($act_run){
+        $res = [
+            'status' => 200
+        ];
+        echo json_encode($res);
+        return;
+    }
 }
 
 if (isset($_GET['deactid'])) {
     $id = $_GET['deactid'];
     $act = "UPDATE `tbl_users` SET `user_status`='deactive' WHERE `user_id`='$id'";
     $act_run = mysqli_query($conn, $act);
+    if($act_run){
+        $res = [
+            'status' => 200
+        ];
+        echo json_encode($res);
+        return;
+    }
 }
 
 if (isset($_POST['save_student'])) {
@@ -123,10 +137,12 @@ if (isset($_POST['savethtr'])) {
                     $mail->send();
                 }
             }
+            else{
+                
+            }
         }
 
     } else {
-
     }
 
 }
@@ -216,7 +232,7 @@ if (isset($_POST['save_csv'])) {
             $check_user = "SELECT * FROM `tbl_login` WHERE `email` = '$thtr_email'";
             $check_user_run = mysqli_query($conn, $check_user);
             $check_user_rslt = mysqli_num_rows($check_user_run);
-            if ($check_user_rslt == 0) {
+            if ($check_user_rslt ==0) {
                 $pass = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
                 $gen_pass = substr(str_shuffle($pass), 0, 8);
                 $type_check = "SELECT `type_id` FROM `tbl_usertype` WHERE `type_title` = 'theatre'";
@@ -256,7 +272,7 @@ if (isset($_POST['save_csv'])) {
                 }
 
             } else {
-
+            
             }
         }
         fclose($csvFile);

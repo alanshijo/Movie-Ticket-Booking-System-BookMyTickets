@@ -27,7 +27,7 @@ if(isset($_POST['send_otp'])){
         $mail->SMTPSecure = 'ssl';            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
     
-        //Recipients
+        //Recipients 
         $mail->setFrom('alanshijo2023a@mca.ajce.in', 'BookMyTickets');
         $mail->addAddress($email);     //Add a recipient
         //Content

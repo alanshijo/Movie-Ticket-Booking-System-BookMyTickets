@@ -38,6 +38,12 @@ include '../db_conn.php';
 
   <!-- Main CSS-->
   <link href="css/theme.css" rel="stylesheet" media="all">
+  <style>
+    .parsley-errors-list {
+      list-style-type: none;
+      color: red;
+    }
+  </style>
 </head>
 
 <body class="animsition">
@@ -103,8 +109,8 @@ include '../db_conn.php';
                 <i class="fa fa-building"></i>Theatres</a>
             </li>
             <li class="has-sub">
-                <a class="js-arrow" href="movierequests.php">
-                    <i class="fa fa-check-circle"></i>Movie requests</a>
+              <a class="js-arrow" href="movierequests.php">
+                <i class="fa fa-check-circle"></i>Movie requests</a>
             </li>
           </ul>
         </nav>
@@ -259,16 +265,20 @@ include '../db_conn.php';
 
                 <div class="mb-3">
                   <label for="">Poster image</label>
-                  <input type="file" class="form-control" name="poster" accept=".jpg,.png" required />
+                  <input type="file" class="form-control" name="poster" id="poster" accept=".jpg, .png, .jpeg" data-parsley-required="true"
+                    data-parsley-trigger="change" data-parsley-filemimetypes="image/jpeg, image/png, image/jpg"
+                    data-parsley-required-message="Required.">
                 </div>
                 <div class="mb-3">
                   <label for="">Title</label>
-                  <input type="text" name="title" class="form-control" placeholder="Enter movie name here" required />
+                  <input type="text" name="title" id="title" class="form-control" placeholder="Enter movie name here"
+                    data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
                 <div class="mb-3">
                   <label for="">Language</label>
-                  <select name="lang" class="form-control" required>
-                    <option hidden>Select language</option>
+                  <select name="lang" id="lang" class="form-control" required=""
+                    data-parsley-required-message="You must select an option.">
+                    <option value="" hidden>Select language</option>
                     <option value="English">English</option>
                     <option value="Malayalam">Malayalam</option>
                     <option value="Tamil">Tamil</option>
@@ -283,18 +293,19 @@ include '../db_conn.php';
                   <?php
                   $genres = "SELECT * FROM `tbl_genres` ORDER BY `genre_title`";
                   $genres_run = mysqli_query($conn, $genres);
-                  foreach ($genres_run as $genre){
+                  foreach ($genres_run as $genre) {
                   ?>
                         <option value="<?php echo $genre['genre_id']; ?>"><?php echo $genre['genre_title']; ?></option>
                         <?php
                   }
-                  ?>
+                        ?>
                   </select>
                 </div> -->
                 <div class="mb-3">
                   <label for="">Certificate</label>
-                  <select name="certificate" class="form-control" required>
-                    <option hidden>Select certificate type</option>
+                  <select name="certificate" class="form-control" required=""
+                    data-parsley-required-message="You must select an option.">
+                    <option value="" hidden>Select certificate type</option>
                     <option value="U">U certificate</option>
                     <option value="U/A">U/A certificate</option>
                     <option value="A">A certificate</option>
@@ -303,11 +314,13 @@ include '../db_conn.php';
                 </div>
                 <div class="mb-3">
                   <label for="">Total runtime</label>
-                  <input type="text" name="runtime" class="form-control" placeholder="00hr 00min" required />
+                  <input type="text" name="runtime" class="form-control" placeholder="00hr 00min"
+                    data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
                 <div class="mb-3">
                   <label for="">Release date</label>
-                  <input type="date" name="release" class="form-control" placeholder="DD/MM/YYYY" required />
+                  <input type="date" name="release" class="form-control" placeholder="DD/MM/YYYY"
+                    data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
               </div>
               <div class="modal-footer">
@@ -335,16 +348,19 @@ include '../db_conn.php';
 
                 <div class="mb-3">
                   <label for="">Poster image</label>
-                  <input type="file" class="form-control" name="poster" id="poster" accept=".jpg" />
+                  <input type="file" class="form-control" name="poster" id="poster" accept=".jpg, .png, .jpeg"
+                  data-parsley-trigger="change" data-parsley-filemimetypes="image/jpeg, image/png, image/jpg" data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
                 <div class="mb-3">
                   <label for="">Title</label>
-                  <input type="text" name="title" id="title" class="form-control" placeholder="Enter movie name here" />
+                  <input type="text" name="title" id="title" class="form-control" placeholder="Enter movie name here"
+                    data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
                 <div class="mb-3">
                   <label for="">Language</label>
-                  <select name="lang" id="lang" class="form-control">
-                    <option hidden>Select language</option>
+                  <select name="lang" id="lang" class="form-control" required=""
+                    data-parsley-required-message="You must select an option.">
+                    <option value="" hidden>Select language</option>
                     <option value="English">English</option>
                     <option value="Malayalam">Malayalam</option>
                     <option value="Tamil">Tamil</option>
@@ -355,8 +371,9 @@ include '../db_conn.php';
                 </div>
                 <div class="mb-3">
                   <label for="">Certificate</label>
-                  <select name="certificate" id="certificate" class="form-control">
-                    <option hidden>Select certificate type</option>
+                  <select name="certificate" id="certificate" class="form-control" required=""
+                    data-parsley-required-message="You must select an option.">
+                    <option value="" hidden>Select certificate type</option>
                     <option value="U">U certificate</option>
                     <option value="U/A">U/A certificate</option>
                     <option value="A">A certificate</option>
@@ -365,11 +382,13 @@ include '../db_conn.php';
                 </div>
                 <div class="mb-3">
                   <label for="">Total runtime</label>
-                  <input type="text" name="runtime" id="runtime" class="form-control" placeholder="00hr 00min" />
+                  <input type="text" name="runtime" id="runtime" class="form-control" placeholder="00hr 00min"
+                    data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
                 <div class="mb-3">
                   <label for="">Release date</label>
-                  <input type="date" name="release" id="release" class="form-control" placeholder="DD/MM/YYYY" />
+                  <input type="date" name="release" id="release" class="form-control" placeholder="DD/MM/YYYY"
+                    data-parsley-required="true" data-parsley-required-message="Required.">
                 </div>
               </div>
               <div class="modal-footer">
@@ -407,34 +426,87 @@ include '../db_conn.php';
   <script src="vendor/select2/select2.min.js">
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
   <!-- Main JS-->
   <script src="js/main.js"></script>
+  <script src="js/parsley.js"></script>
   <script>
-        $(".genre-select").select2({
-            placeholder: 'Select genres'
+    $('#saveStudent').parsley();
+    $('#updateStudent').parsley();
+    var app = app || {};
+
+    // Utils
+    (function ($, app) {
+      'use strict';
+
+      app.utils = {};
+
+      app.utils.formDataSuppoerted = (function () {
+        return !!('FormData' in window);
+      }());
+
+    }(jQuery, app));
+
+    // Parsley validators
+    (function ($, app) {
+      'use strict';
+
+      window.Parsley
+        .addValidator('filemimetypes', {
+          requirementType: 'string',
+          validateString: function (value, requirement, parsleyInstance) {
+
+            if (!app.utils.formDataSuppoerted) {
+              return true;
+            }
+
+            var file = parsleyInstance.$element[0].files;
+
+            if (file.length == 0) {
+              return true;
+            }
+
+            var allowedMimeTypes = requirement.replace(/\s/g, "").split(',');
+            return allowedMimeTypes.indexOf(file[0].type) !== -1;
+
+          },
+          messages: {
+            en: 'Only jpeg, jpg, png formats are supported.'
+          }
         });
+
+    }(jQuery, app));
+
+
+    // Parsley Init
+    (function ($, app) {
+      'use strict';
+
+      $('#js-file-validation-example').parsley();
+
+    }(jQuery, app));
+    $(".genre-select").select2({
+      placeholder: 'Select genres'
+    });
     $(document).on('submit', '#saveStudent', function (e) {
       e.preventDefault();
-
       var formData = new FormData(this);
       formData.append("save_student", true);
-
-      $.ajax({
-        type: "POST",
-        url: "save.php",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          $('#addMovie').show();
-          $('#studentAddModal').modal('hide');
-          $('#saveStudent')[0].reset();
-          $('#myTable').load(location.href + " #myTable");
-        }
-      });
-
+      if ($(this).parsley().isValid()) {
+        $.ajax({
+          type: "POST",
+          url: "save.php",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            $('#addMovie').show();
+            $('#studentAddModal').modal('hide');
+            $('#saveStudent')[0].reset();
+            $('#myTable').load(location.href + " #myTable");
+          }
+        });
+      }
     });
 
     $(document).on('click', '.editMovieBtn', function () {
@@ -448,9 +520,7 @@ include '../db_conn.php';
 
           var res = jQuery.parseJSON(response);
           if (res.status == 200) {
-
             $('#movie_id').val(res.data.movie_id);
-            // $('#poster').val(res.data.movie_poster);
             $('#title').val(res.data.movie_name);
             $('#lang').val(res.data.movie_lang);
             $('#certificate').val(res.data.movie_certificate);
@@ -466,26 +536,26 @@ include '../db_conn.php';
 
     $(document).on('submit', '#updateStudent', function (e) {
       e.preventDefault();
+        if ($(this).parsley().isValid()) {
+          var formData = new FormData(this);
+          formData.append("update_movie", true);
 
-      var formData = new FormData(this);
-      formData.append("update_movie", true);
+          $.ajax({
+            type: "POST",
+            url: "save.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              $('#studentEditModal').modal('hide');
+              $('#updateStudent')[0].reset();
+              $('#updateMovie').show();
 
-      $.ajax({
-        type: "POST",
-        url: "save.php",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          $('#studentEditModal').modal('hide');
-          $('#updateStudent')[0].reset();
-          $('#updateMovie').show();
+              $('#myTable').load(location.href + " #myTable");
 
-          $('#myTable').load(location.href + " #myTable");
-
+            }
+          });
         }
-      });
-
     });
 
     $(document).on('click', '.deleteMovieBtn', function (e) {

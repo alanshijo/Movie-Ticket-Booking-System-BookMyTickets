@@ -11,12 +11,6 @@ if(isset($_POST['register'])){
     $phone = mysqli_escape_string($conn,$phone);
     $password = $_POST['password'];
     $password = mysqli_escape_string($conn,$password);
-    // $cpass = $_POST['confirm-password'];
-    // if($password != $cpass){
-    //     echo '<script> alert ("Password doesnot match");</script>';
-	//     echo'<script>window.location.href="register.php";</script>';
-    // }
-    // else{
         $check = "SELECT * FROM tbl_login WHERE email='$mail'";
         $rslt = mysqli_query($conn, $check);
         $rsltcheck = mysqli_num_rows($rslt);
@@ -41,7 +35,5 @@ if(isset($_POST['register'])){
             echo'<script> alert ("Account already exists!");</script>';
             echo'<script>window.location.href="login.php";</script>'; 
         }
-    // }
-    
 }
 ?>

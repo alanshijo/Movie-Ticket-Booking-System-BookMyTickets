@@ -39,6 +39,12 @@ include '../db_conn.php';
   <!-- Main CSS-->
   <link href="css/theme.css" rel="stylesheet" media="all">
   <style>
+    .parsley-errors-list{
+      list-style-type: none;
+      color: red;
+    }
+  </style>
+  <style>
     #custom-text {
       margin-left: 10px;
       font-family: sans-serif;
@@ -258,7 +264,7 @@ include '../db_conn.php';
             </div>
             <div class="modal-body">
               <form id="csv_movie">
-                <input type="file" name="csv" id="real-file" hidden="hidden" />
+                <input type="file" name="csv" id="real-file" required="" data-parsley-required-message="Required" hidden="hidden" />
                 <button type="button" class="btn btn-secondary" id="custom-button">Choose a file</button>
                 <span id="custom-text">No file chosen, yet.</span>
             </div>
@@ -285,18 +291,19 @@ include '../db_conn.php';
               <div class="modal-body">
                 <div class="mb-3">
                   <label for="">Theatre name</label>
-                  <input type="text" name="name" class="form-control" placeholder="Enter the theatre name here"
+                  <input type="text" name="name" class="form-control" required="" data-parsley-required-message="Required" placeholder="Enter the theatre name here"
                     required />
                 </div>
                 <div class="mb-3">
                   <label for="">Email</label>
-                  <input type="text" name="email" class="form-control"
-                    placeholder="Enter the email address of the theatre here" required />
+                  <input type="text" name="email" id="ema" class="form-control" data-parsley-type="email" data-parsley-type-message="Invalid email"
+                    placeholder="Enter the email address of the theatre here" required="" data-parsley-required-message="Required" />
+                  <span id="emmsg" style="color: red; font-size: 90%;"></span>
                 </div>
                 <div class="mb-3">
                   <label for="">Place</label>
                   <input type="text" name="location" class="form-control"
-                    placeholder="Enter the location of the theatre here" required />
+                    placeholder="Enter the location of the theatre here" required="" data-parsley-required-message="Required" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -322,17 +329,17 @@ include '../db_conn.php';
                 <div class="mb-3">
                   <label for="">Theatre name</label>
                   <input type="text" name="name" id="name" class="form-control"
-                    placeholder="Enter the theatre name here" />
+                    placeholder="Enter the theatre name here"  required="" data-parsley-required-message="Required">
                 </div>
                 <div class="mb-3">
                   <div class="mb-3">
                     <label for="">Email</label>
                     <input type="text" name="email" id="email" class="form-control"
-                      placeholder="Enter the email address of the theatre here" required />
+                      placeholder="Enter the email address of the theatre here" data-parsley-type="email" data-parsley-type-message="Invalid email" required="" data-parsley-required-message="Required">
                   </div>
                   <label for="">Place</label>
                   <input type="text" name="location" id="location" class="form-control"
-                    placeholder="Enter the location of the theatre here" />
+                    placeholder="Enter the location of the theatre here"  required="" data-parsley-required-message="Required">
                 </div>
               </div>
               <div class="modal-footer">
@@ -374,6 +381,11 @@ include '../db_conn.php';
   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
   <!-- Main JS-->
   <script src="js/main.js"></script>
+  <script src="js/parsley.js"></script>
+  <script>
+  $('#save_theatre').parsley();
+  $('#updateStudent').parsley();
+  </script>
   <script>
     const realFileBtn = document.getElementById("real-file");
     const customBtn = document.getElementById("custom-button");
@@ -399,7 +411,8 @@ include '../db_conn.php';
 
       var formData = new FormData(this);
       formData.append("save_csv", true);
-
+      
+      if ( $(this).parsley().isValid() ) {
       $.ajax({
         type: "POST",
         url: "save.php",
@@ -408,17 +421,16 @@ include '../db_conn.php';
         contentType: false,
         success: function (response) {
             window.location.replace('theatres.php');
-            // $('#csv_movie')[0].reset();
             $('#myTable').load(location.href + " #myTable");
 
         }
       });
-
+      }
     });
 
     $(document).on('submit', '#save_theatre', function (e) {
       e.preventDefault();
-
+      if ( $(this).parsley().isValid() ) {
       var formData = new FormData(this);
       formData.append("savethtr", true);
 
@@ -435,7 +447,7 @@ include '../db_conn.php';
             $('#myTable').load(location.href + " #myTable");
         }
       });
-
+      }
     });
 
     $(document).on('click', '.editMovieBtn', function () {
@@ -467,7 +479,7 @@ include '../db_conn.php';
 
     $(document).on('submit', '#updateStudent', function (e) {
       e.preventDefault();
-
+      if ( $(this).parsley().isValid() ) {
       var formData = new FormData(this);
       formData.append("update_thtr", true);
 
@@ -485,7 +497,7 @@ include '../db_conn.php';
 
         }
       });
-
+      }
     });
 
     $(document).on('click', '.deleteMovieBtn', function (e) {

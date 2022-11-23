@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2022 at 03:50 PM
+-- Generation Time: Nov 23, 2022 at 07:35 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -167,8 +167,8 @@ CREATE TABLE `tbl_theatremovies` (
 --
 
 INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`, `req_status`) VALUES
-(47, 48, 37, 'pending'),
-(48, 48, 38, 'pending');
+(47, 48, 37, 'rejected'),
+(48, 48, 38, 'approved');
 
 -- --------------------------------------------------------
 

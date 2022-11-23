@@ -58,4 +58,47 @@ if (isset($_POST['submit_request'])) {
         }
     }
 }
+
+if(isset($_POST['save_scrn'])){
+    $title = mysqli_real_escape_string($conn, $_POST['scrn_title']);
+    $res = mysqli_real_escape_string($conn, $_POST['resolution']);
+    $thtr_id = $_SESSION['thtr_id'];
+    $query = "INSERT INTO `tbl_theatrescreens`(`thtr_id`, `scrn_title`, `scrn_resolution`) VALUES ('$thtr_id','$title','$res')";
+    $query_run = mysqli_query($conn, $query);
+}
+
+if (isset($_GET['scrn_id'])) {
+    $scrn_id = mysqli_real_escape_string($conn, $_GET['scrn_id']);
+
+    $query = "SELECT * FROM `tbl_theatrescreens` WHERE `scrn_id` = '$scrn_id'";
+    $query_run = mysqli_query($conn, $query);
+
+
+    if (mysqli_num_rows($query_run) == 1) {
+        $scrn = mysqli_fetch_array($query_run);
+
+        $res = [
+            'status' => 200,
+            'data' => $scrn
+        ];
+        echo json_encode($res);
+        return;
+    }
+}
+
+if (isset($_POST['update_scrn'])) {
+    $scrn_id = mysqli_real_escape_string($conn, $_POST['scrn_id']);
+    $title = mysqli_real_escape_string($conn, $_POST['scrn_title']);
+    $res = mysqli_real_escape_string($conn, $_POST['resolution']);
+
+    $query = "UPDATE `tbl_theatrescreens` SET `scrn_title`='$title',`scrn_resolution`='$res' WHERE `scrn_id`='$scrn_id'";
+    $query_run = mysqli_query($conn, $query);
+}
+
+if (isset($_POST['delete_scrn'])) {
+    $scrn_id = mysqli_real_escape_string($conn, $_POST['scrn_id']);
+
+    $query = "UPDATE `tbl_theatrescreens` SET `del_status`='1' WHERE `scrn_id` = '$scrn_id'";
+    $query_run = mysqli_query($conn, $query);
+}
 ?>

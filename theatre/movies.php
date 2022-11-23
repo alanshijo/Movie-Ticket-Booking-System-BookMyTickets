@@ -98,6 +98,10 @@ include '../db_conn.php';
               <a class="js-arrow" href="movies.php">
                 <i class="fas fa-film"></i>Movies</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="screens.php">
+                <i class="fas fa-film"></i>Screens</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -187,7 +191,7 @@ include '../db_conn.php';
                         </tr>
                       </thead>
                         <?php
-                        $query = "SELECT a.*, b.* FROM tbl_movies a INNER JOIN tbl_theatremovies b ON a.movie_id = b.movie_id";
+                        $query = "SELECT a.*, b.*, c.*, d.* FROM tbl_login a INNER JOIN tbl_theatres b ON a.login_id=b.login_id INNER JOIN tbl_theatremovies c ON c.thtr_id=b.thtr_id and a.email='$username' INNER JOIN tbl_movies d ON d.movie_id=c.movie_id";
                         $query_run = mysqli_query($conn, $query);
                         $i=1;
                         while($row = mysqli_fetch_array($query_run)){

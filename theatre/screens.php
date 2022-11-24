@@ -102,6 +102,10 @@ include '../db_conn.php';
                         <a class="js-arrow" href="screens.php">
                             <i class="fas fa-film"></i>Screens</a>
                         </li>
+                        <li class="has-sub">
+                        <a class="js-arrow" href="assignshows.php">
+                            <i class="fa fa-check-circle"></i>Assign shows</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -194,7 +198,7 @@ include '../db_conn.php';
                                                 <?php
                                                 $_SESSION['thtr_id'] = $name['thtr_id'];
                                                 $thtr_id = $_SESSION['thtr_id'];
-                                                $query = "SELECT a.*, b.* FROM `tbl_theatrescreens` a INNER JOIN tbl_theatres b ON a.thtr_id=b.thtr_id and a.del_status='0'";
+                                                $query = "SELECT a.*, b.* FROM `tbl_theatrescreens` a INNER JOIN tbl_theatres b ON a.thtr_id=b.thtr_id and b.thtr_id='$thtr_id' and a.del_status='0'";
                                                 $query_run = mysqli_query($conn, $query);
                                                 $i=1;
                                                 while($row = mysqli_fetch_array($query_run)){

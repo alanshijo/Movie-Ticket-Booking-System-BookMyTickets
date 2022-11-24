@@ -101,4 +101,51 @@ if (isset($_POST['delete_scrn'])) {
     $query = "UPDATE `tbl_theatrescreens` SET `del_status`='1' WHERE `scrn_id` = '$scrn_id'";
     $query_run = mysqli_query($conn, $query);
 }
+
+if(isset($_POST['submit_show'])){
+    $thtr_id = $_SESSION['thtr_id'];
+    $scrn = $_POST['scrn'];
+    $movie = $_POST['movie'];
+    $shows = $_POST['shows'];
+    foreach($shows as $show){
+        $query = "INSERT INTO `tbl_assignshows`(`scrn_id`,`thtr_id`, `movie_id`, `show_id`) VALUES ('$scrn','$thtr_id','$movie','$show')";
+        $query_run = mysqli_query($conn, $query);
+    }
+}
+
+if (isset($_GET['as_id'])) {
+    $as_id = mysqli_real_escape_string($conn, $_GET['as_id']);
+
+    $query = "SELECT * FROM `tbl_assignshows` WHERE `as_id` = '$as_id'";
+    $query_run = mysqli_query($conn, $query);
+
+
+    if (mysqli_num_rows($query_run) == 1) {
+        $shows = mysqli_fetch_array($query_run);
+
+        $res = [
+            'status' => 200,
+            'data' => $shows
+        ];
+        echo json_encode($res);
+        return;
+    }
+}
+
+if (isset($_POST['update_assign_shows'])) {
+    $as_id = mysqli_real_escape_string($conn, $_POST['as_id']);
+    $thtr_id = $_SESSION['thtr_id'];
+    $scrn = $_POST['scrn'];
+    $movie = $_POST['movie'];
+    $show = $_POST['shows'];
+    $query = "UPDATE `tbl_assignshows` SET `thtr_id`='$thtr_id',`scrn_id`='$scrn',`movie_id`='$movie',`show_id`='$show' WHERE `as_id`='$as_id'";
+    $query_run = mysqli_query($conn, $query);
+}
+
+if (isset($_POST['delete_shows'])) {
+    $as_id = mysqli_real_escape_string($conn, $_POST['as_id']);
+
+    $query = "UPDATE `tbl_assignshows` SET `del_status`='1' WHERE `as_id` = '$as_id'";
+    $query_run = mysqli_query($conn, $query);
+}
 ?>

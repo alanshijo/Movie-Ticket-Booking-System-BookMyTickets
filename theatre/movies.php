@@ -102,6 +102,10 @@ include '../db_conn.php';
               <a class="js-arrow" href="screens.php">
                 <i class="fas fa-film"></i>Screens</a>
             </li>
+            <li class="has-sub">
+              <a class="js-arrow" href="assignshows.php">
+                <i class="fa fa-check-circle"></i>Assign shows</a>
+            </li>
           </ul>
         </nav>
       </div>

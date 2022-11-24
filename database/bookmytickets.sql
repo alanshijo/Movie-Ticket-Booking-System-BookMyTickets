@@ -2,9 +2,9 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 23, 2022 at 06:45 PM
--- Server version: 10.4.25-MariaDB
+-- Host: localhost:3306
+-- Generation Time: Nov 24, 2022 at 04:37 PM
+-- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -24,13 +24,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_assignshows`
+--
+
+CREATE TABLE `tbl_assignshows` (
+  `as_id` int NOT NULL,
+  `thtr_id` int NOT NULL,
+  `scrn_id` int NOT NULL,
+  `movie_id` int NOT NULL,
+  `show_id` int NOT NULL,
+  `run_status` varchar(255) NOT NULL DEFAULT 'running',
+  `del_status` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tbl_assignshows`
+--
+
+INSERT INTO `tbl_assignshows` (`as_id`, `thtr_id`, `scrn_id`, `movie_id`, `show_id`, `run_status`, `del_status`) VALUES
+(3, 19, 2, 39, 10, 'running', 0),
+(4, 19, 2, 39, 12, 'running', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_genres`
 --
 
 CREATE TABLE `tbl_genres` (
-  `genre_id` int(11) NOT NULL,
+  `genre_id` int NOT NULL,
   `genre_title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_genres`
@@ -59,12 +83,12 @@ INSERT INTO `tbl_genres` (`genre_id`, `genre_title`) VALUES
 --
 
 CREATE TABLE `tbl_login` (
-  `login_id` int(11) NOT NULL,
+  `login_id` int NOT NULL,
   `email` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL,
   `otp_code` varchar(11) NOT NULL,
-  `type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `type_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_login`
@@ -93,9 +117,9 @@ INSERT INTO `tbl_login` (`login_id`, `email`, `password`, `otp_code`, `type_id`)
 --
 
 CREATE TABLE `tbl_moviegenres` (
-  `genre_id` int(11) NOT NULL,
-  `movie_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `genre_id` int NOT NULL,
+  `movie_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -104,22 +128,22 @@ CREATE TABLE `tbl_moviegenres` (
 --
 
 CREATE TABLE `tbl_movies` (
-  `movie_id` int(255) NOT NULL,
+  `movie_id` int NOT NULL,
   `movie_poster` varchar(255) NOT NULL,
   `movie_name` varchar(255) NOT NULL,
   `movie_lang` varchar(255) NOT NULL,
   `movie_certificate` varchar(255) NOT NULL,
   `movie_runtime` varchar(255) NOT NULL,
   `movie_releasedate` date NOT NULL,
-  `del_status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `del_status` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_movies`
 --
 
 INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`, `movie_certificate`, `movie_runtime`, `movie_releasedate`, `del_status`) VALUES
-(37, 'godfthr.jpg', 'Godfather', 'English', 'A', '1hr 40min', '2022-11-02', 1),
+(37, 'godfthr.jpg', 'Godfather', 'English', 'A', '1hr 40min', '2022-11-02', 0),
 (38, 'joker.png', 'Joker', 'English', 'A', '1hr 45min', '2022-11-28', 0),
 (39, 'black adam.png', 'Black Adam', 'English', 'U/A', '3hr 1min', '2022-11-15', 0),
 (40, 'bullettrain.png', 'Bullet Train', 'English', 'U/A', '1hr 40min', '2022-12-05', 0),
@@ -134,11 +158,11 @@ INSERT INTO `tbl_movies` (`movie_id`, `movie_poster`, `movie_name`, `movie_lang`
 --
 
 CREATE TABLE `tbl_shows` (
-  `show_id` int(11) NOT NULL,
-  `thtr_id` int(11) NOT NULL,
+  `show_id` int NOT NULL,
+  `thtr_id` int NOT NULL,
   `show_time` time NOT NULL,
-  `del_status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `del_status` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_shows`
@@ -147,7 +171,10 @@ CREATE TABLE `tbl_shows` (
 INSERT INTO `tbl_shows` (`show_id`, `thtr_id`, `show_time`, `del_status`) VALUES
 (7, 51, '09:00:00', 0),
 (8, 51, '11:30:00', 0),
-(9, 51, '14:00:00', 0);
+(9, 51, '14:00:00', 0),
+(10, 19, '11:30:00', 0),
+(11, 19, '14:00:00', 0),
+(12, 19, '18:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -156,19 +183,20 @@ INSERT INTO `tbl_shows` (`show_id`, `thtr_id`, `show_time`, `del_status`) VALUES
 --
 
 CREATE TABLE `tbl_theatremovies` (
-  `tm_id` int(11) NOT NULL,
-  `thtr_id` int(11) NOT NULL,
-  `movie_id` int(11) NOT NULL,
+  `tm_id` int NOT NULL,
+  `thtr_id` int NOT NULL,
+  `movie_id` int NOT NULL,
   `req_status` varchar(255) NOT NULL DEFAULT 'pending'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_theatremovies`
 --
 
 INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`, `req_status`) VALUES
-(47, 48, 37, 'rejected'),
-(48, 48, 38, 'approved');
+(47, 19, 37, 'rejected'),
+(48, 19, 38, 'approved'),
+(51, 19, 39, 'approved');
 
 -- --------------------------------------------------------
 
@@ -177,12 +205,12 @@ INSERT INTO `tbl_theatremovies` (`tm_id`, `thtr_id`, `movie_id`, `req_status`) V
 --
 
 CREATE TABLE `tbl_theatres` (
-  `thtr_id` int(11) NOT NULL,
-  `login_id` int(11) NOT NULL,
+  `thtr_id` int NOT NULL,
+  `login_id` int NOT NULL,
   `thtr_name` varchar(255) NOT NULL,
   `thtr_place` varchar(255) NOT NULL,
-  `del_status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `del_status` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_theatres`
@@ -205,19 +233,20 @@ INSERT INTO `tbl_theatres` (`thtr_id`, `login_id`, `thtr_name`, `thtr_place`, `d
 --
 
 CREATE TABLE `tbl_theatrescreens` (
-  `scrn_id` int(11) NOT NULL,
-  `thtr_id` int(11) NOT NULL,
+  `scrn_id` int NOT NULL,
+  `thtr_id` int NOT NULL,
   `scrn_title` varchar(255) NOT NULL,
   `scrn_resolution` varchar(255) NOT NULL,
-  `del_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `del_status` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_theatrescreens`
 --
 
 INSERT INTO `tbl_theatrescreens` (`scrn_id`, `thtr_id`, `scrn_title`, `scrn_resolution`, `del_status`) VALUES
-(1, 20, 'Screen 2', '2k', 0);
+(1, 20, 'Screen 2', '4k', 0),
+(2, 19, 'Mahar', '2k', 0);
 
 -- --------------------------------------------------------
 
@@ -226,10 +255,10 @@ INSERT INTO `tbl_theatrescreens` (`scrn_id`, `thtr_id`, `scrn_title`, `scrn_reso
 --
 
 CREATE TABLE `tbl_theatreshows` (
-  `ts_id` int(11) NOT NULL,
-  `show_id` int(11) NOT NULL,
-  `tm_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `ts_id` int NOT NULL,
+  `show_id` int NOT NULL,
+  `tm_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -238,14 +267,14 @@ CREATE TABLE `tbl_theatreshows` (
 --
 
 CREATE TABLE `tbl_users` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `pro_pic` varchar(255) NOT NULL,
   `user_fname` varchar(25) NOT NULL,
   `user_lname` varchar(25) NOT NULL,
   `user_phno` varchar(10) NOT NULL,
   `user_status` varchar(25) NOT NULL,
-  `login_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `login_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_users`
@@ -266,9 +295,9 @@ INSERT INTO `tbl_users` (`user_id`, `pro_pic`, `user_fname`, `user_lname`, `user
 --
 
 CREATE TABLE `tbl_usertype` (
-  `type_id` int(11) NOT NULL,
+  `type_id` int NOT NULL,
   `type_title` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tbl_usertype`
@@ -282,6 +311,12 @@ INSERT INTO `tbl_usertype` (`type_id`, `type_title`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_assignshows`
+--
+ALTER TABLE `tbl_assignshows`
+  ADD PRIMARY KEY (`as_id`);
 
 --
 -- Indexes for table `tbl_genres`
@@ -348,64 +383,70 @@ ALTER TABLE `tbl_usertype`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_assignshows`
+--
+ALTER TABLE `tbl_assignshows`
+  MODIFY `as_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `tbl_genres`
 --
 ALTER TABLE `tbl_genres`
-  MODIFY `genre_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `genre_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `login_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `tbl_movies`
 --
 ALTER TABLE `tbl_movies`
-  MODIFY `movie_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `movie_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tbl_shows`
 --
 ALTER TABLE `tbl_shows`
-  MODIFY `show_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `show_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatremovies`
 --
 ALTER TABLE `tbl_theatremovies`
-  MODIFY `tm_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `tm_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatres`
 --
 ALTER TABLE `tbl_theatres`
-  MODIFY `thtr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `thtr_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatrescreens`
 --
 ALTER TABLE `tbl_theatrescreens`
-  MODIFY `scrn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `scrn_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_theatreshows`
 --
 ALTER TABLE `tbl_theatreshows`
-  MODIFY `ts_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `ts_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_usertype`
 --
 ALTER TABLE `tbl_usertype`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `type_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
